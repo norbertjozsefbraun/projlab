@@ -55,7 +55,8 @@ Ez a repository a BME/VIK/Mérnökinformatikus képzésének  "Szoftver Projekt 
 
 >       - Column limit: 100
 >         Except:
->           'Lines where obeying the column limit is not possible (for example, a long URL in Javadoc, or a long JSNI method reference).
+>           'Lines where obeying the column limit is not possible (for example, a long URL in Javadoc,
+>            or a long JSNI method reference).
 >           'package declarations and imports (see Sections 3.2 Package declarations and 3.3 Imports).
 >           'Contents of text blocks.
 >           'Command lines in a comment that may be copied-and-pasted into a shell.
@@ -69,21 +70,24 @@ Ez a repository a BME/VIK/Mérnökinformatikus képzésének  "Szoftver Projekt 
 
 >       - Class names are written in UpperCamelCase (Every starting word's first letter is capital)
 
->       - Method names are written in lowerCamelCase. (first word's first letter is not capital, after that every other word's first letter is capital)
+>       - Method names are written in lowerCamelCase. (first word's first letter is not capital, after that every other word's
+>         first letter is capital)
 
->       - Constant names use UPPER_SNAKE_CASE: all uppercase letters, with each word separated from the next by a single underscore. (basically everything
->         that is labeled as final in the code)
+>       - Constant names use UPPER_SNAKE_CASE: all uppercase letters, with each word separated from the next by a single
+>         underscore. (basically everything that is labeled as final in the code)
 
 >       - Non-constant field, paramaters, and local variable names are written in lowerCamelCase.
 
 >       - Innentől már nem google szabány:
 
->       - Everyone at all times shall use english notation (even in code comments and commit messages), in communications hungarian is permitted and encouraged
+>       - Everyone at all times shall use english notation (even in code comments and commit messages),
+>         in communications hungarian is permitted and encouraged
 >         (Ez a szabvány még változhat ha ki tudja milyen kukutyin magyar szavakat használó
 >          programot kell írni.)
 
->       - There is a branch protection rule for main, where you have to have feature branch, and you can only push directly to main if --force is applied
->         (STRONGLY ADVISED AGAINST PLEASE ONLY USE --FORCE IF IT DOESN'T IMPACT CODE STRUCTURE ONLY TEXT FIELDS COMMENTS OR README ETC... BUT NOT CODE)
+>       - BE MINDFUL WHEN USING --FORCE
+>         (STRONGLY ADVISED AGAINST PLEASE ONLY USE --FORCE IF IT DOESN'T IMPACT CODE STRUCTURE ONLY TEXT
+>          FIELDS COMMENTS OR README ETC... BUT NOT CODE)
  
 >       - Only use google docs when signed into google, we don't want to see any "Funky Elephant" when editing it.
 
@@ -104,7 +108,8 @@ Workflow:
   - Minden egyes a git-beli fájlokat változtató módosítások csakis egy új feature branchen pull requesttel kérvényehetők.
 
 2., Kapcsolattartás
->      A kapcsolattartást a messengeres csoportban nem hivatalosan, és hivatalosan discordon folytajtuk a https://discord.gg/peHM3ekc meghívási linkkel rendelkező szerveren, illetve a pull requestek mentén.
+>      A kapcsolattartást a messengeres csoportban nem hivatalosan, és hivatalosan discordon folytajtuk a
+>      https://discord.gg/peHM3ekc meghívási linkkel rendelkező szerveren, illetve a pull requestek mentén.
 3., Hasznos linkek/dokumentumok
 >      A google docs: https://docs.google.com/document/d/1dEYXMGbmg9chdxa5HQaxr1VsbC7SsA5kw275p5kVN6U/edit?usp=sharing
 
