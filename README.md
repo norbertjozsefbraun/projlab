@@ -76,9 +76,16 @@ Ez a repository a BME/VIK/Mérnökinformatikus képzésének  "Szoftver Projekt 
 
 >       - Non-constant field, paramaters, and local variable names are written in lowerCamelCase.
 
+>       - Innentől már nem google szabány:
+
 >       - Everyone at all times shall use english notation (even in code comments and commit messages), in communications hungarian is permitted and encouraged
->         (Ez már nem a google szabvány, de mindenkinek segíteni fog, illetve ez a szabvány még változhat ha ki tudja milyen kukutyin magyar szavakat használó
+>         (Ez a szabvány még változhat ha ki tudja milyen kukutyin magyar szavakat használó
 >          programot kell írni.)
+
+>       - There is a branch protection rule for main, where you have to have feature branch, and you can only push directly to main if --force is applied
+>         (STRONGLY ADVISED AGAINST PLEASE ONLY USE --FORCE IF IT DOESN'T IMPACT CODE STRUCTURE ONLY TEXT FIELDS COMMENTS OR README ETC... BUT NOT CODE)
+ 
+>       - Only use google docs when signed into google, we don't want to see any "Funky Elephant" when editing it.
 
 Persze ez nem az összes, és nem is várhatjuk el az összeset mert van pár amire nehéz odafigyelni. Ha már ezek 70%-át be tudjuk tartani minden egyes fázisnál, már akkor jók vagyunk szerintem.  
   
