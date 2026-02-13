@@ -91,6 +91,12 @@ Ez a repository a BME/VIK/Mérnökinformatikus képzésének  "Szoftver Projekt 
  
 >       - Only use google docs when signed into google, we don't want to see any "Funky Elephant" when editing it.
 
+>       - Please when you commit make sure your username is set to your full government name, and your email is set to
+>         the public email that github gives you, just like it was in "Software Engineering"'s home assignment
+
+>       - Always make sure to pull before pushing, and resolve the conflicts you may have (linear history is encouraged, but
+>         not demanded (git pull --rebase))
+
 Persze ez nem az összes, és nem is várhatjuk el az összeset mert van pár amire nehéz odafigyelni. Ha már ezek 70%-át be tudjuk tartani minden egyes fázisnál, már akkor jók vagyunk szerintem.  
   
 Workflow:  
