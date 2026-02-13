@@ -125,5 +125,22 @@ Workflow:
 
 >      Egészítsd ki bármivel ami esetleg a projekt során felmerül, hivatkozásra kerül
 
-4., Aktuális fázis és a fázisban még el nem készült feladatok és a hozzá tartózó prioritások ("feladat kód - prio" páros)
+4., SSH Authetntication elkészítése:
+>      Nyisd meg a VSC-t
+>
+>      A terminálba írd be: ssh-keygen -t ed25519 -C "az_email_cimed@pelda.com" (Fontos hogy a githubos email címed add
+>      meg amit fentebb írtam a pushról szóló irányelveknél)
+>
+>      A terminál ezután megkérdezi, hogy melyik fájlba mentse, ne írj be semmit csak nyomj entert.
+>
+>      A terminál ezután megkérdezi mi legyen a passphrese, itt is csak nyomj entert, de mivel még egyszer megkérdezi, hogy biztos-e,
+>      ezért ott is nyomj entert
+>
+>      Ezután írd a terminálba: cat ~/.ssh/id_ed25519.pub
+>
+>      Az egész sor amit kiad azt másold ki, és a github settings fülén (fontos, hogy nem a projekt hanem a profil alapú settingsnél)
+>      az SSH/GPG Keys fülén belül add key, adj neki vmi nevet, és másold be a kulcsot (ez nem signing key, hanem authentication)
+>
+>      Kész, yippee (Ha elakadtál volna/nem működik vmi nyugodtan kérdezz meg)
+5., Aktuális fázis és a fázisban még el nem készült feladatok és a hozzá tartózó prioritások ("feladat kód - prio" páros)
 >      Az_egész_projekt_lol_6769 - Super High
