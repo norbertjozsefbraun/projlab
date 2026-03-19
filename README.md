@@ -4,7 +4,8 @@ Ez a repository a BME/VIK/Mérnökinformatikus képzésének  "Szoftver Projekt 
 1., Fejlesztésről szóló irányelvek  
   
   A jelen leírt irányelvek legnagyobb részt megegyeznek azokkal, amelyet a Google fogalmazott meg a Java nyelvben való fejlesztésről, személyesen már kipróbáltam, nyilván ízlések és pofonok, de
-      biztos, hogy nem véletlenül írták le ők sem.
+      biztos, hogy nem véletlenül írták le ők sem.  
+      A fejlesztés során Java 18-at fogunk használni. légyszíves mindenki ezt a jdk-t használja.
 >     - There can not be any wildcard imports in the code, meaning:
 >        import java.util.* Not good (no * can be present)
 > 
