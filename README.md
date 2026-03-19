@@ -44,8 +44,7 @@ Ez a repository a BME/VIK/Mérnökinformatikus képzésének  "Szoftver Projekt 
 >               recover();
 >             }
 
->       - Block indentation is 2 spaces!!!! (You may have gotten used to the 4 space indentation as most IDEs by default
->         use 4 spaces, however you can change it in the settings, and it grants a much more concise code in the future)
+>       - Block indentation is 4 spaces!
 
 >       - Each statement is followed by a line break.
 >         Pls no:
