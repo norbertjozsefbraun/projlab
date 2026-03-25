@@ -1,5 +1,5 @@
 public abstract class Head implements CleanerEquipment, Purchasable {
-    protected int price = 100;
+    protected int price;
     protected boolean equipped = false;
 
     @Override
@@ -10,11 +10,13 @@ public abstract class Head implements CleanerEquipment, Purchasable {
     @Override
     public void pay(Shop s) {
         // Skeleton.call("head", "pay(shop)");
+        //s.deduct(this.price);
         // Skeleton.returnValue("head", "pay");
     }
 
     public void setEquipped(boolean isEquipped) {
         // Skeleton.call("head", "setEquipped(" + isEquipped + ")");
+        this.equipped = isEquipped;
         // Skeleton.returnValue("head", "setEquipped");
     }
 

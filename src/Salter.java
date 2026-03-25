@@ -18,16 +18,26 @@ public class Salter extends ResourceConsumingHead {
         //     System.out.println("  [Note: Nincs elég só, a sózás elmarad.]");
         // }
 
-        // SkeletonLogger.returnValue("salter:salter", "clean");
+        // Skeleton.returnValue("salter:salter", "clean");
     }
 
 
     @Override
     public void refill(Resource r) {
-        // SkeletonLogger.call("salter:salter", "refill(resource)");
+        // Skeleton.call("salter:salter", "refill(resource)");
         
-        // this.salt.add(10);
+        this.addAmount(14);
         
-        // SkeletonLogger.returnValue("salter:salter", "refill");
+        // Skeleton.returnValue("salter:salter", "refill");
     }
+
+    public void addAmount(int amount) {
+        // Skeleton.call("salter:Salter", "addAmount(" + amount + ")");
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        this.salt.add(amount);
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // Skeleton.returnValue("salter:Salter", "addAmount");
+    }
+
+
 }

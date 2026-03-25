@@ -1,6 +1,6 @@
 public abstract class Resource implements Purchasable {
-    protected Integer amount = 0;
-    protected Integer unitPrice = 10;
+    protected int amount = 0;
+    protected int unitPrice = 10;
 
     @Override
     public int getPrice() {
@@ -15,11 +15,14 @@ public abstract class Resource implements Purchasable {
 
     public void consume(Integer quantity) {
         // Skeleton.call("resource", "consume(" + quantity + ")");
+        this.amount -= quantity;
+        if (this.amount < 0) this.amount = 0;
         // Skeleton.returnValue("resource", "consume");
     }
 
     public void add(Integer quantity) {
         // Skeleton.call("resource", "add(" + quantity + ")");
+        this.amount += quantity;
         // Skeleton.returnValue("resource", "add");
     }
 }
