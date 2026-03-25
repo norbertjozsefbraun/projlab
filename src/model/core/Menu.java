@@ -1,3 +1,5 @@
+package model.core;
+
 public class Menu {
     /// base enum for state machine
     enum States{

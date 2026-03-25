@@ -1,5 +1,7 @@
 package model.core;
 import java.util.List;
+import model.entities.Vehicle;
+import model.map.World;
 
 public class Session {
     /// Fields:
