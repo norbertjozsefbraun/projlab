@@ -1,6 +1,9 @@
 package model.core;
 import java.util.List;
 import java.util.Random;
+import model.entities.Vehicle;
+import model.map.World;
+import model.map.Field;
 
 
 public class Game {
