@@ -30,6 +30,10 @@ public class Field extends Node {
         return leftNeighbour;
     }
 
+    public Surface getSurface() {
+        return surface;
+    }
+
     /// Setters:
     public void setRightNeighbour(Field rightNeighbour) {
         this.rightNeighbour = rightNeighbour;

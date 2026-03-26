@@ -24,7 +24,14 @@ public abstract class Vehicle {
      * The previous intersection from where the vehicle is coming.
      */
     private Intersection previousIntersection;
-    
+
+    /**
+     * Getter for currentField
+     */
+    public Field getCurrentField(){
+        return currentField;
+    }
+
     /**
      * Moves the vehicle the given number of field to the direction of the given field.
      * @param n The number of fileds the vehivle has to move

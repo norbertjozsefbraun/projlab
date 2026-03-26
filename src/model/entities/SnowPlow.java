@@ -31,6 +31,14 @@ public class SnowPlow extends Vehicle implements Purchasable {
     private int price;
 
     /**
+     * Returns the active head
+     * @return the active head
+     */
+    public Head getActiveHead() {
+        return activeHead;
+    }
+
+    /**
      * Returns tha garage of the snowplow
      * @return the garage of the snowplow
      */
@@ -47,7 +55,7 @@ public class SnowPlow extends Vehicle implements Purchasable {
     }
 
     /**
-     * Rreturns the price of the snowplow.
+     * Returns the price of the snowplow.
      * @return the price of the snowplow
      */
     @Override
