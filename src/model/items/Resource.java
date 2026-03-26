@@ -1,32 +1,60 @@
 package model.items;
 
 import model.core.Shop;
+import test.Skeleton;
 
 public abstract class Resource implements Purchasable {
     protected int amount = 0;
     protected int unitPrice = 10;
 
-    @Override
     public int getPrice() {
         return unitPrice;
     }
 
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public int getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(int unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
     @Override
     public void pay(Shop shop) {
-        // Skeleton.call("resource", "pay(shop)");
-        // Skeleton.returnValue("resource", "pay");
+
+        Skeleton sk = Skeleton.getInstance();
+        sk.call(this, "pay", "shop");
+        
+        shop.deduct(this.unitPrice);
+        
+        sk.returnMethod();
     }
 
-    public void consume(Integer quantity) {
-        // Skeleton.call("resource", "consume(" + quantity + ")");
+    public void consume(int quantity) {
+        Skeleton sk = Skeleton.getInstance();
+        sk.call(this, "consume", String.valueOf(quantity));
+        
         this.amount -= quantity;
-        if (this.amount < 0) this.amount = 0;
-        // Skeleton.returnValue("resource", "consume");
+        if (this.amount < 0) {
+            this.amount = 0;
+        }
+        sk.returnMethod();
     }
 
-    public void add(Integer quantity) {
-        // Skeleton.call("resource", "add(" + quantity + ")");
+    public void add(int quantity) {
+        Skeleton sk = Skeleton.getInstance();
+        sk.call(this, "add", String.valueOf(quantity));
+        
         this.amount += quantity;
-        // Skeleton.returnValue("resource", "add");
+        
+        sk.returnMethod();
     }
 }

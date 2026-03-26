@@ -1,4 +1,5 @@
 package model.items;
+import test.Skeleton;
 
 public class Biokerosene extends Resource {
 
@@ -10,8 +11,12 @@ public class Biokerosene extends Resource {
     Biokerosene(){}
     
     @Override
-    public void consume(Integer quantity) {
-        // Skeleton.call("biokerosene:biokerosene", "consume(" + quantity + ")");
-        // Skeleton.returnValue("biokerosene:biokerosene", "consume");
+    public void consume(int quantity) {
+        Skeleton sk = Skeleton.getInstance();
+        sk.call(this, "consume", String.valueOf(quantity));
+
+        super.consume(quantity);
+
+        sk.returnMethod();
     }
 }

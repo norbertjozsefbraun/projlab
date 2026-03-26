@@ -1,22 +1,39 @@
 package model.items;
+import test.Skeleton;
 
 public abstract class ResourceConsumingHead extends Head implements ResourceUser {
     protected int maxCapacity = 50;
 
+    public int getMaxCapacity() {
+        return maxCapacity;
+    }
+
+    public void setMaxCapacity(int maxCapacity) {
+        this.maxCapacity = maxCapacity;
+    }
+
     @Override
     public boolean hasResource() {
-        // Skeleton.call("rch:resourceConsumingHead", "hasResource()");
-        
-        // System.out.print("    ? Van elég nyersanyag a tartályban? (y/n): ");
-        // boolean result = SkeletonScanner.nextBoolean();
-        
-        // Skeleton.returnValue("rch:resourceConsumingHead", "hasResource() : return " + result);
-        return true;
+        Skeleton sk = Skeleton.getInstance();
+        sk.call(this, "hasResource");
+
+        String[] options = {
+            "i",
+            "n"
+        };
+
+        int choice = sk.getChoice("Rendelkezik az eszköz elegendő erőforrással?", options);
+        boolean result = (choice == 1);
+
+        sk.returnMethod("boolean", String.valueOf(result));
+        return result;
     }
 
     @Override
     public void refill(Resource r) {
-        // Skeleton.call("rch:resourceConsumingHead", "refill(resource)");
-        // Skeleton.returnValue("rch:resourceConsumingHead", "refill");
+        Skeleton sk = Skeleton.getInstance();
+        sk.call(this, "refill", "r");
+        
+        sk.returnMethod();
     }
 }
