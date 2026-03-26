@@ -1,4 +1,5 @@
 package model.items;
+import test.Skeleton;
 
 public class Salt extends Resource {
     
@@ -10,9 +11,12 @@ public class Salt extends Resource {
     Salt(){}
 
     @Override
-    public void consume(Integer quantity) {
-        // Skeleton.call("salt:salt", "consume(" + quantity + ")");
+    public void consume(int quantity) {
+        Skeleton sk = Skeleton.getInstance();
+
+        sk.call(this, "consume", String.valueOf(quantity));
         super.consume(quantity);
-        // Skeleton.returnValue("salt:salt", "consume");
+
+        sk.returnMethod();
     }
 }

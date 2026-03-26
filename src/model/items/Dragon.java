@@ -1,5 +1,5 @@
 package model.items;
-
+import test.Skeleton;
 import model.map.Field;
 
 public class Dragon extends ResourceConsumingHead {
@@ -7,16 +7,39 @@ public class Dragon extends ResourceConsumingHead {
 
     @Override
     public void clean(Field f) {
-        // SkeletonLogger.call("dragon:dragon", "clean(field)");
+        Skeleton sk = Skeleton.getInstance();
+        sk.call(this, "clean", "f");
 
+        if (this.hasResource()) {
+            kerosene.consume(10); 
+            
+            sk.call(f.getSurface(), "meltAll");
+            f.getSurface().meltAll();
+            
+            System.out.println("\tA Dragon mindent elolvasztott a mezőn.");
+        } else {
+            System.out.println("\tDragon üres, a takarítás elmarad.");
+        }
 
-        // if (this.hasResource()) {
-        //     kerosene.consume(10); 
-        //     f.getSurface().meltAll();
-        // } else {
-        //     System.out.println("  [Note: model.items.Dragon üres, a takarítás elmarad]");
-        // }
+        sk.returnMethod();
+    }
 
-        // SkeletonLogger.returnValue("dragon:dragon", "clean");
+    @Override
+    public void refill(Resource r) {
+        Skeleton sk = Skeleton.getInstance();
+        sk.call(this, "refill", "r");
+        
+        this.addAmount(10);
+        
+        sk.returnMethod();
+    }
+
+    public void addAmount(int amount) {
+        Skeleton sk = Skeleton.getInstance();
+        sk.call(this, "addAmount", String.valueOf(amount));
+
+        this.kerosene.add(amount);
+        
+        sk.returnMethod();
     }
 }

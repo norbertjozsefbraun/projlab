@@ -1,5 +1,5 @@
 package model.items;
-
+import test.Skeleton;
 import model.map.Field;
 
 public class Salter extends ResourceConsumingHead {
@@ -7,40 +7,41 @@ public class Salter extends ResourceConsumingHead {
 
     @Override
     public void clean(Field f) {
-        // Skeleton.call("salter:salter", "clean(field)");
+        Skeleton sk = Skeleton.getInstance();
+        sk.call(this, "clean", "f");
+        if (this.hasResource()) {
+            salt.consume(5);
 
-
-        // if (this.hasResource()) {
-        //     salt.consume(5);
-
-        //     SkeletonLogger.call("surface:surface", "applySalt()");
-        //     f.getSurface().applySalt();
-        //     SkeletonLogger.returnValue("surface:surface", "applySalt");
+            Skeleton.getInstance().call(f.getSurface(), "applySalt");
+            f.getSurface().applySalt();
+            Skeleton.getInstance().returnMethod();
             
-        //     System.out.println("  [Note: A mező mostantól sózott, a hó nem tapad meg rajta.]");
-        // } else {
-        //     System.out.println("  [Note: Nincs elég só, a sózás elmarad.]");
-        // }
+            System.out.println("\t[Note: A mező mostantól sózott.]");
+        } else {
+            System.out.println("\t[Note: Nincs elég só, a sózás elmarad.]");
+        }
 
-        // Skeleton.returnValue("salter:salter", "clean");
+        sk.returnMethod();
     }
 
 
     @Override
     public void refill(Resource r) {
-        // Skeleton.call("salter:salter", "refill(resource)");
+        Skeleton sk = Skeleton.getInstance();
+        sk.call(this, "refill", "r");
         
         this.addAmount(14);
         
-        // Skeleton.returnValue("salter:salter", "refill");
+        sk.returnMethod();
     }
 
     public void addAmount(int amount) {
-        // Skeleton.call("salter:model.items.Salter", "addAmount(" + amount + ")");
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        Skeleton sk = Skeleton.getInstance();
+        sk.call(this, "addAmount", String.valueOf(amount));
+
         this.salt.add(amount);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // Skeleton.returnValue("salter:model.items.Salter", "addAmount");
+        
+        sk.returnMethod();
     }
 
 
