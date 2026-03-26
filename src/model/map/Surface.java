@@ -6,11 +6,13 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 public class Surface {
+    /// Fields:
     private int snowThickness;
     private boolean isIce;
     private Queue<Integer> passTimes;
     private int saltTimer;
 
+    /// Constructor:
     public Surface() {
         snowThickness = 0;
         isIce = false;
@@ -18,6 +20,7 @@ public class Surface {
         saltTimer = 0;
     }
 
+    /// Functions:
     public void vehiclePasses(Vehicle v){
         //TODO
     }
