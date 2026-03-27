@@ -22,13 +22,23 @@ public class Test {
 
     public static void testIceCracker(){
         //model.items.IceCracker Working use-case test
+
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.reset();
+
         SnowPlow sp = new model.entities.SnowPlow();
         IceCracker icecracker = new IceCracker();
         Field cf = new Field();
         Field nf = new Field();
 
+        skeleton.ctor(sp, "sp");
+        skeleton.ctor(icecracker, "icecracker");
+        skeleton.ctor(cf, "cf");
+        skeleton.ctor(nf, "nf");
+
         sp.changeHead(icecracker);
         sp.move(1);
+        skeleton.reset();
 
     }
 
@@ -55,10 +65,15 @@ public class Test {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.reset();
 
-        //model.items.Salter refill use-case test
+        //Salter refill use-case test
         Shop shop = new Shop();
         Salter salter = new Salter();
         Salt saltResource = new Salt(10, 5);
+        salter.setSalt(saltResource);
+
+        skeleton.ctor(shop, "shop");
+        skeleton.ctor(salter, "salter");
+        skeleton.ctor(saltResource, "salt");
 
         saltResource.pay(shop); 
         salter.refill(saltResource);

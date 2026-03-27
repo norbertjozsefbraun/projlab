@@ -66,7 +66,7 @@ public class SnowPlow extends Vehicle implements Purchasable {
     }
 
     /**
-     * Rreturns the price of the snowplow.
+     * Returns the price of the snowplow.
      * @return the price of the snowplow
      */
     @Override

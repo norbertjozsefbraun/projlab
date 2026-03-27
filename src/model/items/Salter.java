@@ -5,6 +5,10 @@ import model.map.Field;
 public class Salter extends ResourceConsumingHead {
     private Salt salt = new Salt();
 
+    public void setSalt(Salt s) {
+        this.salt = s;
+    }
+
     @Override
     public void clean(Field f) {
         Skeleton sk = Skeleton.getInstance();
