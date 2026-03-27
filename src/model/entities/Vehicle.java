@@ -37,7 +37,7 @@ public abstract class Vehicle {
      * Returns the current field tha vehicle is on
      * @return the field tha vhicle is on
      */
-    public Field getCurrenField() {
+    public Field getCurrentField() {
         return  currentField;
     }
 
@@ -69,7 +69,7 @@ public abstract class Vehicle {
      * Sets the current field to the given field
      * @param f the given field
      */
-    public void setCurentField(Field f) {
+    public void setCurrentField(Field f) {
         currentField = f;
     }
 
