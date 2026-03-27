@@ -32,6 +32,22 @@ public class Car extends Vehicle {
     }
 
     /**
+     * Sets the home to the given value
+     * @param h the given home
+     */
+    public void setHome(Home h) {
+        home = h;
+    }
+
+    /**
+     * Sets the work to the given value
+     * @param h the given work place
+     */
+    public void setWork(WorkPlace w) {
+        work = w;
+    }
+
+    /**
      * The car tries to find the shortest way between heme and work.
      * @param n The number of fileds the vehivle has to move
      * @param goingTo The field where the vehicle is heading
