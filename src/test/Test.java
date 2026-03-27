@@ -8,13 +8,50 @@ import model.items.*;
 import model.map.*;
 
 public class Test {
+
+    public static void testIceGetsOnField() {
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.reset();
+
+        Car car1 = new Car();
+        skeleton.ctor(car1, "c");
+
+        Field prev = new Field();
+        skeleton.ctor(prev, "prev");
+
+        Field f =  new Field();
+        skeleton.ctor(f, "f");
+
+        Surface s = new Surface();
+        skeleton.ctor(s, "s");
+        f.setSurface(s);
+
+        prev.setVehicles(new ArrayList<>(List.of(car1)));
+        prev.setNextField(f);
+        car1.setCurrentField(prev);
+
+        car1.move(1);
+
+
+        // elso fv. meghivasa
+
+        skeleton.reset();
+    }
+
     public static void testCarIsBlocked() {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.reset();
 
-        // inicializalas...
-        /// Car car = new Car();
-        /// skeleton.ctor(car, "car1");
+
+         Car car1 = new Car();
+         skeleton.ctor(car1, "car1");
+
+         Field prev = new Field();
+         Field f =  new Field();
+
+         prev.setVehicles(List.of(car1));
+
+
 
         // elso fv. meghivasa
 

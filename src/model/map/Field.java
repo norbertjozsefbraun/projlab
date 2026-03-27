@@ -3,6 +3,9 @@ package model.map;
 import model.entities.Vehicle;
 import test.Skeleton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Field extends Node {
     /// Fields:
     private Field nextField;
@@ -30,8 +33,16 @@ public class Field extends Node {
         return leftNeighbour;
     }
 
+    public Field getNextField() {
+        return nextField;
+    }
+
     public Surface getSurface() {
         return surface;
+    }
+
+    public int getAccidentTimer() {
+        return accidentTimer;
     }
 
     /// Setters:
@@ -47,15 +58,53 @@ public class Field extends Node {
         this.nextField = nextField;
     }
 
+    public void setSurface(Surface surface) {
+        this.surface = surface;
+    }
+
+    public void setVehicles(List<Vehicle> vehicles) {
+        this.vehicles = vehicles;
+    }
+
+
 
     /// Functional functions:
     public void moveToNextField(Vehicle v) {
-        //TODO
+        skeleton.call(this, "moveToNextField", skeleton.getObjectName(v));
+
+        Field currentField = v.getCurrentField();
+        if (currentField != null) {
+            Field nextField = currentField.nextField;
+            if (nextField != null) {
+                if(nextField.isPassable()) {
+                    nextField.acceptVehicle(v);
+                }
+                else if (nextField.leftNeighbour != null && nextField.leftNeighbour.isPassable()) {
+                    nextField.leftNeighbour.acceptVehicle(v);
+                }
+                else if(nextField.rightNeighbour != null && nextField.rightNeighbour.isPassable()) {
+                    nextField.rightNeighbour.acceptVehicle(v);
+                }
+            }
+        }
+
+        skeleton.returnMethod();
+    }
+
+    private boolean isPassable() {
+        return (accidentTimer == 0) && (surface.getSnowThickness() < 35);
     }
 
     @Override
     public void acceptVehicle(Vehicle v) {
-        //TODO
+        skeleton.call(this, "acceptVehicle", skeleton.getObjectName(v));
+
+        vehicles.add(v);
+        v.getCurrentField().removeVehicle(v);
+
+        surface.vehiclePasses(v);
+
+        skeleton.returnMethod();
     }
 
     public void addSnow(int amount){
