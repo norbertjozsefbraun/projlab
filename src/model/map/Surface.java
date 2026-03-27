@@ -1,8 +1,10 @@
 package model.map;
 
 import model.entities.Vehicle;
+import test.Skeleton;
 
 import java.util.ArrayDeque;
+import java.util.List;
 import java.util.Queue;
 
 public class Surface {
@@ -11,6 +13,12 @@ public class Surface {
     private boolean isIce;
     private Queue<Integer> passTimes;
     private int saltTimer;
+    private Skeleton skeleton =  Skeleton.getInstance();
+
+    /// Getters:
+    public int getSnowThickness() {
+        return snowThickness;
+    }
 
     /// Constructor:
     public Surface() {
@@ -22,7 +30,14 @@ public class Surface {
 
     /// Functions:
     public void vehiclePasses(Vehicle v){
-        //TODO
+        skeleton.call(this, "vehiclePasses", skeleton.getObjectName(v));
+
+        //int alt = skeleton.getChoice("Áthaladt 5 jármű az utolsó 10 időegységben?", new String[]{"Igen", "Nem"});
+        //if(alt == 1){
+        //    isIce = true;
+        //}
+
+        skeleton.returnMethod();
     }
 
     public int sweepSnow() {
