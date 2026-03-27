@@ -28,8 +28,7 @@ public class Dragon extends ResourceConsumingHead {
             
             sk.call(f.getSurface(), "meltAll");
             f.getSurface().meltAll();
-            
-            System.out.println("\tA Dragon mindent elolvasztott a mezőn.");
+            sk.returnMethod();
         } else {
             System.out.println("\tDragon üres, a takarítás elmarad.");
         }

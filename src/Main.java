@@ -9,7 +9,9 @@ public class Main {
 
         
         // Test.testSalterRefill();
-        Test.testIceCracker();
+        // Test.testIceCracker();
+        // Test.testDragon();
+        Test.testSweeper();
 
         // Test.testIceGetsOnField();
         

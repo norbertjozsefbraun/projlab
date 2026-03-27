@@ -101,14 +101,15 @@ public class Field extends Node {
 
         vehicles.add(v);
         v.getCurrentField().removeVehicle(v);
-
+        
         surface.vehiclePasses(v);
-
+        v.setCurrentField(this);
         skeleton.returnMethod();
     }
 
     public void addSnow(int amount){
         //TODO
+        //Pls ez a fuggveny hivja meg a surface applySnow fuggvenyet is
     }
 
     private void checkAccident() {

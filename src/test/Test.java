@@ -64,20 +64,23 @@ public class Test {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.reset();
 
-        SnowPlow sp = new model.entities.SnowPlow();
+        SnowPlow sp = new SnowPlow();
         IceCracker icecracker = new IceCracker();
         Field cf = new Field();
         Field nf = new Field();
+        Surface s = new Surface();
 
         skeleton.ctor(sp, "sp");
         skeleton.ctor(icecracker, "icecracker");
         skeleton.ctor(cf, "cf");
         skeleton.ctor(nf, "nf");
+        skeleton.ctor(s, "s");
 
         sp.setActiveHead(icecracker);
         sp.setCurrentField(cf);
         cf.setNextField(nf);
-        
+        nf.setSurface(s);
+
         sp.move(1);
 
         skeleton.reset();
@@ -86,23 +89,60 @@ public class Test {
 
     //SweeperHeadWorking use-case test
     /** It tests the functionality of the Sweeper head when attached to a SnowPlow and moving. */
-    public static void testSweeper() {
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.reset();
+    // public static void testSweeper() {
+    //     Skeleton skeleton = Skeleton.getInstance();
+    //     skeleton.reset();
         
-        SnowPlow sp = new SnowPlow();
-        Sweeper sweeper = new Sweeper();
-        Field c1 = new Field();
-        Field field = new Field();
+    //     SnowPlow sp = new SnowPlow();
+    //     Sweeper sweeper = new Sweeper();
+    //     Field c1 = new Field();
+    //     Field field = new Field();
 
-        sp.changeHead(sweeper);
-        field.setRightNeighbour(field);
+    //     sp.changeHead(sweeper);
+    //     field.setRightNeighbour(field);
 
-        sp.move(1);
+    //     sp.move(1);
 
 
-        skeleton.reset();
-    }
+    //     skeleton.reset();
+    // }
+
+    public static void testSweeper() {
+    Skeleton skeleton = Skeleton.getInstance();
+    skeleton.reset();
+    
+    // 1. Objektumok létrehozása
+    SnowPlow sp = new SnowPlow();
+    Sweeper sweeper = new Sweeper();
+    Field c1 = new Field();      // Start mező (cf)
+    Field field = new Field();   // Cél mező (nf)
+    Field neighbor = new Field(); // Ide kerül a hó!
+    Surface s1 = field.getSurface(); // A célmező felülete
+
+    // 2. Regisztráció (Hogy szép legyen a log)
+    skeleton.ctor(sp, "sp");
+    skeleton.ctor(sweeper, "sweeper");
+    skeleton.ctor(c1, "c1");
+    skeleton.ctor(field, "field");
+    skeleton.ctor(neighbor, "neighbor");
+    skeleton.ctor(s1, "s");
+
+    // 3. ÖSSZEKÖTÉS (A seprőnek kell a szomszéd!)
+    sp.setCurrentField(c1);
+    c1.setNextField(field);
+    
+    // Beállítjuk a szomszédot, hogy a sweeper tudjon hová seperni
+    field.setRightNeighbour(neighbor); 
+    
+    // Felszereljük a seprűt
+    sp.setActiveHead(sweeper);
+
+    // 4. Futtatás
+    // A move(1) hatására: c1 -> field -> sweeper:clean(field) -> neighbor:addSnow(10)
+    sp.move(1);
+
+    skeleton.reset();
+}
 
     //Salter refill use-case test
     /** It tests the Salter's ability to refill its salt supply. */
@@ -135,10 +175,20 @@ public class Test {
         Dragon dragon = new Dragon();
         Field cf = new Field();
         Field nf = new Field();
+        Surface s = new Surface();
 
-        sp.changeHead(dragon);
+        skeleton.ctor(sp, "sp");
+        skeleton.ctor(dragon, "dragon");
+        skeleton.ctor(cf, "cf");
+        skeleton.ctor(nf, "nf");
+        skeleton.ctor(s, "s");
+
+        sp.setCurrentField(cf);
+        cf.setNextField(nf);
+        nf.setSurface(s);
+        sp.setActiveHead(dragon);
+
         sp.move(1);
-
 
         skeleton.reset();
     }
