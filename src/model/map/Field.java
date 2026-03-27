@@ -67,6 +67,10 @@ public class Field extends Node {
         this.vehicles = vehicles;
     }
 
+    public void setAccidentTimer(int accidentTimer) {
+        this.accidentTimer = accidentTimer;
+    }
+
 
 
     /// Functional functions:
@@ -74,17 +78,24 @@ public class Field extends Node {
         skeleton.call(this, "moveToNextField", skeleton.getObjectName(v));
 
         Field currentField = v.getCurrentField();
-        if (currentField != null) {
-            Field nextField = currentField.nextField;
-            if (nextField != null) {
-                if(nextField.isPassable()) {
-                    nextField.acceptVehicle(v);
+        if(currentField != null) {
+            // get next field
+            Field nextField = currentField.getNextField();
+            if(nextField != null) {
+                nextField.acceptVehicle(v);
+
+                // if it didn't move, try nextField's left neighbour
+                if(currentField.equals(v.getCurrentField())) {
+                    Field left = nextField.getLeftNeighbour();
+                    if(left != null) {
+                        left.acceptVehicle(v);
+                    }
                 }
-                else if (nextField.leftNeighbour != null && nextField.leftNeighbour.isPassable()) {
-                    nextField.leftNeighbour.acceptVehicle(v);
-                }
-                else if(nextField.rightNeighbour != null && nextField.rightNeighbour.isPassable()) {
-                    nextField.rightNeighbour.acceptVehicle(v);
+                if(currentField.equals(v.getCurrentField())) {
+                    Field right = nextField.getRightNeighbour();
+                    if(right != null) {
+                        right.acceptVehicle(v);
+                    }
                 }
             }
         }
@@ -100,11 +111,14 @@ public class Field extends Node {
     public void acceptVehicle(Vehicle v) {
         skeleton.call(this, "acceptVehicle", skeleton.getObjectName(v));
 
-        v.getCurrentField().removeVehicle(v);
-        v.setCurrentField(this);
-        vehicles.add(v);
+        if(isPassable()) {
+            v.getCurrentField().removeVehicle(v);
+            v.setCurrentField(this);
+            vehicles.add(v);
 
-        surface.vehiclePasses(v);
+            surface.vehiclePasses(v);
+        }
+
         skeleton.returnMethod();
     }
 

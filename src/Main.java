@@ -14,6 +14,10 @@ public class Main {
         Test.testSweeper();
 
         // Test.testIceGetsOnField();
+
+        // Test.testCarSlipsOnIce();
+
+        // Test.testCarIsBlocked();
         
     }
 }

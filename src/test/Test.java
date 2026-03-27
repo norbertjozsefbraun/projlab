@@ -71,17 +71,30 @@ public class Test {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.reset();
 
+        Car c = new Car();
+        skeleton.ctor(c, "v");
 
-         Car car1 = new Car();
-         skeleton.ctor(car1, "car1");
+        Field current = new Field();
+        skeleton.ctor(current, "current");
+        Field next =  new Field();
+        skeleton.ctor(next, "next");
+        Field left =  new Field();
+        skeleton.ctor(left, "left");
+        Field right =  new Field();
+        skeleton.ctor(right, "right");
 
-         Field prev = new Field();
-         Field f =  new Field();
+        next.setAccidentTimer(1);
+        left.setAccidentTimer(2);
+        right.setAccidentTimer(2);
 
-         prev.setVehicles(List.of(car1));
+        current.setNextField(next);
+        next.setLeftNeighbour(left);
+        next.setRightNeighbour(right);
 
+        current.setVehicles(List.of(c));
+        c.setCurrentField(current);
 
-        // elso fv. meghivasa
+        c.move(1);
 
         skeleton.reset();
     }
