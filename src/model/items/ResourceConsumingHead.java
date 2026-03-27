@@ -17,10 +17,7 @@ public abstract class ResourceConsumingHead extends Head implements ResourceUser
         Skeleton sk = Skeleton.getInstance();
         sk.call(this, "hasResource");
 
-        String[] options = {
-            "i",
-            "n"
-        };
+        String[] options = {"i","n"};
 
         int choice = sk.getChoice("Rendelkezik az eszköz elegendő erőforrással?", options);
         boolean result = (choice == 1);
