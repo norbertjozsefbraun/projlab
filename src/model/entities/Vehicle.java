@@ -8,23 +8,87 @@ public abstract class Vehicle {
     /**
      * Unique identifier of the vehicles.
      */
-    private int vehicleId;
+    protected int vehicleId;
 
     /**
      * The field the vehicle is on.
      */
-    private Field currentField;
+    protected Field currentField;
 
     /**
      * The road the vehicle is on.
      */
-    private Road currentRoad;
+    protected Road currentRoad;
 
     /**
      * The previous intersection from where the vehicle is coming.
      */
-    private Intersection previousIntersection;
+    protected Intersection previousIntersection;
     
+    /**
+     * Returns the unique identifier of the vehicle
+     * @return the vehicleId
+     */
+    public int getVehicleId() {
+        return vehicleId;
+    }
+
+    /**
+     * Returns the current field tha vehicle is on
+     * @return the field tha vhicle is on
+     */
+    public Field getCurrenField() {
+        return  currentField;
+    }
+
+    /**
+     * Returns the current road tha vehicle is on
+     * @return the road tha vhicle is on
+     */
+    public Road getCurrentRoad() {
+        return currentRoad;
+    }
+
+    /**
+     * Returns the previous intersection
+     * @return teh previous intersection
+     */
+    public Intersection getPreviousIntersection() {
+        return  previousIntersection;
+    }
+
+    /**
+     * Sets teh vehicleId to given value
+     * @param id the given id
+     */
+    public void setVehicleId(int id) {
+        vehicleId = id;
+    }
+
+    /**
+     * Sets the current field to the given field
+     * @param f the given field
+     */
+    public void setCurentField(Field f) {
+        currentField = f;
+    }
+
+    /**
+     * Sets the current road to the given road
+     * @param r the given road
+     */
+    public void setCurrentRoad(Road r) {
+        currentRoad = r;
+    }
+
+    /**
+     * Sets the previous intersection to the given intersection
+     * @param r the given intersection
+     */
+    public void setPreviousIntersection(Intersection i) {
+        previousIntersection = i;
+    }
+
     /**
      * Moves the vehicle the given number of field to the direction of the given field.
      * @param n The number of fileds the vehivle has to move

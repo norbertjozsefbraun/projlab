@@ -28,7 +28,18 @@ public class SnowPlow extends Vehicle implements Purchasable {
      */
     private Head activeHead;
 
+    /**
+     * The price of a new snowplow
+     */
     private int price;
+
+    /**
+     * Returns the unique identifier of the player.
+     * @return the playerid
+     */
+    public int getPlayerId() {
+        return playerId;
+    }
 
     /**
      * Returns tha garage of the snowplow
@@ -47,6 +58,14 @@ public class SnowPlow extends Vehicle implements Purchasable {
     }
 
     /**
+     * Returns the active head of the snwoplow
+     * @return teh active head
+     */
+    public Head getActiveHead() {
+        return activeHead;
+    }
+
+    /**
      * Rreturns the price of the snowplow.
      * @return the price of the snowplow
      */
@@ -56,6 +75,22 @@ public class SnowPlow extends Vehicle implements Purchasable {
     }
     
     /**
+     * Set the playerid to the given value.
+     * @param id teh given id
+     */
+    public void setPlayerId(int id) {
+        playerId = id;
+    } 
+
+    /**
+     * Setes the garage to the given value
+     * @param g teh given garage
+     */
+    public void setGarage(Garage g) {
+        garage = g;
+    }
+
+    /**
      * Sets the list of heads to the given list.
      * @param heads the given list of heads
     */
@@ -63,9 +98,25 @@ public class SnowPlow extends Vehicle implements Purchasable {
        this.heads = heads;
     }
     
+    /**
+     * Sets the active head to the given head
+     * @param h the given head
+     */
+    public void setActiveHead(Head h) {
+        activeHead = h;
+    }
+
+    /**
+     * Sets the price to the given value
+     * @param p teh given price
+     */
+    public void setPrice(int p) {
+        price = p;
+    }
+
     @Override
     public void move(int n, Field gointTo) {
-        //TODO
+        //TODO;
     }
     
     @Override
@@ -86,7 +137,7 @@ public class SnowPlow extends Vehicle implements Purchasable {
      * @param h The head that will be mounted.
     */
    public void changeHead(Head h) {
-       //TODO
+        //TODO
     }
     
     /**
