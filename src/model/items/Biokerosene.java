@@ -8,7 +8,6 @@ public class Biokerosene extends Resource {
      * @param a the amount of biokerosene
      * @param p the unit price of biokerosene
      */
-    
     public Biokerosene(int a, int p){
         amount=a;
         unitPrice=p;
