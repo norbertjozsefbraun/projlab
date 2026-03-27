@@ -3,12 +3,12 @@ import test.Skeleton;
 
 public class Salt extends Resource {
     
-    Salt(int a, int p){
+    public Salt(int a, int p){
         amount=a;
         unitPrice=p;
     }
 
-    Salt(){}
+    public Salt(){}
 
     @Override
     public void consume(int quantity) {

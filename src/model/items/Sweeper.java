@@ -11,7 +11,7 @@ public class Sweeper extends Head {
         int amount = f.getSurface().sweepSnow();
 
         // 3. Szomszéd mező lekérdezése
-        Field neighbor = f.getRightNeighbor();
+        Field neighbor = f.getRightNeighbour();
 
         String[] options = {"i","n"};
         int choice = sk.getChoice("Van jobb oldali szomszédja a mezőnek?", options);

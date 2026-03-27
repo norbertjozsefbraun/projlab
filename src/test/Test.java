@@ -1,17 +1,11 @@
 package test;
-
 import java.util.ArrayList;
 import java.util.List;
-import model.buildings.BusStop;
-import model.buildings.Garage;
-import model.buildings.Home;
-import model.entities.Bus;
-import model.entities.Car;
-import model.entities.SnowPlow;
-import model.items.Head;
-import model.items.Salter;
-import model.items.Sweeper;
-import model.map.Field;
+import model.buildings.*;
+import model.core.*;
+import model.entities.*;
+import model.items.*;
+import model.map.*;
 
 public class Test {
 
@@ -27,47 +21,69 @@ public class Test {
 
         skeleton.reset();
     }
+
     public static void testIceCracker(){
-        // //model.items.Salter refill use-case test
-        // model.core.Shop shop = new model.core.Shop();
-        // model.items.Salter salter = new model.items.Salter();
-        // model.items.Salt saltResource = new model.items.Salt();
+        //model.items.IceCracker Working use-case test
+        SnowPlow sp = new model.entities.SnowPlow();
+        IceCracker icecracker = new IceCracker();
+        Field cf = new Field();
+        Field nf = new Field();
 
-        // saltResource.pay(shop); 
-        // salter.refill(saltResource);
-
-        // //model.items.IceCracker Working use-case test
-        // model.entities.SnowPlow sp = new model.entities.SnowPlow();
-        // model.items.IceCracker icecracker = new model.items.IceCracker();
-        // model.map.Field cf = new model.map.Field();
-        // model.map.Field nf = new model.map.Field();
-
-        // sp.changeHead(icecracker);
-        // sp.move(1, 120);
-
-
-        // //DragonHeadWorking use-case test
-        // model.entities.SnowPlow sp = new model.entities.SnowPlow();
-        // model.items.Dragon dragon = new model.items.Dragon();
-        // model.map.Field cf = new model.map.Field();
-        // model.map.Field nf = new model.map.Field();
-
-        // sp.changeHead(dragon);
-        // sp.move(1, 150);
-
-        // //SweeperHeadWorking use-case test
-        // model.entities.SnowPlow sp = new model.entities.SnowPlow();
-        // model.items.Sweeper sweeper = new model.items.Sweeper();
-        // model.map.Field c1 = new model.map.Field();
-        // model.map.Field field = new model.map.Field();
-
-        // sp.changeHead(sweeper);
-        // nf.setRightNeighbor(field);
-
-        // sp.move(1, 200);
+        sp.changeHead(icecracker);
+        sp.move(1);
 
     }
 
+    public static void testSweeper() {
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.reset();
+        
+        //SweeperHeadWorking use-case test
+        SnowPlow sp = new SnowPlow();
+        Sweeper sweeper = new Sweeper();
+        Field c1 = new Field();
+        Field field = new Field();
+
+        sp.changeHead(sweeper);
+        field.setRightNeighbour(field);
+
+        sp.move(1);
+
+
+        skeleton.reset();
+    }
+
+    public static void testSalterRefill() {
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.reset();
+
+        //model.items.Salter refill use-case test
+        Shop shop = new Shop();
+        Salter salter = new Salter();
+        Salt saltResource = new Salt(10, 5);
+
+        saltResource.pay(shop); 
+        salter.refill(saltResource);
+
+        skeleton.reset();
+    }
+
+    public static void testDragon() {
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.reset();
+
+        //DragonHeadWorking use-case test
+        SnowPlow sp = new SnowPlow();
+        Dragon dragon = new Dragon();
+        Field cf = new Field();
+        Field nf = new Field();
+
+        sp.changeHead(dragon);
+        sp.move(1);
+
+
+        skeleton.reset();
+    }
     public static void swappingHeads() {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.reset();
