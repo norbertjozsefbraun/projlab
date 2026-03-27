@@ -9,36 +9,82 @@ import model.map.*;
 
 public class Test {
 
-    public static void testCarIsBlocked() {
+    public static void testIceGetsOnField() {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.reset();
 
-        // inicializalas...
-        /// Car car = new Car();
-        /// skeleton.ctor(car, "car1");
+        Car car1 = new Car();
+        skeleton.ctor(car1, "c");
+
+        Field prev = new Field();
+        skeleton.ctor(prev, "prev");
+
+        Field f =  new Field();
+        skeleton.ctor(f, "f");
+
+        Surface s = new Surface();
+        skeleton.ctor(s, "s");
+        f.setSurface(s);
+
+        prev.setVehicles(new ArrayList<>(List.of(car1)));
+        prev.setNextField(f);
+        car1.setCurrentField(prev);
+
+        car1.move(1);
+
 
         // elso fv. meghivasa
 
         skeleton.reset();
     }
 
+    public static void testCarIsBlocked() {
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.reset();
+
+
+         Car car1 = new Car();
+         skeleton.ctor(car1, "car1");
+
+         Field prev = new Field();
+         Field f =  new Field();
+
+         prev.setVehicles(List.of(car1));
+
+
+
+        // elso fv. meghivasa
+
+        skeleton.reset();
+    }
+
+    //IceCracker Working use-case test
+    /** It tests the functionality of the IceCracker head when attached to a SnowPlow and moving. */
     public static void testIceCracker(){
-        //model.items.IceCracker Working use-case test
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.reset();
+
         SnowPlow sp = new model.entities.SnowPlow();
         IceCracker icecracker = new IceCracker();
         Field cf = new Field();
         Field nf = new Field();
 
+        skeleton.ctor(sp, "sp");
+        skeleton.ctor(icecracker, "icecracker");
+        skeleton.ctor(cf, "cf");
+        skeleton.ctor(nf, "nf");
+
         sp.changeHead(icecracker);
         sp.move(1);
+        skeleton.reset();
 
     }
-
+    //SweeperHeadWorking use-case test
+    /** It tests the functionality of the Sweeper head when attached to a SnowPlow and moving. */
     public static void testSweeper() {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.reset();
         
-        //SweeperHeadWorking use-case test
         SnowPlow sp = new SnowPlow();
         Sweeper sweeper = new Sweeper();
         Field c1 = new Field();
@@ -53,14 +99,20 @@ public class Test {
         skeleton.reset();
     }
 
+    //Salter refill use-case test
+    /** It tests the Salter's ability to refill its salt supply. */
     public static void testSalterRefill() {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.reset();
 
-        //model.items.Salter refill use-case test
         Shop shop = new Shop();
         Salter salter = new Salter();
         Salt saltResource = new Salt(10, 5);
+        salter.setSalt(saltResource);
+
+        skeleton.ctor(shop, "shop");
+        skeleton.ctor(salter, "salter");
+        skeleton.ctor(saltResource, "salt");
 
         saltResource.pay(shop); 
         salter.refill(saltResource);
@@ -68,11 +120,12 @@ public class Test {
         skeleton.reset();
     }
 
+    //DragonHeadWorking use-case test
+    /** It tests the functionality of the Dragon head when attached to a SnowPlow and moving. */
     public static void testDragon() {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.reset();
 
-        //DragonHeadWorking use-case test
         SnowPlow sp = new SnowPlow();
         Dragon dragon = new Dragon();
         Field cf = new Field();
@@ -84,6 +137,7 @@ public class Test {
 
         skeleton.reset();
     }
+
     public static void swappingHeads() {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.reset();

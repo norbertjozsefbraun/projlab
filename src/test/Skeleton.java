@@ -56,7 +56,7 @@ public class Skeleton {
      * @param obj The object to look up
      * @return The name of the object
      */
-    private String getObjectName(Object obj) {
+    public String getObjectName(Object obj) {
         if (obj == null) {
             return "null";
         }
