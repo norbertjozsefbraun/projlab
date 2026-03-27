@@ -5,9 +5,11 @@ import model.buildings.Garage;
 import model.core.Shop;
 import model.items.Head;
 import model.items.Purchasable;
-import model.map.Field;
+import test.Skeleton;
 
 public class SnowPlow extends Vehicle implements Purchasable {
+    Skeleton skeleton = Skeleton.getInstance();
+
     /**
      * The unique identifier of the player that drives the snowplow.
      */
@@ -66,7 +68,7 @@ public class SnowPlow extends Vehicle implements Purchasable {
     }
 
     /**
-     * Rreturns the price of the snowplow.
+     * Returns the price of the snowplow.
      * @return the price of the snowplow
      */
     @Override
@@ -76,7 +78,7 @@ public class SnowPlow extends Vehicle implements Purchasable {
     
     /**
      * Set the playerid to the given value.
-     * @param id teh given id
+     * @param id the given id
      */
     public void setPlayerId(int id) {
         playerId = id;
@@ -84,7 +86,7 @@ public class SnowPlow extends Vehicle implements Purchasable {
 
     /**
      * Setes the garage to the given value
-     * @param g teh given garage
+     * @param g the given garage
      */
     public void setGarage(Garage g) {
         garage = g;
@@ -113,23 +115,12 @@ public class SnowPlow extends Vehicle implements Purchasable {
     public void setPrice(int p) {
         price = p;
     }
-
-    @Override
-    public void move(int n, Field gointTo) {
-        //TODO;
-    }
-    
-    @Override
-    public void move(int n) {
-        //TODO
-    }
-    
+  
     /**
      * This method doesn't do anything because the snowplow can't slip.
     */
    @Override
    public void slip(int n) {
-       //TODO
     }
     
     /**
@@ -137,7 +128,14 @@ public class SnowPlow extends Vehicle implements Purchasable {
      * @param h The head that will be mounted.
     */
    public void changeHead(Head h) {
-        //TODO
+        skeleton.call(this, "changeHead", String.valueOf(h));
+        if (heads.contains(h)) {
+            activeHead.setEquipped(false);
+            h.setEquipped(true);
+            activeHead = h;
+        }
+        skeleton.returnMethod();
+
     }
     
     /**
@@ -146,6 +144,10 @@ public class SnowPlow extends Vehicle implements Purchasable {
      */
     @Override
     public void pay(Shop s) {
-        //TODO
+        skeleton.call(this,"pay", String.valueOf(s));
+        if (s.deduct(price)) {
+            skeleton.returnMethod();
+        }
+        skeleton.returnMethod();
     }
 }

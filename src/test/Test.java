@@ -1,5 +1,18 @@
 package test;
 
+import java.util.ArrayList;
+import java.util.List;
+import model.buildings.BusStop;
+import model.buildings.Garage;
+import model.buildings.Home;
+import model.entities.Bus;
+import model.entities.Car;
+import model.entities.SnowPlow;
+import model.items.Head;
+import model.items.Salter;
+import model.items.Sweeper;
+import model.map.Field;
+
 public class Test {
 
     public static void testCarIsBlocked() {
@@ -53,6 +66,74 @@ public class Test {
 
         // sp.move(1, 200);
 
+    }
+
+    public static void swappingHeads() {
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.reset();
+
+        //init
+        List<Head> heads = new ArrayList<>();
+        Sweeper sw = new Sweeper();
+        Salter sr = new Salter();
+        heads.add(sw);
+        heads.add(sr);
+
+        SnowPlow sp = new SnowPlow();
+        sp.setActiveHead(sw);
+        sp.setHeads(heads);
+
+        //func call
+        sp.changeHead(sr);
+
+        skeleton.reset();
+    }
+
+    public static void snowPlowAnsCArCollision() {
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.reset();
+
+        //init
+        Field cf = new Field();
+        Field nf = new Field();
+        cf.setNextField(nf);
+
+        Garage g = new Garage();
+        Home h = new Home();
+
+        SnowPlow sp = new SnowPlow();
+        sp.setCurrentField(cf);
+        sp.setGarage(g);
+
+        Car c = new Car();
+        c.setCurrentField(nf);
+        c.setHome(h);
+
+        //func call
+        sp.move(1);
+
+        skeleton.reset();
+    }
+
+    public static void busCompletingRound() {
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.reset();
+
+        //init
+        Field cf = new Field();
+        BusStop stopA = new BusStop();
+        BusStop stopB = new BusStop();
+
+        Bus b = new Bus();
+        b.setCurrentField(cf);
+        b.setStopA(stopA);
+        b.setStopB(stopB);
+        b.setPreviousStop(stopB);
+
+        //func call
+        b.move(1);
+
+        skeleton.reset();
     }
 
 }

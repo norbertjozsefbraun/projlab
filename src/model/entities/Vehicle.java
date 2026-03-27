@@ -3,6 +3,7 @@ package model.entities;
 import model.map.Field;
 import model.map.Intersection;
 import model.map.Road;
+import test.Skeleton;
 
 public abstract class Vehicle {
     /**
@@ -43,7 +44,7 @@ public abstract class Vehicle {
 
     /**
      * Returns the current road tha vehicle is on
-     * @return the road tha vhicle is on
+     * @return the road tha vehicle is on
      */
     public Road getCurrentRoad() {
         return currentRoad;
@@ -51,14 +52,14 @@ public abstract class Vehicle {
 
     /**
      * Returns the previous intersection
-     * @return teh previous intersection
+     * @return the previous intersection
      */
     public Intersection getPreviousIntersection() {
         return  previousIntersection;
     }
 
     /**
-     * Sets teh vehicleId to given value
+     * Sets the vehicleId to given value
      * @param id the given id
      */
     public void setVehicleId(int id) {
@@ -90,17 +91,17 @@ public abstract class Vehicle {
     }
 
     /**
-     * Moves the vehicle the given number of field to the direction of the given field.
-     * @param n The number of fileds the vehivle has to move
-     * @param goingTo The field where the vehicle is heading
-     */
-    public abstract void move(int n, Field goingTo);
-
-    /**
      * Moves the vehicle the given number of fields.
      * @param n The number of fileds the vehivle has to move
      */
-    public abstract void move(int n);
+    public  void move(int n) {
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.call(this, "move", String.valueOf(n));
+        for (int i=0; i<n; i++) {
+            currentField.moveToNextField(this);
+        }
+        skeleton.returnMethod();
+    }
 
     /**
      * Slips the vehicle the given number of fileds.

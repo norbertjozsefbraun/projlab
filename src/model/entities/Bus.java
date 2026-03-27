@@ -1,7 +1,6 @@
 package model.entities;
 
 import model.buildings.BusStop;
-import model.map.Field;
 
 public class Bus extends Vehicle {
     /**
@@ -109,21 +108,10 @@ public class Bus extends Vehicle {
         currentStop = cs;
     }
 
-    @Override
-    public void move(int n, Field gointTo) {
-        //TODO
-    }
-
-    @Override
-    public void move(int n) {
-        //TODO
-    }
-
     /**
      * This method doesn't do anything because the bus can't slip.
      */
     @Override
     public void slip(int n) {
-        //TODO
     }
 }
