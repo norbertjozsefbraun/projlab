@@ -27,6 +27,8 @@ public class Field extends Node {
     /// Getters:
     public Field getRightNeighbour() {
         skeleton.call(this, "getRightNeighbour");
+
+        skeleton.returnMethod("Field", skeleton.getObjectName(rightNeighbour));
         return rightNeighbour;
     }
 
@@ -123,8 +125,7 @@ public class Field extends Node {
     }
 
     public void addSnow(int amount){
-        //TODO
-        //Pls ez a fuggveny hivja meg a surface applySnow fuggvenyet is
+        surface.addSnow(amount);
     }
 
     private void checkAccident() {

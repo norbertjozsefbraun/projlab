@@ -67,7 +67,7 @@ public class Surface {
         //TODO
     }
 
-    public void applySnow(int amount) {
+    public void addSnow(int amount) {
         snowThickness += amount;
     }
 
