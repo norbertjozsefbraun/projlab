@@ -11,6 +11,8 @@ public class Main {
         // Test.testSalterRefill();
 
         // Test.testIceGetsOnField();
+
+        //Test.testCarSlipsOnIce();
         
     }
 }

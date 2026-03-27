@@ -99,8 +99,9 @@ public class Field extends Node {
     public void acceptVehicle(Vehicle v) {
         skeleton.call(this, "acceptVehicle", skeleton.getObjectName(v));
 
-        vehicles.add(v);
         v.getCurrentField().removeVehicle(v);
+        v.setCurrentField(this);
+        vehicles.add(v);
 
         surface.vehiclePasses(v);
 
