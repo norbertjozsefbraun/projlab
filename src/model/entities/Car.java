@@ -2,7 +2,7 @@ package model.entities;
 
 import model.buildings.Home;
 import model.buildings.WorkPlace;
-import model.map.Field;
+import test.Skeleton;
 
 public class Car extends Vehicle {
     /**
@@ -47,27 +47,13 @@ public class Car extends Vehicle {
         work = w;
     }
 
-    /**
-     * The car tries to find the shortest way between heme and work.
-     * @param n The number of fileds the vehivle has to move
-     * @param goingTo The field where the vehicle is heading
-     */
-    @Override
-    public void move(int n, Field gointTo) {
-        //TODO
-    }
-
-    /**
-     * The car tries to find the shortest way between heme and work.
-     * @param n The number of fileds the vehivle has to move
-     */
-    @Override
-    public void move(int n) {
-        //TODO
-    }
-
     @Override
     public void slip(int n) {
-        //TODO
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.call(this, "slip", String.valueOf(n));
+        for (int i=0; i<n; i++) {
+            move(1);
+        }
+        skeleton.returnMethod();
     }
 }
