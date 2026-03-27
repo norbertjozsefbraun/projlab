@@ -11,13 +11,15 @@ public class Main {
         // Test.testSalterRefill();
         // Test.testIceCracker();
         // Test.testDragon();
-        Test.testSweeper();
+        // Test.testSweeper();
 
         // Test.testIceGetsOnField();
 
         // Test.testCarSlipsOnIce();
 
         // Test.testCarIsBlocked();
+
+        Test.testSnowfallInGame();
         
     }
 }

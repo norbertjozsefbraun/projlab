@@ -125,7 +125,9 @@ public class Field extends Node {
     }
 
     public void addSnow(int amount){
+        skeleton.call(this, "addSnow", "5");
         surface.addSnow(amount);
+        skeleton.returnMethod();
     }
 
     private void checkAccident() {

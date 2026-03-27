@@ -62,9 +62,6 @@ public class Test {
         f2.setNextField(f3);
 
         c.move(1);
-
-
-
     }
 
     public static void testCarIsBlocked() {
@@ -95,6 +92,38 @@ public class Test {
         c.setCurrentField(current);
 
         c.move(1);
+
+        skeleton.reset();
+    }
+
+    public static void testSnowfallInGame() {
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.reset();
+
+        World world = new World();
+        skeleton.ctor(world, "w");
+
+        Road road = new Road();
+        skeleton.ctor(road, "r");
+
+        Lane lane = new Lane();
+        skeleton.ctor(lane, "l");
+
+        Field field = new Field();
+        skeleton.ctor(field, "f");
+
+        Surface surface = new Surface();
+        skeleton.ctor(surface, "s");
+
+        field.setSurface(surface);
+        lane.setRoad(road);
+        lane.setFields(new ArrayList<>(List.of(field)));
+        road.setLanesToA(new ArrayList<>(List.of(lane)));
+        world.setRoads(new ArrayList<>(List.of(road)));
+
+
+        world.snowfall();
+
 
         skeleton.reset();
     }

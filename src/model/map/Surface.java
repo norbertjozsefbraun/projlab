@@ -68,7 +68,9 @@ public class Surface {
     }
 
     public void addSnow(int amount) {
+        skeleton.call(this, "addSnow", "5");
         snowThickness += amount;
+        skeleton.returnMethod();
     }
 
 }
