@@ -92,7 +92,7 @@ public abstract class Vehicle {
 
     /**
      * Moves the vehicle the given number of fields.
-     * @param n The number of fileds the vehivle has to move
+     * @param n The number of fileds the vehicle has to move
      */
     public  void move(int n) {
         Skeleton skeleton = Skeleton.getInstance();

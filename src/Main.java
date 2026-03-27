@@ -9,6 +9,7 @@ public class Main {
 
         
         // Test.testSalterRefill();
+        Test.testIceCracker();
 
         // Test.testIceGetsOnField();
         

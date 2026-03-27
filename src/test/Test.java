@@ -74,11 +74,16 @@ public class Test {
         skeleton.ctor(cf, "cf");
         skeleton.ctor(nf, "nf");
 
-        sp.changeHead(icecracker);
+        sp.setActiveHead(icecracker);
+        sp.setCurrentField(cf);
+        cf.setNextField(nf);
+        
         sp.move(1);
+
         skeleton.reset();
 
     }
+
     //SweeperHeadWorking use-case test
     /** It tests the functionality of the Sweeper head when attached to a SnowPlow and moving. */
     public static void testSweeper() {
