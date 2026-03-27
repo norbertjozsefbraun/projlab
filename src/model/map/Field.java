@@ -26,6 +26,7 @@ public class Field extends Node {
 
     /// Getters:
     public Field getRightNeighbour() {
+        skeleton.call(this, "getRightNeighbour");
         return rightNeighbour;
     }
 
