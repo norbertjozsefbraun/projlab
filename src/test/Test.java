@@ -90,17 +90,20 @@ public class Test {
 
         //init
         List<Head> heads = new ArrayList<>();
-        Sweeper sw = new Sweeper();
-        Salter sr = new Salter();
-        heads.add(sw);
-        heads.add(sr);
+        Sweeper sweeper = new Sweeper();
+        skeleton.ctor(sweeper, "sweeper");
+        Salter salter = new Salter();
+        skeleton.ctor(salter, "salter");
+        heads.add(sweeper);
+        heads.add(salter);
 
-        SnowPlow sp = new SnowPlow();
-        sp.setActiveHead(sw);
-        sp.setHeads(heads);
+        SnowPlow snowplow = new SnowPlow();
+        skeleton.ctor(snowplow, "snowplow");
+        snowplow.setActiveHead(sweeper);
+        snowplow.setHeads(heads);
 
         //func call
-        sp.changeHead(sr);
+        snowplow.changeHead(salter);
 
         skeleton.reset();
     }
@@ -117,16 +120,17 @@ public class Test {
         Garage g = new Garage();
         Home h = new Home();
 
-        SnowPlow sp = new SnowPlow();
-        sp.setCurrentField(cf);
-        sp.setGarage(g);
+        SnowPlow snowplow = new SnowPlow();
+        skeleton.ctor(snowplow, "snowplow");
+        snowplow.setCurrentField(cf);
+        snowplow.setGarage(g);
 
         Car c = new Car();
         c.setCurrentField(nf);
         c.setHome(h);
 
         //func call
-        sp.move(1);
+        snowplow.move(1);
 
         skeleton.reset();
     }
