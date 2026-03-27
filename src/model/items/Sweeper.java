@@ -1,22 +1,29 @@
 package model.items;
-
+import test.Skeleton;
 import model.map.Field;
 
 public class Sweeper extends Head {
     @Override
     public void clean(Field f) {
-    //     SkeletonLogger.call("sweeper:sweeper", "clean(field)");
+        Skeleton sk = Skeleton.getInstance();
+        sk.call(this, "clean", "f");
 
-    //     int amount = f.getSurface().sweepSnow();
+        int amount = f.getSurface().sweepSnow();
 
-    //     model.map.Field neighbor = f.getRightNeighbor();
-        
-    //     if (neighbor != null) {
-    //         neighbor.addSnow(amount);
-    //     } else {
-    //         System.out.println("  [Note: Nincs szomszéd, a hó kikerül a pályáról]");
-    //     }
+        // 3. Szomszéd mező lekérdezése
+        Field neighbor = f.getRightNeighbor();
 
-    //     SkeletonLogger.returnValue("sweeper:sweeper", "clean");
+        String[] options = {"i","n"};
+        int choice = sk.getChoice("Van jobb oldali szomszédja a mezőnek?", options);
+
+        if (choice == 1) {
+            if (neighbor != null) {
+                neighbor.addSnow(amount);
+            } 
+        } else {
+            System.out.println("\t Nincs szomszéd, a hó kikerül a pályáról");
+        }
+
+        sk.returnMethod();
     }
 }

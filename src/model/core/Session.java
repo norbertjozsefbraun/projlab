@@ -1,13 +1,33 @@
 package model.core;
+import java.util.ArrayList;
 import java.util.List;
 import model.entities.Vehicle;
 import model.map.World;
+import test.Skeleton;
+
 
 public class Session {
+    private static Session session = null;
+
     /// Fields:
-    private List<Integer> results;
+    private static List<Integer> results;
     private Menu menu;
     private Game game;
+
+    /// Constructor:
+    private Session(){
+        results = new ArrayList<>();
+        menu = new Menu();
+    }
+
+    /// Get instance:
+
+    public static Session getInstance(){
+        if(session == null){
+            session = new Session();
+        }
+        return session;
+    }
 
     /// Getters:
     public Game getGame() {
@@ -39,18 +59,33 @@ public class Session {
     /// Functional functions:
 
     public void save(){
-        //Todo: Implement this
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.ctor(getInstance() , "skeleton");
+        skeleton.call(getInstance() , "save()");
+        skeleton.returnMethod();
     }
 
     public void load(){
-        //Todo: Implement this
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.ctor(getInstance() , "skeleton");
+        skeleton.call(getInstance() , "load()");
+        skeleton.returnMethod();
     }
 
     public void newGame(List<Vehicle> vehcs, World world){
-        //Todo: Implement this
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.ctor(getInstance() , "skeleton");
+        skeleton.call(getInstance(), "newGame(List<Vehicle> vehcs, World world)");
+        game = new Game(vehcs, world);
+        menu.setState(Menu.States.INGAME);
+        skeleton.returnMethod();
     }
 
-    public void addResult(Integer r){
-        //Todo: Implement this
+    public static void addResult(Integer r){
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.ctor(getInstance() , "skeleton");
+        skeleton.call( getInstance(), "addResult()");
+        results.add(r);
+        skeleton.returnMethod();
     }
 }
