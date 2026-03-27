@@ -20,6 +20,11 @@ public class Surface {
         return snowThickness;
     }
 
+    /// Setters:
+    public void setIsIce(boolean isIce) {
+        this.isIce = isIce;
+    }
+
     /// Constructor:
     public Surface() {
         snowThickness = 0;
@@ -36,6 +41,10 @@ public class Surface {
         //if(alt == 1){
         //    isIce = true;
         //}
+
+        if(isIce) {
+            v.slip(2);
+        }
 
         skeleton.returnMethod();
     }

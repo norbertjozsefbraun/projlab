@@ -32,10 +32,39 @@ public class Test {
 
         car1.move(1);
 
-
-        // elso fv. meghivasa
-
         skeleton.reset();
+    }
+
+    public static void testCarSlipsOnIce() {
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.reset();
+
+        Car c = new Car();
+        skeleton.ctor(c, "c");
+        Field prev = new Field();
+        skeleton.ctor(prev, "prev");
+        Field f1 = new Field();
+        skeleton.ctor(f1, "f1");
+        Surface s1 = new Surface();
+        skeleton.ctor(s1, "s1");
+        Field f2 = new Field();
+        skeleton.ctor(f2, "f2");
+        Field f3 = new Field();
+        skeleton.ctor(f3, "f3");
+
+        s1.setIsIce(true);
+        f1.setSurface(s1);
+
+        prev.setVehicles(new ArrayList<>(List.of(c)));
+        prev.setNextField(f1);
+        c.setCurrentField(prev);
+        f1.setNextField(f2);
+        f2.setNextField(f3);
+
+        c.move(1);
+
+
+
     }
 
     public static void testCarIsBlocked() {
@@ -50,7 +79,6 @@ public class Test {
          Field f =  new Field();
 
          prev.setVehicles(List.of(car1));
-
 
 
         // elso fv. meghivasa
