@@ -61,10 +61,13 @@ public class Road {
 
     /// Getters:
     public List<Lane> getLanesTowards(Intersection destination) {
-        //TODO
+        if(destinationA.equals(destination)) return lanesToA;
+        if(destinationB.equals(destination)) return lanesToB;
         return null;
     }
     public String getName() {
+        if(roadName==null) return "road" + this.hashCode();
+
         return roadName;
     }
     public Intersection getDestinationA() {
