@@ -61,22 +61,22 @@ public class Main {
                         Test.testDragon();
                         break;
                     case "cars-collide":
-                        //Test.testCarsCollide();
+                        Test.testCarsCollide();
                         break;
                     case "car-crashes-into-bus":
                         //Test.testCarCrashesIntoBus();
                         break;
                     case "car-enters-workplace":
-                        //Test.testCarEntersWorkplace();
+                        Test.testCarEntersWorkplace();
                         break;
                     case "car-waits-at-workplace-and-leaves":
                         //Test.testCarWaitsAtWorkplaceAndLeaves();
                         break;
                     case "car-arrives-home":
-                        //Test.testCarArrivesHome();
+                        Test.testCarArrivesHome();
                         break;
                     case "car-leaves-home":
-                        //Test.testCarLeavesHome();
+                        Test.testCarLeavesHome();
                         break;
                     case "ice-gets-on-field":
                         Test.testIceGetsOnField();

@@ -140,6 +140,8 @@ public class Field extends Node {
             for(var currVehicle : this.vehicles){
                 if(currVehicle.getClass().getSimpleName().equals("SnowPlow")){
                     ((SnowPlow) currVehicle).getGarage().enterVehicle(currVehicle);
+                }else if(currVehicle.getClass().getSimpleName().equals("Car")){
+                    currVehicle.setCanMove(false);
                 }
             }
         }

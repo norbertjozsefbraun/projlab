@@ -56,14 +56,29 @@ public class Car extends Vehicle {
     public void move(int n) {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.call(this, "move", "1");
+
         if(!canMove) return;
+
+        if(currentField == null){
+            getCurrentBuilding().deployVehicle(this);
+            skeleton.returnMethod();
+            return;
+        }
+
         if (currentField.getNextField() != null) {
             currentField.moveToNextField(this);
+        }
+
+        if(!canMove) {
+            skeleton.returnMethod();
+            return;
         }
 
         Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB() : currentRoad.getDestinationA();
         if (buildings.contains(inter.getBuilding())) {
             inter.goToBuilding(this);
+            skeleton.returnMethod();
+            return;
         }
         inter.acceptVehicle(this);
         skeleton.returnMethod();

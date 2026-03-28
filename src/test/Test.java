@@ -417,10 +417,98 @@ public class Test {
         skeleton.reset();
     }
 
+    public static void testCarsCollide(){
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.reset();
+
+        World world = new World();
+        skeleton.ctor(world,"world");
+
+        List<Vehicle> vehicles = new ArrayList<Vehicle>();
+        //First car init
+        Car car1 = new Car();
+        skeleton.ctor(car1,"car1");
+        ///vehicles.add(car1); lets say it already moved
+
+        //Second car init
+        Car car2 = new Car();
+        skeleton.ctor(car2,"car2");
+        vehicles.add(car2);
+
+        //Game init
+        Game game = new Game(vehicles, world);
+        skeleton.ctor(game,"game");
+
+        //Fields init
+        Field car2CurrentField = new Field();
+        skeleton.ctor(car2CurrentField,"car2CurrentField");
+        Field targetField = new Field();
+        skeleton.ctor(targetField,"targetField");
+        Field car2NextField = new Field();
+        skeleton.ctor(car2NextField,"car2NextField");
+
+        //Surface init
+        Surface car2NextFieldSurface = new Surface();
+        skeleton.ctor(car2NextFieldSurface,"car2NextFieldSurface");
+
+        //Intersection init
+        Intersection i1 = new Intersection();
+        Intersection i2 = new Intersection();
+
+        //Buildings init
+        Home home = new Home();
+        List<Building> buildings = new ArrayList<>();
+        buildings.add(home);
+
+        //Setting up the conditions
+        car2NextFieldSurface.setIsIce(true);
+        car2NextField.setSurface(car2NextFieldSurface);
+        car1.setCurrentField(targetField);
+        List<Vehicle> vehics = new ArrayList<>();
+        vehics.add(car1);
+        targetField.setVehicles(vehics);
+        car2.setCurrentField(car2CurrentField);
+        car2CurrentField.setNextField(car2NextField);
+        car2NextField.setNextField(targetField);
+        car2.setCanMove(true);
+        car1.setCanMove(true);
+        car2.setBuildings(buildings);
+        
+
+        //Snowfall initialization
+        Road road = new Road();
+        skeleton.ctor(road, "r");
+        car2.setCurrentRoad(road);
+
+        Lane lane = new Lane();
+        skeleton.ctor(lane, "l");
+
+        Field field = new Field();
+        skeleton.ctor(field, "f");
+
+        Surface surface = new Surface();
+        skeleton.ctor(surface, "s");
+
+        road.setDestinationA(i1);
+        road.setDestinationB(i2);
+        field.setSurface(surface);
+        lane.setRoad(road);
+        lane.setFields(new ArrayList<>(List.of(field)));
+        road.setLanesToA(new ArrayList<>(List.of(lane)));
+        world.setRoads(new ArrayList<>(List.of(road)));
+
+        //Begin
+        game.makeTurn();
+
+        skeleton.reset();
+
+    }
+    
     public static void testCarEntersWorkplace(){
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.reset();
 
+        //Initialization
         World world = new World();
         skeleton.ctor(world,"world");
 
@@ -438,18 +526,11 @@ public class Test {
         Intersection intersection = new Intersection();
         skeleton.ctor(intersection,"intersection");
 
+        Intersection prevInter = new Intersection();
+
         WorkPlace workPlace = new WorkPlace();
         skeleton.ctor(workPlace,"workPlace");
         
-        //Initialization
-        car.setCurrentField(cField);
-        List<Building> buildings = new ArrayList<>();
-        buildings.add(workPlace);
-        car.setBuildings(buildings);
-        workPlace.setLocation(intersection);
-        intersection.setBuilding(workPlace);
-
-        //Snowfall initialization
         Road road = new Road();
         skeleton.ctor(road, "r");
 
@@ -461,12 +542,37 @@ public class Test {
 
         Surface surface = new Surface();
         skeleton.ctor(surface, "s");
-
+        
+        //Snowfall init
         field.setSurface(surface);
         lane.setRoad(road);
         lane.setFields(new ArrayList<>(List.of(field)));
         road.setLanesToA(new ArrayList<>(List.of(lane)));
         world.setRoads(new ArrayList<>(List.of(road)));
+
+        //Car init 
+        List<Building> buildings = new ArrayList<>();
+        buildings.add(workPlace);
+        car.setCurrentField(cField);
+        car.setBuildings(buildings);
+        car.setCanMove(true);
+        car.setCurrentRoad(road);
+        car.setPreviousIntersection(prevInter);
+
+        //Field init
+        cField.setNextField(null);
+        
+        //Building init
+        workPlace.setLocation(intersection);
+        Map<Car, Integer> parkedCars = new HashMap<>();
+        workPlace.setWaitingCars(parkedCars);
+
+        //Intersection init
+        intersection.setBuilding(workPlace);
+
+        //Road init
+        road.setDestinationA(intersection);
+        road.setDestinationB(prevInter);
 
         game.makeTurn();
 
@@ -478,6 +584,7 @@ public class Test {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.reset();
 
+        //Initialization
         World world = new World();
         skeleton.ctor(world,"world");
 
@@ -495,19 +602,11 @@ public class Test {
         Intersection intersection = new Intersection();
         skeleton.ctor(intersection,"intersection");
 
+        Intersection prevInter = new Intersection();
+
         Home home = new Home();
         skeleton.ctor(home,"home");
         
-        //Initialization
-        car.setCurrentField(cField);
-        List<Building> buildings = new ArrayList<>();
-        buildings.add(home);
-        car.setBuildings(buildings);
-        home.setLocation(intersection);
-        intersection.setBuilding(home);
-        cField.setNextField(null);
-
-        //Snowfall initialization
         Road road = new Road();
         skeleton.ctor(road, "r");
 
@@ -519,18 +618,120 @@ public class Test {
 
         Surface surface = new Surface();
         skeleton.ctor(surface, "s");
-
+        
+        //Snowfall init
         field.setSurface(surface);
         lane.setRoad(road);
         lane.setFields(new ArrayList<>(List.of(field)));
         road.setLanesToA(new ArrayList<>(List.of(lane)));
         world.setRoads(new ArrayList<>(List.of(road)));
 
+        //Car init 
+        List<Building> buildings = new ArrayList<>();
+        buildings.add(home);
+        car.setCurrentField(cField);
+        car.setBuildings(buildings);
+        car.setCanMove(true);
+        car.setCurrentRoad(road);
+        car.setPreviousIntersection(prevInter);
+
+        //Field init
+        cField.setNextField(null);
+        
+        //Building init
+        home.setLocation(intersection);
+
+        //Intersection init
+        intersection.setBuilding(home);
+
+        //Road init
+        road.setDestinationA(intersection);
+        road.setDestinationB(prevInter);
+
         game.makeTurn();
 
         skeleton.reset();
     }
 
+    public static void testCarLeavesHome(){
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.reset();
+
+        //Initialization
+        World world = new World();
+        skeleton.ctor(world,"world");
+
+        Car car = new Car();
+        skeleton.ctor(car,"car");
+        List<Vehicle> vehicles = new ArrayList<Vehicle>();
+        vehicles.add(car);
+
+        Field cField = new Field();
+        skeleton.ctor(cField, "carField");
+
+        Game game = new Game(vehicles, world);
+        skeleton.ctor(game,"game");
+
+        Intersection intersection = new Intersection();
+        skeleton.ctor(intersection,"intersection");
+
+        Intersection prevInter = new Intersection();
+
+        Home home = new Home();
+        skeleton.ctor(home,"home");
+        
+        Road road = new Road();
+        skeleton.ctor(road, "r");
+
+        Lane lane = new Lane();
+        skeleton.ctor(lane, "l");
+
+        Field field = new Field();
+        skeleton.ctor(field, "f");
+
+        Surface surface = new Surface();
+        skeleton.ctor(surface, "s");
+        
+        //Snowfall init
+        field.setSurface(surface);
+        lane.setRoad(road);
+        lane.setFields(new ArrayList<>(List.of(field)));
+        road.setLanesToA(new ArrayList<>(List.of(lane)));
+        world.setRoads(new ArrayList<>(List.of(road)));
+
+        //Car init 
+        List<Building> buildings = new ArrayList<>();
+        buildings.add(home);
+        car.setCurrentField(null);
+        car.setBuildings(buildings);
+        car.setCanMove(true);
+        car.setCurrentRoad(road);
+        car.setPreviousIntersection(prevInter);
+        car.setCurrentBuilding(home);
+
+        //Field init
+        cField.setNextField(field);
+        
+        //Building init
+        home.setLocation(intersection);
+        List<Car> parkedCars = new ArrayList<Car>();
+        parkedCars.add(car);
+
+        //Intersection init
+        intersection.setBuilding(home);
+        List<Road> roads = new ArrayList<>();
+        roads.add(road);
+        intersection.setConnectedRoads(roads);
+
+        //Road init
+        road.setDestinationA(intersection);
+        road.setDestinationB(prevInter);
+
+        game.makeTurn();
+
+        skeleton.reset();
+    }
+    
     public static void testCarWaitsAtWorkplaceAndLeaves(){
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.reset();
@@ -590,71 +791,5 @@ public class Test {
         skeleton.reset();
     }
     
-    public static void testCarsCollide(){
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.reset();
-
-        World world = new World();
-        skeleton.ctor(world,"world");
-
-        List<Vehicle> vehicles = new ArrayList<Vehicle>();
-        //First car init
-        Car car1 = new Car();
-        skeleton.ctor(car1,"car1");
-        ///vehicles.add(car1); lets say it already moved
-
-        //Second car init
-        Car car2 = new Car();
-        skeleton.ctor(car2,"car2");
-        vehicles.add(car2);
-
-        //Game init
-        Game game = new Game(vehicles, world);
-        skeleton.ctor(game,"game");
-
-        //Fields init
-        Field car2CurrentField = new Field();
-        skeleton.ctor(car2CurrentField,"car2CurrentField");
-        Field targetField = new Field();
-        skeleton.ctor(targetField,"targetField");
-        Field car2NextField = new Field();
-        skeleton.ctor(car2NextField,"car2NextField");
-
-        //Surface init
-        Surface car2NextFieldSurface = new Surface();
-        skeleton.ctor(car2NextFieldSurface,"car2NextFieldSurface");
-
-        //Setting up the conditions
-        car2NextFieldSurface.setIsIce(true);
-        car2NextField.setSurface(car2NextFieldSurface);
-        car1.setCurrentField(targetField);
-        car2.setCurrentField(car2CurrentField);
-        car2CurrentField.setNextField(car2NextField);
-        car2NextField.setNextField(targetField);
-
-        //Snowfall initialization
-        Road road = new Road();
-        skeleton.ctor(road, "r");
-
-        Lane lane = new Lane();
-        skeleton.ctor(lane, "l");
-
-        Field field = new Field();
-        skeleton.ctor(field, "f");
-
-        Surface surface = new Surface();
-        skeleton.ctor(surface, "s");
-
-        field.setSurface(surface);
-        lane.setRoad(road);
-        lane.setFields(new ArrayList<>(List.of(field)));
-        road.setLanesToA(new ArrayList<>(List.of(lane)));
-        world.setRoads(new ArrayList<>(List.of(road)));
-
-        //Begin
-        game.makeTurn();
-
-        skeleton.reset();
-
-    }
+    
 }

@@ -32,7 +32,7 @@ public class WorkPlace extends Building{
      */
     public void enterVehicle(Vehicle v){
         Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(getLocation(), "enterVehicle","Vehicle v");
+        skeleton.call(this, "enterVehicle","Vehicle v");
         waitingCars.put((Car)v,  2);
         v.setCurrentBuilding(this);
         skeleton.returnMethod();

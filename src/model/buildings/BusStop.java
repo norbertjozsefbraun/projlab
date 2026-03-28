@@ -54,6 +54,7 @@ public class BusStop extends Building{
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.call(this, "enterVehicle","Vehicle v");
         buses.add((Bus)v);
+        v.setCurrentBuilding(this);
         Bus b = (Bus)v;
         if(b.getPreviousStop().equals(b.getStopB()) && this.equals(b.getStopA())){
             shop.addFunds(18);

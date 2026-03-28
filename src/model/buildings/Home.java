@@ -15,7 +15,7 @@ public class Home extends Building{
 
     /**
      * Getter for the list of cars 
-     * @return The list of cars that belong in the home
+     * @return The list of cars are parked at home
      */
     public List<Car> getCars(){
         return cars;
@@ -32,7 +32,8 @@ public class Home extends Building{
      */
     public void enterVehicle(Vehicle v){
         Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(getLocation(), "enterVehicle","Vehicle v");
+        skeleton.call(this, "enterVehicle","Vehicle v");
+        v.setCurrentBuilding(this);
         skeleton.returnMethod();
     }
 

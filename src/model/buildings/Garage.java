@@ -54,6 +54,7 @@ public class Garage extends Building{
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.call(this , "enterVehicle(Vehicle v)");
         increaseDestroyedNum();
+        v.setCurrentBuilding(this);
         if(destroyedNum > 3){
             Game.gameOver();
         }
