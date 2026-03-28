@@ -1,5 +1,6 @@
 package model.entities;
 
+import java.util.List;
 import model.buildings.Building;
 import model.map.Field;
 import model.map.Intersection;
@@ -31,6 +32,11 @@ public abstract class Vehicle {
      * The previous intersection from where the vehicle is coming.
      */
     protected Intersection previousIntersection;
+
+    /**
+     * The list of buildings the vehicle can enter.
+     */
+    protected List<Building> buildings;
     
     /**
      * Returns the unique identifier of the vehicle
@@ -73,6 +79,14 @@ public abstract class Vehicle {
     }
 
     /**
+     * Returns the list of buildings the vehicle can enter
+     * @return the list of buildings
+     */
+    public List<Building> getBuildings() {
+        return buildings;
+    }
+
+    /**
      * Sets the vehicleId to given value
      * @param id the given id
      */
@@ -110,6 +124,14 @@ public abstract class Vehicle {
      */
     public void setPreviousIntersection(Intersection i) {
         previousIntersection = i;
+    }
+
+    /**
+     * Sets the given list of buildings to the vehicle
+     * @param b the given list of buildings
+     */
+    public void setBuildings(List<Building> b) {
+        buildings = b;
     }
 
     /**
