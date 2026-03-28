@@ -67,6 +67,12 @@ public class Road {
     public String getName() {
         return roadName;
     }
+    public Intersection getDestinationA() {
+        return destinationA;
+    }
+    public Intersection getDestinationB() {
+        return destinationB;
+    }
 
     /// Setters:
     public void setDestinationA(Intersection destinationA) {
