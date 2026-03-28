@@ -45,8 +45,12 @@ public class WorkPlace extends Building{
      */
     public void deployVehicle(Vehicle v){
         Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this, "deployVehicle", "Vehicle v");
-        getLocation().acceptVehicle(v);
+        if(waitingCars.getOrDefault(v, -1) == 0){
+            skeleton.call(this, "deployVehicle", "Vehicle v");
+            getLocation().acceptVehicle(v);
+        }else{
+            processWaiting();
+        }
         skeleton.returnMethod();
     }
 
@@ -60,7 +64,7 @@ public class WorkPlace extends Building{
         skeleton.call(this, "processWaiting");
         waitingCars.forEach((car,time)-> {
             if(time>0){
-                time--;
+                waitingCars.computeIfPresent(car, (c, i) -> i-1);
             }else{
                 deployVehicle(car);
             }

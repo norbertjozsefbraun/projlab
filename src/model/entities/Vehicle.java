@@ -167,6 +167,8 @@ public abstract class Vehicle {
 
             if (currentField.getNextField() != null) {
                 currentField.moveToNextField(this);
+                skeleton.returnMethod();
+                return;
             }
 
             Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB() : currentRoad.getDestinationA();

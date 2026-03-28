@@ -102,6 +102,8 @@ public class Bus extends Vehicle {
 
             if (currentField.getNextField() != null) {
                 currentField.moveToNextField(this);
+                skeleton.returnMethod();
+                return;
             }
 
             Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB() : currentRoad.getDestinationA();

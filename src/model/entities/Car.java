@@ -59,7 +59,7 @@ public class Car extends Vehicle {
 
         if(!canMove) return;
 
-        if(currentField == null){
+        if(currentField == null && !(this.getCurrentBuilding().equals(null))){
             getCurrentBuilding().deployVehicle(this);
             skeleton.returnMethod();
             return;
@@ -67,6 +67,8 @@ public class Car extends Vehicle {
 
         if (currentField.getNextField() != null) {
             currentField.moveToNextField(this);
+                skeleton.returnMethod();
+                return;
         }
 
         if(!canMove) {

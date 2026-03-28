@@ -64,13 +64,13 @@ public class Main {
                         Test.testCarsCollide();
                         break;
                     case "car-crashes-into-bus":
-                        //Test.testCarCrashesIntoBus();
+                        Test.testCarCrashesIntoBus();
                         break;
                     case "car-enters-workplace":
                         Test.testCarEntersWorkplace();
                         break;
                     case "car-waits-at-workplace-and-leaves":
-                        //Test.testCarWaitsAtWorkplaceAndLeaves();
+                        Test.testCarWaitsAtWorkplaceAndLeaves();
                         break;
                     case "car-arrives-home":
                         Test.testCarArrivesHome();

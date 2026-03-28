@@ -483,17 +483,10 @@ public class Test {
         Lane lane = new Lane();
         skeleton.ctor(lane, "l");
 
-        Field field = new Field();
-        skeleton.ctor(field, "f");
-
-        Surface surface = new Surface();
-        skeleton.ctor(surface, "s");
-
         road.setDestinationA(i1);
         road.setDestinationB(i2);
-        field.setSurface(surface);
         lane.setRoad(road);
-        lane.setFields(new ArrayList<>(List.of(field)));
+        lane.setFields(new ArrayList<>(List.of(car2CurrentField,car2NextField,targetField)));
         road.setLanesToA(new ArrayList<>(List.of(lane)));
         world.setRoads(new ArrayList<>(List.of(road)));
 
@@ -736,6 +729,7 @@ public class Test {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.reset();
 
+        //Initialization
         World world = new World();
         skeleton.ctor(world,"world");
 
@@ -744,28 +738,20 @@ public class Test {
         List<Vehicle> vehicles = new ArrayList<Vehicle>();
         vehicles.add(car);
 
+        Field cField = new Field();
+        skeleton.ctor(cField, "carField");
+
         Game game = new Game(vehicles, world);
         skeleton.ctor(game,"game");
 
         Intersection intersection = new Intersection();
         skeleton.ctor(intersection,"intersection");
 
+        Intersection prevInter = new Intersection();
+
         WorkPlace workPlace = new WorkPlace();
         skeleton.ctor(workPlace,"workPlace");
         
-        //Initialization
-        List<Building> buildings = new ArrayList<>();
-        buildings.add(workPlace);
-        car.setBuildings(buildings);
-        workPlace.setLocation(intersection);
-        intersection.setBuilding(workPlace);
-        Map<Car, Integer> cars= new HashMap<Car, Integer>();
-        cars.put(car, 2);
-        workPlace.setWaitingCars(cars);
-        car.setCurrentBuilding(workPlace);
-        car.setCurrentField(null);
-
-        //Snowfall initialization
         Road road = new Road();
         skeleton.ctor(road, "r");
 
@@ -777,19 +763,137 @@ public class Test {
 
         Surface surface = new Surface();
         skeleton.ctor(surface, "s");
-
+        
+        //Snowfall init
         field.setSurface(surface);
         lane.setRoad(road);
         lane.setFields(new ArrayList<>(List.of(field)));
         road.setLanesToA(new ArrayList<>(List.of(lane)));
         world.setRoads(new ArrayList<>(List.of(road)));
 
-        for(int i = 0;i<2;i++){
+        //Car init 
+        List<Building> buildings = new ArrayList<>();
+        buildings.add(workPlace);
+        car.setCurrentField(null);
+        car.setBuildings(buildings);
+        car.setCanMove(true);
+        car.setCurrentRoad(road);
+        car.setPreviousIntersection(prevInter);
+        car.setCurrentBuilding(workPlace);
+
+        //Field init
+        cField.setNextField(field);
+        
+        //Building init
+        workPlace.setLocation(intersection);
+        Map<Car, Integer> parkedCars = new HashMap<Car, Integer>();
+        parkedCars.put(car,2);
+        workPlace.setWaitingCars(parkedCars);
+
+        //Intersection init
+        intersection.setBuilding(workPlace);
+        List<Road> roads = new ArrayList<>();
+        roads.add(road);
+        intersection.setConnectedRoads(roads);
+
+        //Road init
+        road.setDestinationA(intersection);
+        road.setDestinationB(prevInter);
+
+        for(int i =0;i<3;i++){
             game.makeTurn();
-            workPlace.processWaiting();    
         }
+        
+
         skeleton.reset();
     }
     
-    
+    public static void testCarCrashesIntoBus(){
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.reset();
+
+        World world = new World();
+        skeleton.ctor(world,"world");
+
+        List<Vehicle> vehicles = new ArrayList<Vehicle>();
+        //Bus init
+        Bus bus = new Bus();
+        skeleton.ctor(bus,"bus");
+        //vehicles.add(bus);
+
+        //Car init
+        Car car = new Car();
+        skeleton.ctor(car,"car");
+        vehicles.add(car);
+
+        //Game init
+        Game game = new Game(vehicles, world);
+        skeleton.ctor(game,"game");
+
+        //Fields init
+        Field busStartingField = new Field();
+        skeleton.ctor(busStartingField,"busStartingField");
+        Field targetField = new Field();
+        skeleton.ctor(targetField,"targetField");
+        Field carStartingField = new Field();
+        skeleton.ctor(carStartingField,"carStartingField");
+
+        //Surface init
+        Surface targetSurface = new Surface();
+        skeleton.ctor(targetSurface,"targetSurface");
+        Surface busStartingFieldSurface = new Surface();
+        skeleton.ctor(busStartingFieldSurface,"busStartingFieldSurface");
+
+        //Intersection init
+        Intersection i1 = new Intersection();
+        Intersection i2 = new Intersection();
+
+        //Building init
+        WorkPlace workPlace = new WorkPlace();
+        BusStop b1 = new BusStop();
+        BusStop b2 = new BusStop();
+        workPlace.setLocation(i1);
+        car.setBuildings(List.of(workPlace));
+        car.setPreviousIntersection(i1);
+        bus.setBuildings(List.of(b1,b2));
+        bus.setStopA(b1);
+        bus.setStopB(b2);
+        bus.setPreviousIntersection(i1);
+
+        //Setting up the conditions
+        bus.setCanMove(true);
+        busStartingFieldSurface.setIsIce(true);
+        bus.setCurrentField(busStartingField);
+        busStartingField.setNextField(targetField);
+        busStartingField.setSurface(busStartingFieldSurface);
+        busStartingField.setVehicles(new ArrayList<>(List.of(bus)));
+
+        car.setCurrentField(carStartingField);
+        car.setCanMove(true);
+        carStartingField.setNextField(busStartingField);
+        carStartingField.setVehicles(new ArrayList<>(List.of(car)));
+        
+
+        //Snowfall initialization
+        Road road = new Road();
+        skeleton.ctor(road, "r");
+        car.setCurrentRoad(road);
+        bus.setCurrentRoad(road);
+
+        Lane lane = new Lane();
+        skeleton.ctor(lane, "l");
+
+        road.setDestinationA(i1);
+        road.setDestinationB(i2);
+        lane.setRoad(road);
+        lane.setFields(new ArrayList<>(List.of(busStartingField,carStartingField,targetField)));
+        road.setLanesToA(new ArrayList<>(List.of(lane)));
+        world.setRoads(new ArrayList<>(List.of(road)));
+
+        //Begin
+        bus.move(1);
+        game.makeTurn();
+
+        skeleton.reset();
+    }
 }
