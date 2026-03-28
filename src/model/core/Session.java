@@ -61,7 +61,7 @@ public class Session {
     public static void save(){
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.ctor(getInstance() , "session");
-        skeleton.call(getInstance() , "save()");
+        skeleton.call(getInstance() , "save");
         skeleton.returnMethod();
     }
 
@@ -84,7 +84,7 @@ public class Session {
     public static void addResult(Integer r){
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.ctor(getInstance() , "session");
-        skeleton.call( getInstance(), "addResult()");
+        skeleton.call( getInstance(), "addResult");
         results.add(r);
         save();
         skeleton.returnMethod();
