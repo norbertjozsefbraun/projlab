@@ -22,6 +22,9 @@ public class Intersection extends Node {
     }
 
     /// Getters:
+    public Building getBuilding() {
+        return building;
+    }
     /// Setters:
 
     /// Functional functions:

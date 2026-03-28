@@ -142,7 +142,17 @@ public abstract class Vehicle {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.call(this, "move", String.valueOf(n));
         for (int i=0; i<n; i++) {
-            currentField.moveToNextField(this);
+
+            if (currentField.getNextField() != null) {
+                currentField.moveToNextField(this);
+            }
+
+            Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB() : currentRoad.getDestinationA();
+            if (buildings.contains(inter.getBuilding())) {
+                inter.goToBuilding(this);
+            }
+            inter.acceptVehicle(this);
+
         }
         skeleton.returnMethod();
     }

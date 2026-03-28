@@ -1,6 +1,8 @@
 package model.entities;
 
 import model.buildings.BusStop;
+import model.map.Intersection;
+import test.Skeleton;
 
 public class Bus extends Vehicle {
     /**
@@ -85,6 +87,31 @@ public class Bus extends Vehicle {
      */
     public void setPreviousStop(BusStop prev) {
         previousStop = prev;
+    }
+
+    /**
+     * Moves the bus the given number of fields.
+     * @param n The number of fileds the bus has to move
+     */
+    @Override
+    public void move(int n) {
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.call(this, "move", String.valueOf(n));
+        for (int i=0; i<n; i++) {
+
+            if (currentField.getNextField() != null) {
+                currentField.moveToNextField(this);
+            }
+
+            Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB() : currentRoad.getDestinationA();
+            if (buildings.contains(inter.getBuilding())) {
+                inter.goToBuilding(this);
+                inter.getBuilding().deployVehicle(this);
+            }
+            inter.acceptVehicle(this);
+
+        }
+        skeleton.returnMethod();
     }
 
     /**
