@@ -277,13 +277,13 @@ public class Test {
         skeleton.ctor(sweeper, "sweeper");
         Salter salter = new Salter();
         skeleton.ctor(salter, "salter");
-        heads.add(sweeper);
-        heads.add(salter);
-
+        
         SnowPlow snowplow = new SnowPlow();
         skeleton.ctor(snowplow, "snowplow");
         snowplow.setActiveHead(sweeper);
         snowplow.setHeads(heads);
+        snowplow.addHead(sweeper);
+        snowplow.addHead(salter);
 
         //func call
         snowplow.changeHead(salter);

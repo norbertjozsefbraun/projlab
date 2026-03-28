@@ -14,6 +14,11 @@ public abstract class Vehicle {
     protected int vehicleId;
 
     /**
+     * The ability of the vehicle to move.
+     */
+    protected boolean canMove;
+
+    /**
      * The field the vehicle is on.
      */
     protected Field currentField;
@@ -44,6 +49,14 @@ public abstract class Vehicle {
      */
     public int getVehicleId() {
         return vehicleId;
+    }
+
+    /**
+     * Returns wheter a vehicle can move or not
+     * @return true or false based on the ability to move
+     */
+    public boolean getCanMove() {
+        return canMove;
     }
 
     /**
@@ -95,6 +108,14 @@ public abstract class Vehicle {
     }
 
     /**
+     * Sets wehter a vehicle can move or not
+     * @param ability the ability to move
+     */
+    public void setCanMove(boolean ability) {
+        canMove = ability;
+    }
+
+    /**
      * Sets the current field to the given field
      * @param f the given field
      */
@@ -142,7 +163,18 @@ public abstract class Vehicle {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.call(this, "move", String.valueOf(n));
         for (int i=0; i<n; i++) {
-            currentField.moveToNextField(this);
+            if(!canMove) break;
+
+            if (currentField.getNextField() != null) {
+                currentField.moveToNextField(this);
+            }
+
+            Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB() : currentRoad.getDestinationA();
+            if (buildings.contains(inter.getBuilding())) {
+                inter.goToBuilding(this);
+            }
+            inter.acceptVehicle(this);
+
         }
         skeleton.returnMethod();
     }
