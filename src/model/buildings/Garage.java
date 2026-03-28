@@ -35,7 +35,7 @@ public class Garage extends Building{
     public void enterVehicle(Vehicle v){
         //Todo: PLEASE IMPLEMENT THE REST THIS IS JUST THE PART I NEED
         Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this , "enterVehicle(Vehicle v)");
+        skeleton.call(this , "enterVehicle", "Vehicle v");
         destroyedNum++;
         if(destroyedNum > 3){
             Game.gameOver();
