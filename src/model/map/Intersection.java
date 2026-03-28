@@ -23,6 +23,9 @@ public class Intersection extends Node {
 
     /// Getters:
     /// Setters:
+    public void setBuilding(Building b){
+        this.building = b;
+    }
 
     /// Functional functions:
     @Override

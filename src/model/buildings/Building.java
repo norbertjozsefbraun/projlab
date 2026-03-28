@@ -9,6 +9,18 @@ public abstract class Building {
      */
     private Intersection location;
 
+    /**
+     * Getter for location attribute
+     * @return the intersection the building is in
+     */
+    public Intersection getLocation(){
+        return location;
+    }
+
+    // Setter
+    public void setLocation(Intersection i){
+        this.location = i;
+    }
 
     /** 
      * Decides what the building does, if a vehicle enters it

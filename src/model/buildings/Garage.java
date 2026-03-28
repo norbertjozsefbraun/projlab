@@ -18,14 +18,31 @@ public class Garage extends Building{
      */
     private Integer destroyedNum;
 
-    /// Getters: TODO
-    public Integer getDestroyedNum() {
+    /**
+     * Getter for the list of snowplows
+     * @return the list of snowplows that belong to the garage
+     */
+    public List<SnowPlow> getSnowPlows(){
+        return snowPlows;
+    }
+
+    /**
+     * Getter for the destroyedNum attribute
+     * @return the number of times the snowplow in the garage has destroyed a car
+     */
+    public Integer getDestroyedNum(){
         return destroyedNum;
     }
 
-    /// Setters: TODO
+    /// Setters
     public void setDestroyedNum(Integer destroyedNum) {
         this.destroyedNum = destroyedNum;
+    }
+
+    public void setsnowPlows(List<SnowPlow> snowPlow){
+        for(SnowPlow s : snowPlow){
+            this.snowPlows.add(s);
+        }
     }
 
     /**
@@ -36,7 +53,7 @@ public class Garage extends Building{
         //Todo: PLEASE IMPLEMENT THE REST THIS IS JUST THE PART I NEED
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.call(this , "enterVehicle(Vehicle v)");
-        destroyedNum++;
+        increaseDestroyedNum();
         if(destroyedNum > 3){
             Game.gameOver();
         }
@@ -47,17 +64,32 @@ public class Garage extends Building{
      * The garage deploys the snowplow currenlty in the garage
      * @param v The vehicle currently parking in the garage
      */
-    public void deployVehicle(Vehicle v){}
+    public void deployVehicle(Vehicle v){
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.call(this, "deployVehicle", "Vehicle v");
+        getLocation().acceptVehicle(v);
+        skeleton.returnMethod();
+    }
 
     /**
      * When the player buys a new snowplow it is added to the garage
      * @param s The new snowplow the player bought in the shop
      */
-    public void newSnowPlow(SnowPlow s){}
+    public void newSnowPlow(SnowPlow s){
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.call(this, "newSnowPlow", "SnowPlow s");
+        snowPlows.add(s);
+        skeleton.returnMethod();
+    }
 
     /**
      * Increases the destoryedNum attribute, When a snowplow runs over a car
      */
-    public void increaseDestroyedNum(){}
+    public void increaseDestroyedNum(){
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.call(this, "increaseDestroyedNum");
+        this.destroyedNum++;
+        skeleton.returnMethod();
+    }
 
 }
