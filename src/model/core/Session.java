@@ -59,6 +59,7 @@ public class Session {
     /// Functional functions:
 
     public static void save(){
+        //Todo: Implement this
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.ctor(getInstance() , "session");
         skeleton.call(getInstance() , "save");
@@ -66,6 +67,7 @@ public class Session {
     }
 
     public void load(){
+        //Todo: Implement this
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.ctor(getInstance() , "session");
         skeleton.call(getInstance() , "load()");
@@ -76,6 +78,7 @@ public class Session {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.ctor(getInstance() , "session");
         skeleton.call(getInstance(), "newGame(List<Vehicle> vehcs, World world)");
+        //Initializing a new game object for the game field and setting the menu state to ingame
         game = new Game(vehcs, world);
         menu.setState(Menu.States.INGAME);
         skeleton.returnMethod();
@@ -85,6 +88,7 @@ public class Session {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.ctor(getInstance() , "session");
         skeleton.call( getInstance(), "addResult");
+        //adding the result then saving
         results.add(r);
         save();
         skeleton.returnMethod();

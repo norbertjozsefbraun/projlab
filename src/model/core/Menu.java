@@ -35,9 +35,9 @@ public class Menu {
     public void listResults(){
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.call(this , "listResults()");
-
+        //getting the results
         List<Integer> results = Session.getInstance().getResults();
-        //output to interface the results
+        //output to interface the results either graphical representation or CLI depending on phase
         skeleton.returnMethod();
     }
 

@@ -12,11 +12,23 @@ import test.Skeleton;
 
 public class Game {
     /// Fields:
+
+    //List of vehicles, that are on the map
     private List<Vehicle> vehicles;
+
+    //Ticker for the world
     public static Ticker ticker;
+
+    //World object for the map
     private World world;
+
+    //Shop object for buying things
     private Shop shop;
+
+    //Round counter for the bus(es)
     private static Integer rounds;
+
+    //Dice to roll with
     private Random dice;
 
 
@@ -119,7 +131,7 @@ public class Game {
 
 
 
-        //Iterating throught the vehicles
+        //Iterating through the vehicles
         for(var currVehicle : vehicles){
 
             //Rolling the dice
@@ -159,24 +171,32 @@ public class Game {
     }
 
     public static void gameOver(){
+
+
         Skeleton skeleton = Skeleton.getInstance();
         Game tempG = new Game(new ArrayList<>() , new World());
         skeleton.ctor(tempG , "game");
         skeleton.call( tempG, "gameOver()");
+
+        //adding the result to session's results list
         Session.addResult(rounds);
         skeleton.returnMethod();
     }
     public void increaseRounds(){
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.call(this , "increaseRounds()");
+        //increase the rounds
         this.rounds++;
         skeleton.returnMethod();
     }
     public List<Field> getPos(){
+
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.call(this , "getPos()");
+        //Initializing the return list of fields that have the vehicles' positions
         List<Field> returnList = new ArrayList<>();
         for(var currVehicle : vehicles){
+            //Getting the positions
             returnList.add(currVehicle.getCurrentField());
         }
 

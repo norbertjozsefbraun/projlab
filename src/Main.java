@@ -10,13 +10,17 @@ public class Main {
     }
 
     public static void main(String[] args){
-
+        //Initializing a scanner
         Scanner scanner = new Scanner(System.in);
+        //Initializing the input string
         String input = "";
+        //Retrieving the first input
         input = scanner.nextLine();
+        //Formatting the input
         input = input.strip().toLowerCase();
+        //Initialiing the useCases list
         List<String> useCases = new ArrayList<>();
-
+        //Initializing the useCases list's members
         useCases.add("sweeper-clean");
         useCases.add("salter-refill");
         useCases.add("icecracker-working");
@@ -37,16 +41,20 @@ public class Main {
         useCases.add("swapping-heads");
         useCases.add("game-over");
 
+        //state machine idle-->ls-->idle or idle-->test <someUseCase>-->idle
         while(!input.equals("exit")){
             StringTokenizer st = new StringTokenizer(input);
 
+            //Handling ls command
             if(st.countTokens() == 1 && st.nextToken().equals("ls")){
                 for(var currUseCase : useCases){
                     println(currUseCase);
                 }
+            //Handling test command
             } else if (st.countTokens() == 2 && st.nextToken().equals("test")){
-
+                //Getting the desired useCase
                 String testThisRaw = st.nextToken();
+                //Executing the right behavior
                 switch(testThisRaw){
                     case "sweeper-clean":
                         Test.testSweeper();
@@ -113,26 +121,9 @@ public class Main {
                 println("Non-valid command, please try again!");
             }
 
+            //Retrieving next Command
             input = scanner.nextLine();
         }
-
-        // Test test = new Test();
-        //test.swappingHeads();
-        //test.snowPlowAnsCArCollision();
-
-        
-        // Test.testSalterRefill();
-        // Test.testIceCracker();
-        // Test.testDragon();
-        //Test.testSweeper();
-
-        // Test.testIceGetsOnField();
-
-        // Test.testCarSlipsOnIce();
-
-        // Test.testCarIsBlocked();
-
-        //Test.testSnowfallInGame();
 
     }
 }
