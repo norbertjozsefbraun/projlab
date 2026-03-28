@@ -7,8 +7,6 @@ import model.entities.*;
 import model.items.*;
 import model.map.*;
 
-import javax.imageio.plugins.jpeg.JPEGQTable;
-
 public class Test {
 
     public static void testIceGetsOnField() {
@@ -223,6 +221,7 @@ public class Test {
         skeleton.reset();
 
         Shop shop = new Shop();
+        shop.setBalance(10);
         Salter salter = new Salter();
         Salt saltResource = new Salt(10, 5);
         salter.setSalt(saltResource);
@@ -265,7 +264,7 @@ public class Test {
         skeleton.reset();
     }
 
-    public static void swappingHeads() {
+    public static void testSwappingHeads() {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.reset();
 
@@ -289,7 +288,52 @@ public class Test {
         skeleton.reset();
     }
 
-    public static void snowPlowAnsCArCollision() {
+    public static void testCarMoves() {
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.reset();
+
+        //init
+        Surface surface = new Surface();
+        skeleton.ctor(surface, "surface");
+        Field currentField = new Field();
+        skeleton.ctor(currentField, "currentField");
+        Field nextField = new Field();
+        skeleton.ctor(nextField, "nextField");
+        nextField.setSurface(surface);
+        currentField.setNextField(nextField);
+        
+        List<Vehicle> vehicles = new ArrayList<>();
+        Car car = new Car();
+        skeleton.ctor(car, "car");
+        vehicles.add(car);
+        car.setCurrentField(currentField);
+        
+        World world = new World();
+        skeleton.ctor(world, "w");
+
+        Road road = new Road();
+        skeleton.ctor(road, "r");
+
+        Lane lane = new Lane();
+        skeleton.ctor(lane, "l");
+
+        Field field = new Field();
+        skeleton.ctor(field, "f");
+
+        lane.setRoad(road);
+        lane.setFields(new ArrayList<>(List.of(field)));
+        road.setLanesToA(new ArrayList<>(List.of(lane)));
+        world.setRoads(new ArrayList<>(List.of(road)));
+
+        Game game = new Game(vehicles, world);
+
+        //func call
+        game.makeTurn();
+
+        skeleton.reset();
+    }
+
+    public static void testSnowPlowAndCarCollision() {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.reset();
 
@@ -316,7 +360,7 @@ public class Test {
         skeleton.reset();
     }
 
-    public static void busCompletingRound() {
+    public static void testBusCompletingRound() {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.reset();
 

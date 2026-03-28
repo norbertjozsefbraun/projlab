@@ -48,11 +48,11 @@ public class Shop {
     public boolean deduct(int amount) {
         skeleton.call(this, "deduct", String.valueOf(amount));
         if (amount <= 0 || amount > balance) {
-            skeleton.returnMethod();
+            skeleton.returnMethod("boolean", "false");
             return false;
         }
         balance -= amount;
-        skeleton.returnMethod();
+        skeleton.returnMethod("boolean", "true");
         return true;
     }
 }

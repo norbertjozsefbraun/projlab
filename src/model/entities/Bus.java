@@ -24,11 +24,6 @@ public class Bus extends Vehicle {
     private BusStop previousStop;
 
     /**
-     * The current stop the bus is in, null if not in bus stop.
-     */
-    private BusStop currentStop;
-
-    /**
      * Returns the unique identifier of the player.
      * @return the playerid
      */
@@ -61,14 +56,6 @@ public class Bus extends Vehicle {
     }
 
     /**
-     * Returns the current bus stop the bus is in
-     * @return the current busstop
-     */
-    public BusStop getCurrentStop() {
-        return currentStop;
-    }
-
-    /**
      * Set the playerid to the given value.
      * @param id teh given id
      */
@@ -98,14 +85,6 @@ public class Bus extends Vehicle {
      */
     public void setPreviousStop(BusStop prev) {
         previousStop = prev;
-    }
-
-    /**
-     * Sets the current stop to the given stop
-     * @param prev the given stop
-     */
-    public void setCurrentStop(BusStop cs) {
-        currentStop = cs;
     }
 
     /**

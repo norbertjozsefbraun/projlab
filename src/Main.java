@@ -1,10 +1,8 @@
-import test.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
+import test.Test;
 
 public class Main {
     public static void println(String s){
@@ -33,6 +31,7 @@ public class Main {
         useCases.add("car-slips-on-ice");
         useCases.add("car-is-blocked");
         useCases.add("snowfall-in-game");
+        useCases.add("car-moves");
         useCases.add("snowplow-and-car-collision-to-respawn");
         useCases.add("bus-completing-round");
         useCases.add("swapping-heads");
@@ -91,14 +90,17 @@ public class Main {
                     case "snowfall-in-game":
                         Test.testSnowfallInGame();
                         break;
+                    case "car-moves":
+                        Test.testCarMoves();
+                        break;
                     case "snowplow-and-car-collision-to-respawn":
-                        Test.snowPlowAnsCArCollision();
+                        Test.testSnowPlowAndCarCollision();
                         break;
                     case "bus-completing-round":
-                        Test.busCompletingRound();
+                        Test.testBusCompletingRound();
                         break;
                     case "swapping-heads":
-                        Test.swappingHeads();
+                        Test.testSwappingHeads();
                         break;
                     case "game-over":
                         Test.testGameOver();

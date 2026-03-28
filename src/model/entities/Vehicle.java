@@ -1,5 +1,6 @@
 package model.entities;
 
+import model.buildings.Building;
 import model.map.Field;
 import model.map.Intersection;
 import model.map.Road;
@@ -20,6 +21,11 @@ public abstract class Vehicle {
      * The road the vehicle is on.
      */
     protected Road currentRoad;
+
+    /**
+     * The building the vehicle is in.
+     */
+    protected Building currentBuilding;
 
     /**
      * The previous intersection from where the vehicle is coming.
@@ -48,6 +54,14 @@ public abstract class Vehicle {
      */
     public Road getCurrentRoad() {
         return currentRoad;
+    }
+
+    /**
+     * Returns the current building the vehicle is in
+     * @return the current building
+     */
+    public Building getCurrentBuilding() {
+        return currentBuilding;
     }
 
     /**
@@ -83,6 +97,14 @@ public abstract class Vehicle {
     }
 
     /**
+     * Sets the current buidling to the given one
+     * @param b the given building
+     */
+    public void setCurrentBuilding(Building b) {
+        currentBuilding = b;
+    }
+
+    /**
      * Sets the previous intersection to the given intersection
      * @param r the given intersection
      */
@@ -94,7 +116,7 @@ public abstract class Vehicle {
      * Moves the vehicle the given number of fields.
      * @param n The number of fileds the vehicle has to move
      */
-    public  void move(int n) {
+    public void move(int n) {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.call(this, "move", String.valueOf(n));
         for (int i=0; i<n; i++) {

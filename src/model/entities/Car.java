@@ -47,6 +47,22 @@ public class Car extends Vehicle {
         work = w;
     }
 
+    /**
+     * Moves the car only one field.
+     * @param n not relevant
+     */
+    @Override
+    public void move(int n) {
+        Skeleton skeleton = Skeleton.getInstance();
+        skeleton.call(this, "move", "1");
+        currentField.moveToNextField(this);
+        skeleton.returnMethod();
+    }
+
+    /**
+     * Slips the car the given number of fileds.
+     * @param n the number of fields it slips
+     */
     @Override
     public void slip(int n) {
         Skeleton skeleton = Skeleton.getInstance();
