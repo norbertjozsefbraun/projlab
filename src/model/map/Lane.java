@@ -11,7 +11,8 @@ public class Lane {
     private Road road;
     private Skeleton skeleton = Skeleton.getInstance();
 
-    /// Constructor:
+    /// Constructors:
+    public Lane() {}
     public Lane(Road road, int numOfFieldsOnOneLane) {
         this.road = road;
         fields = new ArrayList<>();
@@ -52,13 +53,20 @@ public class Lane {
     }
 
     /// Setters:
+    public void setFields(List<Field> fields) {
+        this.fields = fields;
+    }
     public void setRoad(Road road) {
         this.road = road;
     }
 
     /// Functional functions:
     public void snowfall() {
-        //TODO
+        skeleton.call(this, "snowfall");
+        for (Field field: fields) {
+            field.addSnow(5);
+        }
+        skeleton.returnMethod();
     }
 
 

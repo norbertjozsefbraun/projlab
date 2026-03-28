@@ -89,7 +89,7 @@ public class Main {
                         Test.testCarIsBlocked();
                         break;
                     case "snowfall-in-game":
-                        //Test.testSnowFallInGame();
+                        Test.testSnowfallInGame();
                         break;
                     case "snowplow-and-car-collision-to-respawn":
                         Test.snowPlowAnsCArCollision();
@@ -129,6 +129,8 @@ public class Main {
         // Test.testCarSlipsOnIce();
 
         // Test.testCarIsBlocked();
-        
+
+        //Test.testSnowfallInGame();
+
     }
 }

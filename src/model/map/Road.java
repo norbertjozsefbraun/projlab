@@ -15,7 +15,11 @@ public class Road {
     private RoadType roadType;
     private Skeleton skeleton = Skeleton.getInstance();
 
-    /// Constructor:
+    /// Constructors:
+    public Road(){
+        lanesToA = new ArrayList<>();
+        lanesToB = new ArrayList<>();
+    }
     public Road(String name, RoadType type, int numOfLanesInOneDirection, int numOfFieldsOnOneLane) {
         roadName = name;
         roadType = type;
@@ -71,10 +75,23 @@ public class Road {
     public void setDestinationB(Intersection destinationB) {
         this.destinationB = destinationB;
     }
+    public void setLanesToA(List<Lane> lanesToA) {
+        this.lanesToA = lanesToA;
+    }
 
     /// Functional functions:
     public void snowfall() {
-        //TODO
+        skeleton.call(this, "snowfall");
+        int choice = skeleton.getChoice("Ez az út (" + skeleton.getObjectName(this) + ") alagút?",new String[]{"Igen", "Nem"});
+        if(choice == 2){
+            for(Lane lane: lanesToA){
+                lane.snowfall();
+            }
+            for(Lane lane: lanesToB){
+                lane.snowfall();
+            }
+        }
+        skeleton.returnMethod();
     }
 
 }
