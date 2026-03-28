@@ -7,6 +7,8 @@ import model.entities.*;
 import model.items.*;
 import model.map.*;
 
+import javax.imageio.plugins.jpeg.JPEGQTable;
+
 public class Test {
 
     public static void testIceGetsOnField() {
@@ -302,6 +304,39 @@ public class Test {
 
         //func call
         b.move(1);
+
+        skeleton.reset();
+    }
+
+    public static void testGameOver(){
+        Skeleton skeleton = Skeleton.getInstance();
+        SnowPlow snowPlow = new SnowPlow();
+        List<Vehicle> vehcs = new ArrayList<>();
+        vehcs.add(snowPlow);
+        Car car = new Car();
+        vehcs.add(car);
+
+
+        skeleton.ctor(snowPlow , "snowPlow");
+        Field field = new Field();
+        List<Vehicle> justCar = new ArrayList<>();
+        justCar.add(car);
+        field.setVehicles(justCar);
+        skeleton.ctor(field , "field");
+        Garage garage = new Garage();
+        skeleton.ctor(garage , "garage");
+        World world = new World();
+        Game game = new Game(vehcs , world);
+        skeleton.ctor(game , "game");
+        garage.setDestroyedNum(3);
+        Field tempField = new Field();
+        snowPlow.setCurrentField(tempField);
+        tempField.setNextField(field);
+        Sweeper tempSw = new Sweeper();
+        snowPlow.setActiveHead(tempSw);
+        snowPlow.setGarage(garage);
+        snowPlow.move(1);
+
 
         skeleton.reset();
     }

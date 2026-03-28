@@ -16,8 +16,10 @@ public class Game {
     public static Ticker ticker;
     private World world;
     private Shop shop;
-    private Integer rounds;
+    private static Integer rounds;
     private Random dice;
+
+
 
     /// Constructor:
     public Game(List<Vehicle> vehcs, World world){
@@ -156,9 +158,11 @@ public class Game {
         skeleton.returnMethod();
     }
 
-    public void gameOver(){
+    public static void gameOver(){
         Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this , "gameOver()");
+        Game tempG = new Game(new ArrayList<>() , new World());
+        skeleton.ctor(tempG , "game");
+        skeleton.call( tempG, "gameOver()");
         Session.addResult(rounds);
         skeleton.returnMethod();
     }

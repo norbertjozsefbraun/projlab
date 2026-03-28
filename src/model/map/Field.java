@@ -1,5 +1,6 @@
 package model.map;
 
+import model.entities.SnowPlow;
 import model.entities.Vehicle;
 import test.Skeleton;
 
@@ -85,18 +86,26 @@ public class Field extends Node {
             Field nextField = currentField.getNextField();
             if(nextField != null) {
                 nextField.acceptVehicle(v);
-
+                if(v.getCurrentField().equals(nextField)){
+                    nextField.checkAccident();
+                }
                 // if it didn't move, try nextField's left neighbour
                 if(currentField.equals(v.getCurrentField())) {
                     Field left = nextField.getLeftNeighbour();
                     if(left != null) {
                         left.acceptVehicle(v);
+                        if(v.getCurrentField().equals(left)){
+                            left.checkAccident();
+                        }
                     }
                 }
                 if(currentField.equals(v.getCurrentField())) {
                     Field right = nextField.getRightNeighbour();
                     if(right != null) {
                         right.acceptVehicle(v);
+                        if(v.getCurrentField().equals(right)){
+                            right.checkAccident();
+                        }
                     }
                 }
             }
@@ -129,7 +138,17 @@ public class Field extends Node {
     }
 
     private void checkAccident() {
-        //TODO
+        //TODO, THIS IS JUST THE PART I NEED PLEASE IMPLEMENT GENERAL SOLUTION
+
+        skeleton.call(this, "checkAccident()");
+        if(this.vehicles.size() >= 2){
+            for(var currVehicle : this.vehicles){
+                if(currVehicle.getClass().getSimpleName().equals("SnowPlow")){
+                    ((SnowPlow) currVehicle).getGarage().enterVehicle(currVehicle);
+                }
+            }
+        }
+        skeleton.returnMethod();
     }
 
 

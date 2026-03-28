@@ -121,11 +121,13 @@ public class SnowPlow extends Vehicle implements Purchasable {
      * @param n The number of fileds the vehivle has to move
      */
     @Override
-    public  void move(int n) {
+    public void move(int n) {
         skeleton.call(this, "move", String.valueOf(n));
         for (int i=0; i<n; i++) {
             currentField.moveToNextField(this);
-            activeHead.clean(currentField);
+            if(this.getGarage().getDestroyedNum() < 4) {
+                activeHead.clean(currentField);
+            }
         }
         skeleton.returnMethod();
     }

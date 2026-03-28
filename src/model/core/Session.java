@@ -58,23 +58,23 @@ public class Session {
 
     /// Functional functions:
 
-    public void save(){
+    public static void save(){
         Skeleton skeleton = Skeleton.getInstance();
-        skeleton.ctor(getInstance() , "skeleton");
+        skeleton.ctor(getInstance() , "session");
         skeleton.call(getInstance() , "save()");
         skeleton.returnMethod();
     }
 
     public void load(){
         Skeleton skeleton = Skeleton.getInstance();
-        skeleton.ctor(getInstance() , "skeleton");
+        skeleton.ctor(getInstance() , "session");
         skeleton.call(getInstance() , "load()");
         skeleton.returnMethod();
     }
 
     public void newGame(List<Vehicle> vehcs, World world){
         Skeleton skeleton = Skeleton.getInstance();
-        skeleton.ctor(getInstance() , "skeleton");
+        skeleton.ctor(getInstance() , "session");
         skeleton.call(getInstance(), "newGame(List<Vehicle> vehcs, World world)");
         game = new Game(vehcs, world);
         menu.setState(Menu.States.INGAME);
@@ -83,9 +83,10 @@ public class Session {
 
     public static void addResult(Integer r){
         Skeleton skeleton = Skeleton.getInstance();
-        skeleton.ctor(getInstance() , "skeleton");
+        skeleton.ctor(getInstance() , "session");
         skeleton.call( getInstance(), "addResult()");
         results.add(r);
+        save();
         skeleton.returnMethod();
     }
 }

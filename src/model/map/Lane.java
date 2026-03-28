@@ -34,14 +34,14 @@ public class Lane {
         if(fields==null){
             return null;
         }
-        return fields.getFirst();
+        return fields.get(0);
     }
 
     public Field getLastField() {
         if(fields==null){
             return null;
         }
-        return fields.getLast();
+        return fields.get(fields.size()-1);
     }
 
     public Field getField(int index) {
