@@ -98,6 +98,7 @@ public class Bus extends Vehicle {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.call(this, "move", String.valueOf(n));
         for (int i=0; i<n; i++) {
+            if (!canMove) break;
 
             if (currentField.getNextField() != null) {
                 currentField.moveToNextField(this);

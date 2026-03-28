@@ -153,6 +153,16 @@ public class SnowPlow extends Vehicle implements Purchasable {
         skeleton.returnMethod();
 
     }
+
+    /**
+     * Add the given head to the list of heads if possible
+     * @param h the given head
+     */
+    public void addHead(Head h) {
+        if (!heads.contains(h)) {
+            heads.add(h);
+        }
+    }
     
     /**
      * Pays for the new snowplow.

@@ -2,6 +2,7 @@ package model.entities;
 
 import model.buildings.Home;
 import model.buildings.WorkPlace;
+import model.map.Intersection;
 import test.Skeleton;
 
 public class Car extends Vehicle {
@@ -24,7 +25,7 @@ public class Car extends Vehicle {
     }
     
     /**
-     * Returns teh work of the car
+     * Returns the work of the car
      * @return workplace of the car
      */
     public WorkPlace getWorkPlace() {
@@ -55,7 +56,16 @@ public class Car extends Vehicle {
     public void move(int n) {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.call(this, "move", "1");
-        currentField.moveToNextField(this);
+        if(!canMove) return;
+        if (currentField.getNextField() != null) {
+            currentField.moveToNextField(this);
+        }
+
+        Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB() : currentRoad.getDestinationA();
+        if (buildings.contains(inter.getBuilding())) {
+            inter.goToBuilding(this);
+        }
+        inter.acceptVehicle(this);
         skeleton.returnMethod();
     }
 
@@ -68,6 +78,8 @@ public class Car extends Vehicle {
         Skeleton skeleton = Skeleton.getInstance();
         skeleton.call(this, "slip", String.valueOf(n));
         for (int i=0; i<n; i++) {
+            if (!canMove) break;
+
             move(1);
         }
         skeleton.returnMethod();
