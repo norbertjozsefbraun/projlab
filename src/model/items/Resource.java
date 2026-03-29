@@ -16,8 +16,8 @@ public abstract class Resource implements Purchasable {
     }
 
     /**
-     * Sets the price of the resource.
-     * @param unitPrice the price to set
+     * Gets the amount of the resource.
+     * @return amount of the resource
      */
     public int getAmount() {
         return amount;
