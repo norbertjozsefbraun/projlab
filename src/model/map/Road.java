@@ -95,7 +95,7 @@ public class Road {
     /// Functional functions:
     public void snowfall() {
         skeleton.call(this, "snowfall");
-        int choice = skeleton.getChoice("Ez az út (" + skeleton.getObjectName(this) + ") alagút?",new String[]{"Igen", "Nem"});
+        int choice = skeleton.getChoice("Is this road (" + skeleton.getObjectName(this) + ") a tunnel?",new String[]{"Yes", "No"});
         if(choice == 2){
             for(Lane lane: lanesToA){
                 lane.snowfall();
