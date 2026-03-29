@@ -47,8 +47,13 @@ public class Surface {
     }
 
     public int sweepSnow() {
-        //TODO
-        return 0;
+        skeleton.call(this, "sweepSnow");
+
+        int snowAmount = snowThickness;
+        snowThickness = 0;
+
+        skeleton.returnMethod("int", String.valueOf(snowAmount));
+        return snowAmount;
     }
 
     public void breakIce() {
