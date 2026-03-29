@@ -10,6 +10,20 @@ public class Main {
     }
 
     public static void main(String[] args){
+        //Starting with a fancy Ascii art :D
+        System.out.println("""
+                                  _____  _____
+                                  \\\\\\\\\\\\/ ___/___________________
+                                   \\\\\\\\/ /                 _____/__________________________
+                ________________    \\\\/ /              _____/.'.'.'.'.'.'.'.'.'.'.'.'_'_'_/
+                \\_____        \\__    / /  HÓKOTRÓK _____/.'.'.'.'.'.'.'.'.'.'.'.'.'_'_/
+                    \\__________\\__  / /        _____/_'_'_'_'_'_'_'_'_'_'_'_'_'_'_/
+                                \\_ / /__________/
+                                 \\/____/\\\\\\\\\\\\
+                                      \\\\\\\\\\\\
+                                       ------
+                """);
+
         //Initializing a scanner
         Scanner scanner = new Scanner(System.in);
         //Initializing the input string
