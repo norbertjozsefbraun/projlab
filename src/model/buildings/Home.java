@@ -1,10 +1,8 @@
 package model.buildings;
 
 import java.util.List;
-
 import model.entities.Car;
 import model.entities.Vehicle;
-
 import test.Skeleton;
 
 public class Home extends Building{
@@ -32,7 +30,7 @@ public class Home extends Building{
      */
     public void enterVehicle(Vehicle v){
         Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this, "enterVehicle","Vehicle v");
+        skeleton.call(this, "enterVehicle",skeleton.getObjectName(v));
         v.setCurrentBuilding(this);
         skeleton.returnMethod();
     }
@@ -43,7 +41,7 @@ public class Home extends Building{
      */
     public void deployVehicle(Vehicle v){
         Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this, "deployVehicle", "Vehicle v");
+        skeleton.call(this, "deployVehicle", skeleton.getObjectName(v));
         getLocation().acceptVehicle(v);
         skeleton.returnMethod();
     }

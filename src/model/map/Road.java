@@ -1,9 +1,8 @@
 package model.map;
 
-import test.Skeleton;
-
 import java.util.ArrayList;
 import java.util.List;
+import test.Skeleton;
 
 public class Road {
     /// Fields:
@@ -61,12 +60,14 @@ public class Road {
 
     /// Getters:
     public List<Lane> getLanesTowards(Intersection destination) {
-        if(destinationA.equals(destination)) return lanesToA;
-        if(destinationB.equals(destination)) return lanesToB;
+        skeleton.call(this, "getLanesTowards", skeleton.getObjectName(destination));
+        if(destinationA.equals(destination)) { skeleton.returnMethod("List<Lane>", "lanesToA"); return lanesToA; }
+        if(destinationB.equals(destination)) { skeleton.returnMethod("List<Lane>", "lanesToB"); return lanesToB; }
+        skeleton.returnMethod();
         return null;
     }
     public String getName() {
-        if(roadName==null) return "road" + this.hashCode();
+        if(roadName==null) return skeleton.getObjectName(this);
 
         return roadName;
     }
@@ -86,6 +87,9 @@ public class Road {
     }
     public void setLanesToA(List<Lane> lanesToA) {
         this.lanesToA = lanesToA;
+    }
+    public void setLanesToB(List<Lane> lanesToB) {
+        this.lanesToB = lanesToB;
     }
 
     /// Functional functions:

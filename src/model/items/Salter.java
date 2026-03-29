@@ -1,6 +1,6 @@
 package model.items;
-import test.Skeleton;
 import model.map.Field;
+import test.Skeleton;
 
 public class Salter extends ResourceConsumingHead {
     private Salt salt = new Salt();
@@ -19,7 +19,7 @@ public class Salter extends ResourceConsumingHead {
     @Override
     public void clean(Field f) {
         Skeleton sk = Skeleton.getInstance();
-        sk.call(this, "clean", "f");
+        sk.call(this, "clean", sk.getObjectName(f));
         if (this.hasResource()) {
             salt.consume(5);
 
@@ -41,7 +41,7 @@ public class Salter extends ResourceConsumingHead {
     @Override
     public void refill(Resource r) {
         Skeleton sk = Skeleton.getInstance();
-        sk.call(this, "refill", "r");
+        sk.call(this, "refill", sk.getObjectName(r));
         
         this.addAmount(14);
         

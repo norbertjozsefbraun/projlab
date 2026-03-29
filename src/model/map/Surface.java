@@ -1,11 +1,9 @@
 package model.map;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
 import model.entities.Vehicle;
 import test.Skeleton;
-
-import java.util.ArrayDeque;
-import java.util.List;
-import java.util.Queue;
 
 public class Surface {
     /// Fields:
@@ -18,6 +16,9 @@ public class Surface {
     /// Getters:
     public int getSnowThickness() {
         return snowThickness;
+    }
+    public boolean  getIsIce() {
+        return isIce;
     }
 
     /// Setters:
@@ -42,10 +43,6 @@ public class Surface {
         //    isIce = true;
         //}
 
-        if(isIce) {
-            v.slip(2);
-        }
-
         skeleton.returnMethod();
     }
 
@@ -55,12 +52,16 @@ public class Surface {
     }
 
     public void breakIce() {
+        skeleton.call(this, "breakIce");
         isIce = false;
+        skeleton.returnMethod();
     }
 
     public void meltAll() {
+        skeleton.call(this, "meltAll");
         snowThickness = 0;
         isIce = false;
+        skeleton.returnMethod();
     }
 
     public void applySalt() {
@@ -68,7 +69,7 @@ public class Surface {
     }
 
     public void addSnow(int amount) {
-        skeleton.call(this, "addSnow", "5");
+        skeleton.call(this, "addSnow", String.valueOf(amount));
         snowThickness += amount;
         skeleton.returnMethod();
     }

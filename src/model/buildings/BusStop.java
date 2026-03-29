@@ -1,12 +1,10 @@
 package model.buildings;
 
 import java.util.List;
-
+import model.core.Game;
+import model.core.Shop;
 import model.entities.Bus;
 import model.entities.Vehicle;
-import model.core.Shop;
-import model.core.Game;
-
 import test.Skeleton;
 
 public class BusStop extends Building{
@@ -52,12 +50,12 @@ public class BusStop extends Building{
      */
     public void enterVehicle(Vehicle v){
         Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this, "enterVehicle","Vehicle v");
+        skeleton.call(this, "enterVehicle", skeleton.getObjectName(v));
         buses.add((Bus)v);
         v.setCurrentBuilding(this);
         Bus b = (Bus)v;
         if(b.getPreviousStop().equals(b.getStopB()) && this.equals(b.getStopA())){
-            shop.addFunds(18);
+            game.getShop().addFunds(18);
             game.increaseRounds();
         }
         skeleton.returnMethod();
@@ -69,7 +67,7 @@ public class BusStop extends Building{
      */
     public void deployVehicle(Vehicle v){
         Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this, "deployVehicle", "Vehicle v");
+        skeleton.call(this, "deployVehicle", skeleton.getObjectName(v));
         Bus b = (Bus)v;
         b.setPreviousStop(this);
         buses.remove((Bus)v);

@@ -2,11 +2,10 @@ package model.core;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import model.entities.SnowPlow;
 import model.entities.Vehicle;
-import model.map.World;
 import model.map.Field;
+import model.map.World;
 import test.Skeleton;
 
 
@@ -125,7 +124,7 @@ public class Game {
 
         //Getting the skeleton instance
         Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this , "makeTurn()");
+        skeleton.call(this , "makeTurn");
         //Falling snow
         this.world.snowfall();
 
@@ -176,7 +175,7 @@ public class Game {
         Skeleton skeleton = Skeleton.getInstance();
         Game tempG = new Game(new ArrayList<>() , new World());
         skeleton.ctor(tempG , "game");
-        skeleton.call( tempG, "gameOver()");
+        skeleton.call( tempG, "gameOver");
 
         //adding the result to session's results list
         Session.addResult(rounds);
@@ -184,7 +183,7 @@ public class Game {
     }
     public void increaseRounds(){
         Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this , "increaseRounds()");
+        skeleton.call(this , "increaseRounds");
         //increase the rounds
         this.rounds++;
         skeleton.returnMethod();
@@ -192,7 +191,7 @@ public class Game {
     public List<Field> getPos(){
 
         Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this , "getPos()");
+        skeleton.call(this , "getPos");
         //Initializing the return list of fields that have the vehicles' positions
         List<Field> returnList = new ArrayList<>();
         for(var currVehicle : vehicles){

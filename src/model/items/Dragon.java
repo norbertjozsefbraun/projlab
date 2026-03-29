@@ -1,6 +1,6 @@
 package model.items;
-import test.Skeleton;
 import model.map.Field;
+import test.Skeleton;
 
 public class Dragon extends ResourceConsumingHead {
     private Biokerosene kerosene = new Biokerosene();
@@ -21,14 +21,12 @@ public class Dragon extends ResourceConsumingHead {
     @Override
     public void clean(Field f) {
         Skeleton sk = Skeleton.getInstance();
-        sk.call(this, "clean", "f");
+        sk.call(this, "clean", sk.getObjectName(f));
 
         if (this.hasResource()) {
             kerosene.consume(10); 
             
-            sk.call(f.getSurface(), "meltAll");
             f.getSurface().meltAll();
-            sk.returnMethod();
         } else {
             System.out.println("\tDragon üres, a takarítás elmarad.");
         }

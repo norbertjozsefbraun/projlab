@@ -1,11 +1,10 @@
 package model.map;
 
+import java.util.List;
+import model.entities.Car;
 import model.entities.SnowPlow;
 import model.entities.Vehicle;
 import test.Skeleton;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Field extends Node {
     /// Fields:
@@ -28,16 +27,19 @@ public class Field extends Node {
     /// Getters:
     public Field getRightNeighbour() {
         skeleton.call(this, "getRightNeighbour");
-
         skeleton.returnMethod("Field", skeleton.getObjectName(rightNeighbour));
         return rightNeighbour;
     }
 
     public Field getLeftNeighbour() {
+        skeleton.call(this, "getLeftNeighbour");
+        skeleton.returnMethod("Field", skeleton.getObjectName(leftNeighbour));
         return leftNeighbour;
     }
 
     public Field getNextField() {
+        skeleton.call(this, "getNextField");
+        skeleton.returnMethod("Field", skeleton.getObjectName(nextField));
         return nextField;
     }
 
@@ -117,17 +119,21 @@ public class Field extends Node {
             v.getCurrentField().removeVehicle(v);
             v.setCurrentField(this);
             vehicles.add(v);
-
+            
             surface.vehiclePasses(v);
-
+            
             checkAccident();
+
+            if(surface.getIsIce()) {
+                v.slip(2);
+            }
         }
 
         skeleton.returnMethod();
     }
 
     public void addSnow(int amount){
-        skeleton.call(this, "addSnow", "5");
+        skeleton.call(this, "addSnow", String.valueOf(amount));
         surface.addSnow(amount);
         skeleton.returnMethod();
     }
@@ -136,12 +142,21 @@ public class Field extends Node {
         //TODO, THIS IS JUST THE PART I NEED PLEASE IMPLEMENT GENERAL SOLUTION
 
         skeleton.call(this, "checkAccident");
+        boolean hasSnowPlow = false;
+        for(var currVehicle : this.vehicles) {
+            if(currVehicle.getClass().getSimpleName().equals("SnowPlow")) hasSnowPlow = true;
+        }
+
         if(this.vehicles.size() >= 2){
             for(var currVehicle : this.vehicles){
                 if(currVehicle.getClass().getSimpleName().equals("SnowPlow")){
                     ((SnowPlow) currVehicle).getGarage().enterVehicle(currVehicle);
+
                 }else if(currVehicle.getClass().getSimpleName().equals("Car")){
                     currVehicle.setCanMove(false);
+                    if (hasSnowPlow) {
+                        ((Car) currVehicle).getHome().enterVehicle(currVehicle);
+                    }
                 }
             }
         }

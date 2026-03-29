@@ -100,15 +100,16 @@ public class Bus extends Vehicle {
         for (int i=0; i<n; i++) {
             if (!canMove) break;
 
+            Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB() : currentRoad.getDestinationA();
             if (currentField.getNextField() != null) {
                 currentField.moveToNextField(this);
             }
             else if(currentField.getNextField() == null){
-                Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB() : currentRoad.getDestinationA();
                 if (buildings.contains(inter.getBuilding())) {
                     inter.goToBuilding(this);
+                    currentBuilding.deployVehicle(this);
                 }
-            inter.acceptVehicle(this);
+                else inter.acceptVehicle(this);
             }
         }
         skeleton.returnMethod();

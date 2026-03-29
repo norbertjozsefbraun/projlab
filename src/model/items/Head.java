@@ -32,7 +32,7 @@ public abstract class Head implements CleanerEquipment, Purchasable {
     public void pay(Shop s) {
         Skeleton sk = Skeleton.getInstance();
         
-        sk.call(this, "pay", "s");
+        sk.call(this, "pay", sk.getObjectName(s));
         
         s.deduct(this.price);
         

@@ -55,7 +55,7 @@ public abstract class Resource implements Purchasable {
     public void pay(Shop shop) {
 
         Skeleton sk = Skeleton.getInstance();
-        sk.call(this, "pay", "shop");
+        sk.call(this, "pay", sk.getObjectName(shop));
         
         shop.deduct(this.unitPrice);
         

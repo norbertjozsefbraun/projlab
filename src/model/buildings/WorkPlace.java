@@ -1,10 +1,8 @@
 package model.buildings;
 
 import java.util.Map;
-
 import model.entities.Car;
 import model.entities.Vehicle;
-
 import test.Skeleton;
 
 public class WorkPlace extends Building{
@@ -32,7 +30,7 @@ public class WorkPlace extends Building{
      */
     public void enterVehicle(Vehicle v){
         Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this, "enterVehicle","Vehicle v");
+        skeleton.call(this, "enterVehicle", skeleton.getObjectName(v));
         waitingCars.put((Car)v,  2);
         v.setCurrentBuilding(this);
         skeleton.returnMethod();
@@ -46,7 +44,7 @@ public class WorkPlace extends Building{
     public void deployVehicle(Vehicle v){
         Skeleton skeleton = Skeleton.getInstance();
         if(waitingCars.getOrDefault(v, -1) == 0){
-            skeleton.call(this, "deployVehicle", "Vehicle v");
+            skeleton.call(this, "deployVehicle", skeleton.getObjectName(v));
             getLocation().acceptVehicle(v);
         }else{
             processWaiting();

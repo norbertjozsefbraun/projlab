@@ -1,6 +1,6 @@
 package model.items;
-import test.Skeleton;
 import model.map.Field;
+import test.Skeleton;
 
 public class Sweeper extends Head {
     @Override
