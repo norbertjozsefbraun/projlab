@@ -1,6 +1,5 @@
 package model.map;
 
-import test.Skeleton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +8,6 @@ public class Lane {
     /// Fields:
     private List<Field> fields;
     private Road road;
-    private Skeleton skeleton = Skeleton.getInstance();
 
     /// Constructors:
     public Lane() {}
@@ -20,7 +18,6 @@ public class Lane {
         // Create fields on the lane
         for (int i = 0; i < numOfFieldsOnOneLane; i++) {
             Field newField = new Field();
-            skeleton.ctor(newField, "field" + newField.hashCode());
             fields.add(newField);
         }
 
@@ -62,11 +59,9 @@ public class Lane {
 
     /// Functional functions:
     public void snowfall() {
-        skeleton.call(this, "snowfall");
         for (Field field: fields) {
             field.addSnow(5);
         }
-        skeleton.returnMethod();
     }
 
 

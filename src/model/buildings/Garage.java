@@ -4,7 +4,6 @@ import java.util.List;
 import model.core.Game;
 import model.entities.SnowPlow;
 import model.entities.Vehicle;
-import test.Skeleton;
 
 public class Garage extends Building{
     /**
@@ -50,14 +49,11 @@ public class Garage extends Building{
      */
     public void enterVehicle(Vehicle v){
         //Todo: PLEASE IMPLEMENT THE REST THIS IS JUST THE PART I NEED
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this , "enterVehicle", skeleton.getObjectName(v));
         increaseDestroyedNum();
         v.setCurrentBuilding(this);
         if(destroyedNum > 3){
             Game.gameOver();
         }
-        skeleton.returnMethod();
     }
 
     /**
@@ -65,10 +61,7 @@ public class Garage extends Building{
      * @param v The vehicle currently parking in the garage
      */
     public void deployVehicle(Vehicle v){
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this, "deployVehicle", skeleton.getObjectName(v));
         getLocation().acceptVehicle(v);
-        skeleton.returnMethod();
     }
 
     /**
@@ -76,20 +69,14 @@ public class Garage extends Building{
      * @param s The new snowplow the player bought in the shop
      */
     public void newSnowPlow(SnowPlow s){
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this, "newSnowPlow", skeleton.getObjectName(s));
         snowPlows.add(s);
-        skeleton.returnMethod();
     }
 
     /**
      * Increases the destoryedNum attribute, When a snowplow runs over a car
      */
     public void increaseDestroyedNum(){
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this, "increaseDestroyedNum");
         this.destroyedNum++;
-        skeleton.returnMethod();
     }
 
 }

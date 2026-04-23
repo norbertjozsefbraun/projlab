@@ -5,7 +5,6 @@ import model.buildings.Building;
 import model.map.Field;
 import model.map.Intersection;
 import model.map.Road;
-import test.Skeleton;
 
 public abstract class Vehicle {
     /**
@@ -160,8 +159,6 @@ public abstract class Vehicle {
      * @param n The number of fileds the vehicle has to move
      */
     public void move(int n) {
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this, "move", String.valueOf(n));
         for (int i=0; i<n; i++) {
             if(!canMove) break;
 
@@ -177,7 +174,6 @@ public abstract class Vehicle {
             }
 
         }
-        skeleton.returnMethod();
     }
 
     /**

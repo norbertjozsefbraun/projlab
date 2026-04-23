@@ -1,9 +1,6 @@
 package model.core;
 
-import test.Skeleton;
-
 public class Shop {
-    Skeleton skeleton = Skeleton.getInstance();
 
     /**
      * The balance that stores the amount of money the player gather.
@@ -31,13 +28,8 @@ public class Shop {
      * @param amount the given amount
      */
     public void addFunds(int amount) {
-        skeleton.call(this, "addFunds", String.valueOf(amount));
-        if (amount <= 0) {
-            skeleton.returnMethod();
-            return;
-        }
+        if (amount <= 0) return;
         balance += amount;
-        skeleton.returnMethod();
     }
 
     /**
@@ -46,13 +38,8 @@ public class Shop {
      * @return true or false based on the result of the deduction
      */
     public boolean deduct(int amount) {
-        skeleton.call(this, "deduct", String.valueOf(amount));
-        if (amount <= 0 || amount > balance) {
-            skeleton.returnMethod("boolean", "false");
-            return false;
-        }
+        if (amount <= 0 || amount > balance) return false;
         balance -= amount;
-        skeleton.returnMethod("boolean", "true");
         return true;
     }
 }

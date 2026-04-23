@@ -2,7 +2,7 @@ package model.map;
 
 import java.util.ArrayList;
 import java.util.List;
-import test.Skeleton;
+import model.map.RoadType;
 
 public class Road {
     /// Fields:
@@ -12,7 +12,6 @@ public class Road {
     private List<Lane> lanesToA;
     private List<Lane> lanesToB;
     private RoadType roadType;
-    private Skeleton skeleton = Skeleton.getInstance();
 
     /// Constructors:
     public Road(){
@@ -28,9 +27,7 @@ public class Road {
         // Initialise lanes in each direction
         for (int i = 0; i < numOfLanesInOneDirection; i++) {
             Lane newLane1 = new Lane(this, numOfFieldsOnOneLane);
-            skeleton.ctor(newLane1, roadName + "Lane"+i);
             Lane newLane2 = new Lane(this, numOfFieldsOnOneLane);
-            skeleton.ctor(newLane2, roadName + "LaneBack"+i);
 
             lanesToA.add(newLane1);
             lanesToB.add(newLane2);
@@ -60,15 +57,11 @@ public class Road {
 
     /// Getters:
     public List<Lane> getLanesTowards(Intersection destination) {
-        skeleton.call(this, "getLanesTowards", skeleton.getObjectName(destination));
-        if(destinationA.equals(destination)) { skeleton.returnMethod("List<Lane>", "lanesToA"); return lanesToA; }
-        if(destinationB.equals(destination)) { skeleton.returnMethod("List<Lane>", "lanesToB"); return lanesToB; }
-        skeleton.returnMethod();
+        if(destinationA.equals(destination)) { return lanesToA; }
+        if(destinationB.equals(destination)) { return lanesToB; }
         return null;
     }
     public String getName() {
-        if(roadName==null) return skeleton.getObjectName(this);
-
         return roadName;
     }
     public Intersection getDestinationA() {
@@ -94,17 +87,12 @@ public class Road {
 
     /// Functional functions:
     public void snowfall() {
-        skeleton.call(this, "snowfall");
-        int choice = skeleton.getChoice("Is this road (" + skeleton.getObjectName(this) + ") a tunnel?",new String[]{"Yes", "No"});
-        if(choice == 2){
-            for(Lane lane: lanesToA){
-                lane.snowfall();
-            }
-            for(Lane lane: lanesToB){
-                lane.snowfall();
-            }
+        for(Lane lane: lanesToA){
+            lane.snowfall();
         }
-        skeleton.returnMethod();
+        for(Lane lane: lanesToB){
+            lane.snowfall();
+        }
     }
 
 }

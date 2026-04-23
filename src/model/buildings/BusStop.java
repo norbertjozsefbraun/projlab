@@ -5,7 +5,6 @@ import model.core.Game;
 import model.core.Shop;
 import model.entities.Bus;
 import model.entities.Vehicle;
-import test.Skeleton;
 
 public class BusStop extends Building{
     /**
@@ -49,8 +48,6 @@ public class BusStop extends Building{
      * @param v The vehicle entering the busstop
      */
     public void enterVehicle(Vehicle v){
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this, "enterVehicle", skeleton.getObjectName(v));
         buses.add((Bus)v);
         v.setCurrentBuilding(this);
         Bus b = (Bus)v;
@@ -58,7 +55,6 @@ public class BusStop extends Building{
             game.getShop().addFunds(18);
             game.increaseRounds();
         }
-        skeleton.returnMethod();
     }
 
     /**
@@ -66,13 +62,10 @@ public class BusStop extends Building{
      * @param v The vehicle leaving the busstop.
      */
     public void deployVehicle(Vehicle v){
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this, "deployVehicle", skeleton.getObjectName(v));
         Bus b = (Bus)v;
         b.setPreviousStop(this);
         buses.remove((Bus)v);
         this.getLocation().acceptVehicle(v);
-        skeleton.returnMethod();
     }
 
 }

@@ -6,10 +6,8 @@ import model.core.Shop;
 import model.items.Head;
 import model.items.Purchasable;
 import model.map.Intersection;
-import test.Skeleton;
 
 public class SnowPlow extends Vehicle implements Purchasable {
-    Skeleton skeleton = Skeleton.getInstance();
 
     /**
      * The unique identifier of the player that drives the snowplow.
@@ -123,7 +121,6 @@ public class SnowPlow extends Vehicle implements Purchasable {
      */
     @Override
     public void move(int n) {
-        skeleton.call(this, "move", String.valueOf(n));
         for (int i=0; i<n; i++) {
             if (currentField.getNextField() != null) {
                 currentField.moveToNextField(this);
@@ -139,7 +136,6 @@ public class SnowPlow extends Vehicle implements Purchasable {
                 }
             }
         }
-        skeleton.returnMethod();
     }
   
     /**
@@ -154,13 +150,11 @@ public class SnowPlow extends Vehicle implements Purchasable {
      * @param h The head that will be mounted.
     */
    public void changeHead(Head h) {
-        skeleton.call(this, "changeHead", skeleton.getObjectName(h));
         if (heads.contains(h)) {
             activeHead.setEquipped(false);
             h.setEquipped(true);
             activeHead = h;
         }
-        skeleton.returnMethod();
 
     }
 
@@ -180,10 +174,7 @@ public class SnowPlow extends Vehicle implements Purchasable {
      */
     @Override
     public void pay(Shop s) {
-        skeleton.call(this,"pay", skeleton.getObjectName(s));
         if (s.deduct(price)) {
-            skeleton.returnMethod();
         }
-        skeleton.returnMethod();
     }
 }

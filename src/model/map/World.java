@@ -1,6 +1,5 @@
 package model.map;
 
-import test.Skeleton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +9,6 @@ public class World {
     /// Fields:
     private List<Road> roads;
     private List<Intersection> intersections;
-    private Skeleton skeleton = Skeleton.getInstance();
 
     /// Constructor:
     public World(){
@@ -41,11 +39,9 @@ public class World {
     }
 
     public void snowfall() {
-        skeleton.call(this, "snowfall");
         for(Road road: roads){
             road.snowfall();
         }
-        skeleton.returnMethod();
     }
 
     public void tickTimers() {

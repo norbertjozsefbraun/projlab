@@ -2,7 +2,6 @@ package model.items;
 
 import model.core.Shop;
 import model.map.Field;
-import test.Skeleton;
 
 public abstract class Head implements CleanerEquipment, Purchasable {
     protected int price;
@@ -30,13 +29,10 @@ public abstract class Head implements CleanerEquipment, Purchasable {
      */
     @Override
     public void pay(Shop s) {
-        Skeleton sk = Skeleton.getInstance();
         
-        sk.call(this, "pay", sk.getObjectName(s));
         
         s.deduct(this.price);
         
-        sk.returnMethod();
     }
 
     /**
@@ -51,10 +47,7 @@ public abstract class Head implements CleanerEquipment, Purchasable {
      * @param isEquipped true to equip the head, false to unequip
      */
     public void setEquipped(boolean isEquipped) {
-        Skeleton sk = Skeleton.getInstance();
-        sk.call(this, "setEquipped", String.valueOf(isEquipped));
         this.equipped = isEquipped;
-        sk.returnMethod();
     }
 
     /**

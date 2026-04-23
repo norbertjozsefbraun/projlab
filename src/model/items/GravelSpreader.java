@@ -1,7 +1,6 @@
 package model.items;
 import model.map.Field;
 
-import test.Skeleton;
 
 public class GravelSpreader extends ResourceConsumingHead {
     private Gravel gravel = new Gravel();

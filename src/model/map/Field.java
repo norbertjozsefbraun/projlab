@@ -4,7 +4,6 @@ import java.util.List;
 import model.entities.Car;
 import model.entities.SnowPlow;
 import model.entities.Vehicle;
-import test.Skeleton;
 
 public class Field extends Node {
     /// Fields:
@@ -13,12 +12,10 @@ public class Field extends Node {
     private Field leftNeighbour;
     private Surface surface;
     private int accidentTimer;
-    private Skeleton skeleton = Skeleton.getInstance();
 
     /// Constructor:
     public Field() {
         surface = new Surface();
-        skeleton.ctor(surface, "surface" + surface.hashCode());
         nextField = null;
         rightNeighbour = null;
         leftNeighbour = null;
@@ -26,20 +23,14 @@ public class Field extends Node {
 
     /// Getters:
     public Field getRightNeighbour() {
-        skeleton.call(this, "getRightNeighbour");
-        skeleton.returnMethod("Field", skeleton.getObjectName(rightNeighbour));
         return rightNeighbour;
     }
 
     public Field getLeftNeighbour() {
-        skeleton.call(this, "getLeftNeighbour");
-        skeleton.returnMethod("Field", skeleton.getObjectName(leftNeighbour));
         return leftNeighbour;
     }
 
     public Field getNextField() {
-        skeleton.call(this, "getNextField");
-        skeleton.returnMethod("Field", skeleton.getObjectName(nextField));
         return nextField;
     }
 
@@ -80,7 +71,6 @@ public class Field extends Node {
 
     /// Functional functions:
     public void moveToNextField(Vehicle v) {
-        skeleton.call(this, "moveToNextField", skeleton.getObjectName(v));
 
         Field currentField = v.getCurrentField();
         if(currentField != null) {
@@ -104,7 +94,6 @@ public class Field extends Node {
             }
         }
 
-        skeleton.returnMethod();
     }
 
     private boolean isPassable() {
@@ -113,7 +102,6 @@ public class Field extends Node {
 
     @Override
     public void acceptVehicle(Vehicle v) {
-        skeleton.call(this, "acceptVehicle", skeleton.getObjectName(v));
 
         if(isPassable()) {
             v.getCurrentField().removeVehicle(v);
@@ -129,19 +117,15 @@ public class Field extends Node {
             }
         }
 
-        skeleton.returnMethod();
     }
 
     public void addSnow(int amount){
-        skeleton.call(this, "addSnow", String.valueOf(amount));
         surface.addSnow(amount);
-        skeleton.returnMethod();
     }
 
     private void checkAccident() {
         //TODO, THIS IS JUST THE PART I NEED PLEASE IMPLEMENT GENERAL SOLUTION
 
-        skeleton.call(this, "checkAccident");
         boolean hasSnowPlow = false;
         for(var currVehicle : this.vehicles) {
             if(currVehicle.getClass().getSimpleName().equals("SnowPlow")) hasSnowPlow = true;
@@ -160,7 +144,6 @@ public class Field extends Node {
                 }
             }
         }
-        skeleton.returnMethod();
     }
 
 

@@ -1,5 +1,4 @@
 package model.items;
-import test.Skeleton;
 
 public class Biokerosene extends Resource {
     /**

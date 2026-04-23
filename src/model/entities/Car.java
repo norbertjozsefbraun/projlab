@@ -3,7 +3,6 @@ package model.entities;
 import model.buildings.Home;
 import model.buildings.WorkPlace;
 import model.map.Intersection;
-import test.Skeleton;
 
 public class Car extends Vehicle {
     /**
@@ -54,36 +53,29 @@ public class Car extends Vehicle {
      */
     @Override
     public void move(int n) {
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this, "move", "1");
 
         if(!canMove) return;
 
         if(currentField == null && !(this.getCurrentBuilding().equals(null))){
             getCurrentBuilding().deployVehicle(this);
-            skeleton.returnMethod();
             return;
         }
 
         if (currentField.getNextField() != null) {
             currentField.moveToNextField(this);
-                skeleton.returnMethod();
                 return;
         }
 
         if(!canMove) {
-            skeleton.returnMethod();
             return;
         }
 
         Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB() : currentRoad.getDestinationA();
         if (buildings.contains(inter.getBuilding())) {
             inter.goToBuilding(this);
-            skeleton.returnMethod();
             return;
         }
         inter.acceptVehicle(this);
-        skeleton.returnMethod();
     }
 
     /**
@@ -92,13 +84,10 @@ public class Car extends Vehicle {
      */
     @Override
     public void slip(int n) {
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this, "slip", String.valueOf(n));
         for (int i=0; i<n; i++) {
             if (!canMove) break;
 
             move(1);
         }
-        skeleton.returnMethod();
     }
 }

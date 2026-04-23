@@ -2,7 +2,6 @@ package model.entities;
 
 import model.buildings.BusStop;
 import model.map.Intersection;
-import test.Skeleton;
 
 public class Bus extends Vehicle {
     /**
@@ -95,8 +94,6 @@ public class Bus extends Vehicle {
      */
     @Override
     public void move(int n) {
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this, "move", String.valueOf(n));
         for (int i=0; i<n; i++) {
             if (!canMove) break;
 
@@ -112,7 +109,6 @@ public class Bus extends Vehicle {
                 else inter.acceptVehicle(this);
             }
         }
-        skeleton.returnMethod();
     }
 
     /**

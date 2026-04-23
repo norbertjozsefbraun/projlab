@@ -1,6 +1,5 @@
 package model.items;
 import model.map.Field;
-import test.Skeleton;
 
 public class Salter extends ResourceConsumingHead {
     private Salt salt = new Salt();
@@ -18,21 +17,16 @@ public class Salter extends ResourceConsumingHead {
      */
     @Override
     public void clean(Field f) {
-        Skeleton sk = Skeleton.getInstance();
-        sk.call(this, "clean", sk.getObjectName(f));
         if (this.hasResource()) {
             salt.consume(5);
 
-            Skeleton.getInstance().call(f.getSurface(), "applySalt");
             f.getSurface().applySalt();
-            Skeleton.getInstance().returnMethod();
             
             System.out.println("\t[Note: A mező mostantól sózott.]");
         } else {
             System.out.println("\t[Note: Nincs elég só, a sózás elmarad.]");
         }
 
-        sk.returnMethod();
     }
 
     /** Refills the Salter head with the specified resource.
@@ -40,24 +34,18 @@ public class Salter extends ResourceConsumingHead {
      */
     @Override
     public void refill(Resource r) {
-        Skeleton sk = Skeleton.getInstance();
-        sk.call(this, "refill", sk.getObjectName(r));
         
         this.addAmount(14);
         
-        sk.returnMethod();
     }
 
     /** Adds the specified amount of salt to the Salter head.
      * @param amount the amount of salt to add
      */
     public void addAmount(int amount) {
-        Skeleton sk = Skeleton.getInstance();
-        sk.call(this, "addAmount", String.valueOf(amount));
 
         this.salt.add(amount);
         
-        sk.returnMethod();
     }
 
 

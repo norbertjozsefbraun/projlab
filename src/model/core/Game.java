@@ -2,15 +2,15 @@ package model.core;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import model.entities.SnowPlow;
 import model.entities.Vehicle;
 import model.map.Field;
 import model.map.World;
-import test.Skeleton;
-
 
 public class Game {
     /// Fields:
+
+    //List of players
+    private List<Player> players;
 
     //List of vehicles, that are on the map
     private List<Vehicle> vehicles;
@@ -34,21 +34,19 @@ public class Game {
 
     /// Constructor:
     public Game(List<Vehicle> vehcs, World world){
-        Skeleton skeleton = Skeleton.getInstance();
-
         vehicles = vehcs;
         ticker = new Ticker();
         this.world = world;
         shop = new Shop();
         rounds = 0;
         dice = new Random();
-
-        skeleton.ctor(vehicles , "vehicles");
-        skeleton.ctor(this.world , "world");
-
     }
 
     /// Getters:
+    public List<Player> getPlayers() {
+        return players;
+    }
+
     public List<Vehicle> getVehicles(){
         return vehicles;
     }
@@ -91,6 +89,10 @@ public class Game {
         Game.ticker = ticker;
     }
 
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
     public void setVehicles(List<Vehicle> vehicles) {
         this.vehicles = vehicles;
     }
@@ -121,14 +123,8 @@ public class Game {
      @return - void
      */
     public void makeTurn(){
-
-        //Getting the skeleton instance
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this , "makeTurn");
         //Falling snow
         this.world.snowfall();
-
-
 
         //Iterating through the vehicles
         for(var currVehicle : vehicles){
@@ -136,70 +132,22 @@ public class Game {
             //Rolling the dice
             Integer rolled = rollDice();
 
-            //If SnowPlow, we need special treatment.
-            if(currVehicle.getClass().getSimpleName().equals("SnowPlow")){
-
-                //Getting the available heads
-                List<String> availableHeads = new ArrayList<>();
-                for(var currHead : ((SnowPlow) currVehicle).getHeads()){
-                    availableHeads.add(currHead.getClass().getSimpleName());
-                }
-
-                //Converting it to String[]
-                String[] strArray = new String[availableHeads.size()];
-                for(int i = 0; i < availableHeads.size() ; i++){
-                    strArray[i] = availableHeads.get(i);
-                }
-
-                //Handling user input
-                int choice = -1;
-
-                if(!availableHeads.isEmpty()){
-                    choice = skeleton.getChoice("Do you want to change heads? (Please enter a single integer that's the beginning of an option)\n", strArray);
-                }
-
-                //If changed we change it to necessary head
-                if(choice != -1 && (availableHeads.get(choice) != ((SnowPlow) currVehicle).getActiveHead().getClass().getSimpleName())){
-                    ((SnowPlow) currVehicle).changeHead(((SnowPlow) currVehicle).getHeads().get(choice));
-                }
-            }
-
             currVehicle.move(rolled);
         }
-        skeleton.returnMethod();
     }
 
     public static void gameOver(){
-
-
-        Skeleton skeleton = Skeleton.getInstance();
-        Game tempG = new Game(new ArrayList<>() , new World());
-        skeleton.ctor(tempG , "game");
-        skeleton.call( tempG, "gameOver");
-
         //adding the result to session's results list
         Session.addResult(rounds);
-        skeleton.returnMethod();
     }
     public void increaseRounds(){
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this , "increaseRounds");
-        //increase the rounds
         this.rounds++;
-        skeleton.returnMethod();
     }
     public List<Field> getPos(){
-
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.call(this , "getPos");
-        //Initializing the return list of fields that have the vehicles' positions
         List<Field> returnList = new ArrayList<>();
         for(var currVehicle : vehicles){
-            //Getting the positions
             returnList.add(currVehicle.getCurrentField());
         }
-
-        skeleton.returnMethod("List<Field>" , "returnList");
         return returnList;
     }
 }

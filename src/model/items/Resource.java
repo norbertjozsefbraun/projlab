@@ -1,7 +1,6 @@
 package model.items;
 
 import model.core.Shop;
-import test.Skeleton;
 
 public abstract class Resource implements Purchasable {
     protected int amount = 0;
@@ -54,12 +53,9 @@ public abstract class Resource implements Purchasable {
     @Override
     public void pay(Shop shop) {
 
-        Skeleton sk = Skeleton.getInstance();
-        sk.call(this, "pay", sk.getObjectName(shop));
         
         shop.deduct(this.unitPrice);
         
-        sk.returnMethod();
     }
 
     /**
@@ -67,14 +63,11 @@ public abstract class Resource implements Purchasable {
      * @param quantity the quantity to consume
      */
     public void consume(int quantity) {
-        Skeleton sk = Skeleton.getInstance();
-        sk.call(this, "consume", String.valueOf(quantity));
         
         this.amount -= quantity;
         if (this.amount < 0) {
             this.amount = 0;
         }
-        sk.returnMethod();
     }
 
     /**
@@ -82,11 +75,8 @@ public abstract class Resource implements Purchasable {
      * @param quantity the quantity to add
      */
     public void add(int quantity) {
-        Skeleton sk = Skeleton.getInstance();
-        sk.call(this, "add", String.valueOf(quantity));
         
         this.amount += quantity;
         
-        sk.returnMethod();
     }
 }

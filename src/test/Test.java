@@ -9,25 +9,21 @@ import model.core.*;
 import model.entities.*;
 import model.items.*;
 import model.map.*;
+import model.map.RoadType;
+
 
 public class Test {
 
     public static void testIceGetsOnField() {
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.reset();
 
         Car car1 = new Car();
-        skeleton.ctor(car1, "c");
         car1.setCanMove(true);
 
         Field prev = new Field();
-        skeleton.ctor(prev, "prev");
 
         Field f =  new Field();
-        skeleton.ctor(f, "f");
 
         Surface s = new Surface();
-        skeleton.ctor(s, "s");
         f.setSurface(s);
 
         prev.setVehicles(new ArrayList<>(List.of(car1)));
@@ -36,29 +32,18 @@ public class Test {
 
         car1.move(1);
 
-        skeleton.reset();
     }
 
     public static void testCarSlipsOnIce() {
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.reset();
 
         Car c = new Car();
-        skeleton.ctor(c, "c");
         Field prev = new Field();
-        skeleton.ctor(prev, "prev");
         Field f1 = new Field();
-        skeleton.ctor(f1, "f1");
         Surface s1 = new Surface();
-        skeleton.ctor(s1, "s1");
         Field f2 = new Field();
-        skeleton.ctor(f2, "f2");
         Surface s2 = new Surface();
-        skeleton.ctor(s2, "s2");
         Field f3 = new Field();
-        skeleton.ctor(f3, "f3");
         Surface s3 = new Surface();
-        skeleton.ctor(s3, "s3");
 
         s1.setIsIce(true);
         f1.setSurface(s1);
@@ -76,20 +61,13 @@ public class Test {
     }
 
     public static void testCarIsBlocked() {
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.reset();
 
         Car c = new Car();
-        skeleton.ctor(c, "v");
 
         Field current = new Field();
-        skeleton.ctor(current, "current");
         Field next =  new Field();
-        skeleton.ctor(next, "next");
         Field left =  new Field();
-        skeleton.ctor(left, "left");
         Field right =  new Field();
-        skeleton.ctor(right, "right");
 
         next.setAccidentTimer(1);
         left.setAccidentTimer(2);
@@ -105,27 +83,19 @@ public class Test {
 
         c.move(1);
 
-        skeleton.reset();
     }
 
     public static void testSnowfallInGame() {
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.reset();
 
         World world = new World();
-        skeleton.ctor(world, "w");
 
         Road road = new Road();
-        skeleton.ctor(road, "r");
 
         Lane lane = new Lane();
-        skeleton.ctor(lane, "l");
 
         Field field = new Field();
-        skeleton.ctor(field, "f");
 
         Surface surface = new Surface();
-        skeleton.ctor(surface, "s");
 
         field.setSurface(surface);
         lane.setRoad(road);
@@ -137,14 +107,11 @@ public class Test {
         world.snowfall();
 
 
-        skeleton.reset();
     }
 
     //IceCracker Working use-case test
     /** It tests the functionality of the IceCracker head when attached to a SnowPlow and moving. */
     public static void testIceCracker(){
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.reset();
 
         SnowPlow sp = new SnowPlow();
         IceCracker icecracker = new IceCracker();
@@ -152,11 +119,6 @@ public class Test {
         Field nf = new Field();
         Surface s = new Surface();
 
-        skeleton.ctor(sp, "sp");
-        skeleton.ctor(icecracker, "icecracker");
-        skeleton.ctor(cf, "cf");
-        skeleton.ctor(nf, "nf");
-        skeleton.ctor(s, "surface");
 
         Garage g = new Garage();
         g.setDestroyedNum(0);
@@ -168,15 +130,12 @@ public class Test {
 
         sp.move(1);
 
-        skeleton.reset();
 
     }
 
     //SweeperHeadWorking use-case test
     /** It tests the functionality of the Sweeper head when attached to a SnowPlow and moving. */
     // public static void testSweeper() {
-    //     Skeleton skeleton = Skeleton.getInstance();
-    //     skeleton.reset();
         
     //     SnowPlow sp = new SnowPlow();
     //     Sweeper sweeper = new Sweeper();
@@ -189,12 +148,9 @@ public class Test {
     //     sp.move(1);
 
 
-    //     skeleton.reset();
     // }
 
     public static void testSweeper() {
-    Skeleton skeleton = Skeleton.getInstance();
-    skeleton.reset();
     
     // 1. Objektumok létrehozása
     SnowPlow sp = new SnowPlow();
@@ -205,12 +161,6 @@ public class Test {
     Surface s1 = new Surface(); // A célmező felülete
 
     // 2. Regisztráció (Hogy szép legyen a log)
-    skeleton.ctor(sp, "sp");
-    skeleton.ctor(sweeper, "sweeper");
-    skeleton.ctor(c1, "cf");
-    skeleton.ctor(field, "field");
-    skeleton.ctor(neighbor, "neighbor");
-    skeleton.ctor(s1, "surface");
 
     // 3. ÖSSZEKÖTÉS (A seprőnek kell a szomszéd!)
     Garage g = new Garage();
@@ -230,14 +180,11 @@ public class Test {
     // A move(1) hatására: c1 -> field -> sweeper:clean(field) -> neighbor:addSnow(10)
     sp.move(1);
 
-    skeleton.reset();
 }
 
     //Salter refill use-case test
     /** It tests the Salter's ability to refill its salt supply. */
     public static void testSalterRefill() {
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.reset();
 
         Shop shop = new Shop();
         shop.setBalance(10);
@@ -245,21 +192,15 @@ public class Test {
         Salt saltResource = new Salt(10, 5);
         salter.setSalt(saltResource);
 
-        skeleton.ctor(shop, "shop");
-        skeleton.ctor(salter, "salter");
-        skeleton.ctor(saltResource, "salt");
 
         saltResource.pay(shop); 
         salter.refill(saltResource);
 
-        skeleton.reset();
     }
 
     //DragonHeadWorking use-case test
     /** It tests the functionality of the Dragon head when attached to a SnowPlow and moving. */
     public static void testDragon() {
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.reset();
 
         SnowPlow sp = new SnowPlow();
         Dragon dragon = new Dragon();
@@ -268,12 +209,6 @@ public class Test {
         Surface s = new Surface();
         Biokerosene biokerosene = new Biokerosene();
 
-        skeleton.ctor(sp, "sp");
-        skeleton.ctor(dragon, "dragon");
-        skeleton.ctor(cf, "cf");
-        skeleton.ctor(nf, "nf");
-        skeleton.ctor(s, "surface");
-        skeleton.ctor(biokerosene, "biokerosene");
 
         Garage g = new Garage();
         g.setDestroyedNum(0);
@@ -286,22 +221,16 @@ public class Test {
 
         sp.move(1);
 
-        skeleton.reset();
     }
 
     public static void testSwappingHeads() {
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.reset();
 
         //init
         List<Head> heads = new ArrayList<>();
         Sweeper sweeper = new Sweeper();
-        skeleton.ctor(sweeper, "sweeper");
         Salter salter = new Salter();
-        skeleton.ctor(salter, "salter");
         
         SnowPlow snowplow = new SnowPlow();
-        skeleton.ctor(snowplow, "snowplow");
         snowplow.setActiveHead(sweeper);
         snowplow.setHeads(heads);
         snowplow.addHead(sweeper);
@@ -310,41 +239,30 @@ public class Test {
         //func call
         snowplow.changeHead(salter);
 
-        skeleton.reset();
     }
 
     public static void testCarMoves() {
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.reset();
 
         //init
         Surface surface = new Surface();
-        skeleton.ctor(surface, "surface");
         Field currentField = new Field();
-        skeleton.ctor(currentField, "currentField");
         Field nextField = new Field();
-        skeleton.ctor(nextField, "nextField");
         nextField.setSurface(surface);
         currentField.setNextField(nextField);
         
         List<Vehicle> vehicles = new ArrayList<>();
         Car car = new Car();
-        skeleton.ctor(car, "car");
         vehicles.add(car);
         car.setCanMove(true);
         car.setCurrentField(currentField);
         
         World world = new World();
-        skeleton.ctor(world, "w");
 
         Road road = new Road();
-        skeleton.ctor(road, "r");
 
         Lane lane = new Lane();
-        skeleton.ctor(lane, "l");
 
         Field field = new Field();
-        skeleton.ctor(field, "f");
 
         lane.setRoad(road);
         lane.setFields(new ArrayList<>(List.of(field)));
@@ -356,34 +274,24 @@ public class Test {
         //func call
         game.makeTurn();
 
-        skeleton.reset();
     }
 
     public static void testSnowPlowAndCarCollision() {
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.reset();
 
         //init
         Surface s = new Surface();
-        skeleton.ctor(s, "surface");
         Field cf = new Field();
-        skeleton.ctor(cf, "currentField");
         Field nf = new Field();
-        skeleton.ctor(nf, "nextField");
         nf.setSurface(s);
         cf.setNextField(nf);
 
         Garage g = new Garage();
-        skeleton.ctor(g, "garage");
         Home h = new Home();
-        skeleton.ctor(h, "home");
         g.setDestroyedNum(0);
 
         IceCracker iceCracker = new IceCracker();
-        skeleton.ctor(iceCracker, "iceCracker");
 
         SnowPlow snowplow = new SnowPlow();
-        skeleton.ctor(snowplow, "snowplow");
         snowplow.setCurrentField(cf);
         snowplow.setGarage(g);
         snowplow.setActiveHead(iceCracker);
@@ -399,12 +307,9 @@ public class Test {
         //func call
         snowplow.move(1);
 
-        skeleton.reset();
     }
 
     public static void testBusCompletingRound() {
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.reset();
 
         //init
         List<Building> buildings = new ArrayList<>();
@@ -427,43 +332,33 @@ public class Test {
         game.setShop(shop);
 
         Surface sA = new Surface();
-        skeleton.ctor(sA, "surfaceA");
         Surface sB = new Surface();
-        skeleton.ctor(sB, "surfaceB");
         Field cf = new Field();
-        skeleton.ctor(cf, "currentField");
         fieldsBA.add(cf);
         Field nfA = new Field();
-        skeleton.ctor(nfA, "nextFieldA");
         nfA.setSurface(sA);
         fieldsAB.add(nfA);
         Field nfB = new Field();
-        skeleton.ctor(nfB, "nextFieldB");
         nfB.setSurface(sB);
         fieldsAC.add(nfB);
         Field bB = new Field();
         fieldsCA.add(bB);
 
         Intersection destA = new Intersection();
-        skeleton.ctor(destA, "intersection");
         Intersection destB = new Intersection();
         Intersection destC = new Intersection();
 
         BusStop stopA = new BusStop();
-        skeleton.ctor(stopA, "stopA");
         stopA.setLocation(destA);
         stopA.setGame(game);
         stopA.setBuses(buses);
         buildings.add(stopA);
         BusStop stopB = new BusStop();
-        skeleton.ctor(stopB, "stopB");
         buildings.add(stopB);
 
         Road roadA = new Road("roadA", RoadType.STANDARD, 1, 1);
-        skeleton.ctor(roadA, "roadA");
         roads.add(roadA);
         Road roadB = new Road("roadB", RoadType.STANDARD, 1, 1);
-        skeleton.ctor(roadB, "roadB");
         roads.add(roadB);
 
         destA.setBuilding(stopA);
@@ -490,7 +385,6 @@ public class Test {
         roadB.setLanesToB(lanesBC);
 
         Bus b = new Bus();
-        skeleton.ctor(b, "bus");
         b.setCanMove(true);
         b.setCurrentRoad(roadA);
         b.setCurrentField(cf);
@@ -503,15 +397,11 @@ public class Test {
         //func call
         b.move(1);
 
-        skeleton.reset();
     }
 
     public static void testGameOver(){
-        Skeleton skeleton = Skeleton.getInstance();
         SnowPlow snowPlow = new SnowPlow();
-        skeleton.ctor(snowPlow , "snowPlow");
         Car car = new Car();
-        skeleton.ctor(car, "car");
         List<Vehicle> vehcs = new ArrayList<>();
         vehcs.add(snowPlow);
         vehcs.add(car);
@@ -520,21 +410,15 @@ public class Test {
 
 
         Surface s = new Surface();
-        skeleton.ctor(s, "surface");
         Field nextField = new Field();
-        skeleton.ctor(nextField , "nextField");
         nextField.setVehicles(justCar);
         nextField.setSurface(s);
         Garage garage = new Garage();
-        skeleton.ctor(garage , "garage");
         garage.setDestroyedNum(3);
         Home home = new Home();
-        skeleton.ctor(home, "home");
         World world = new World();
         Game game = new Game(vehcs , world);
-        skeleton.ctor(game , "game");
         Field currentField = new Field();
-        skeleton.ctor(currentField, "currentField");
         snowPlow.setCurrentField(currentField);
         currentField.setNextField(nextField);
         Sweeper tempSw = new Sweeper();
@@ -544,46 +428,33 @@ public class Test {
         snowPlow.move(1);
 
 
-        skeleton.reset();
     }
 
     public static void testCarsCollide(){
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.reset();
 
         World world = new World();
-        skeleton.ctor(world,"world");
 
         List<Vehicle> vehicles = new ArrayList<Vehicle>();
         //First car init
         Car car1 = new Car();
-        skeleton.ctor(car1,"car1");
         ///vehicles.add(car1); lets say it already moved
 
         //Second car init
         Car car2 = new Car();
-        skeleton.ctor(car2,"car2");
         vehicles.add(car2);
 
         //Game init
         Game game = new Game(vehicles, world);
-        skeleton.ctor(game,"game");
 
         //Fields init
         Field car2CurrentField = new Field();
-        skeleton.ctor(car2CurrentField,"car2CurrentField");
         Field targetField = new Field();
-        skeleton.ctor(targetField,"targetField");
         Field car2NextField = new Field();
-        skeleton.ctor(car2NextField,"car2NextField");
 
         //Surface init
         Surface car2CurrentFieldSurface = new Surface();
-        skeleton.ctor(car2CurrentFieldSurface,"car2CurrentFieldSurface");
         Surface car2NextFieldSurface = new Surface();
-        skeleton.ctor(car2NextFieldSurface,"car2NextFieldSurface");
         Surface targetS = new Surface();
-        skeleton.ctor(targetS, "targetS");
 
         //Intersection init
         Intersection i1 = new Intersection();
@@ -613,11 +484,9 @@ public class Test {
 
         //Snowfall initialization
         Road road = new Road();
-        skeleton.ctor(road, "r");
         car2.setCurrentRoad(road);
 
         Lane lane = new Lane();
-        skeleton.ctor(lane, "l");
 
         road.setDestinationA(i1);
         road.setDestinationB(i2);
@@ -629,48 +498,35 @@ public class Test {
         //Begin
         game.makeTurn();
 
-        skeleton.reset();
 
     }
     
     public static void testCarEntersWorkplace(){
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.reset();
 
         //Initialization
         World world = new World();
-        skeleton.ctor(world,"world");
 
         Car car = new Car();
-        skeleton.ctor(car,"car");
         List<Vehicle> vehicles = new ArrayList<>();
         vehicles.add(car);
 
         Field cField = new Field();
-        skeleton.ctor(cField, "carField");
 
         Game game = new Game(vehicles, world);
-        skeleton.ctor(game,"game");
 
         Intersection intersection = new Intersection();
-        skeleton.ctor(intersection,"intersection");
 
         Intersection prevInter = new Intersection();
 
         WorkPlace workPlace = new WorkPlace();
-        skeleton.ctor(workPlace,"workPlace");
         
         Road road = new Road();
-        skeleton.ctor(road, "r");
 
         Lane lane = new Lane();
-        skeleton.ctor(lane, "l");
 
         Field field = new Field();
-        skeleton.ctor(field, "f");
 
         Surface surface = new Surface();
-        skeleton.ctor(surface, "s");
         
         //Snowfall init
         field.setSurface(surface);
@@ -705,48 +561,35 @@ public class Test {
 
         game.makeTurn();
 
-        skeleton.reset();
         
     }
     
     public static void testCarArrivesHome(){
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.reset();
 
         //Initialization
         World world = new World();
-        skeleton.ctor(world,"world");
 
         Car car = new Car();
-        skeleton.ctor(car,"car");
         List<Vehicle> vehicles = new ArrayList<Vehicle>();
         vehicles.add(car);
 
         Field cField = new Field();
-        skeleton.ctor(cField, "carField");
 
         Game game = new Game(vehicles, world);
-        skeleton.ctor(game,"game");
 
         Intersection intersection = new Intersection();
-        skeleton.ctor(intersection,"intersection");
 
         Intersection prevInter = new Intersection();
 
         Home home = new Home();
-        skeleton.ctor(home,"home");
         
         Road road = new Road();
-        skeleton.ctor(road, "r");
 
         Lane lane = new Lane();
-        skeleton.ctor(lane, "l");
 
         Field field = new Field();
-        skeleton.ctor(field, "f");
 
         Surface surface = new Surface();
-        skeleton.ctor(surface, "s");
         
         //Snowfall init
         field.setSurface(surface);
@@ -779,47 +622,34 @@ public class Test {
 
         game.makeTurn();
 
-        skeleton.reset();
     }
 
     public static void testCarLeavesHome(){
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.reset();
 
         //Initialization
         World world = new World();
-        skeleton.ctor(world,"world");
 
         Car car = new Car();
-        skeleton.ctor(car,"car");
         List<Vehicle> vehicles = new ArrayList<Vehicle>();
         vehicles.add(car);
 
         Field cField = new Field();
-        skeleton.ctor(cField, "carField");
 
         Game game = new Game(vehicles, world);
-        skeleton.ctor(game,"game");
 
         Intersection intersection = new Intersection();
-        skeleton.ctor(intersection,"intersection");
 
         Intersection prevInter = new Intersection();
 
         Home home = new Home();
-        skeleton.ctor(home,"home");
         
         Road road = new Road();
-        skeleton.ctor(road, "r");
 
         Lane lane = new Lane();
-        skeleton.ctor(lane, "l");
 
         Field field = new Field();
-        skeleton.ctor(field, "f");
 
         Surface surface = new Surface();
-        skeleton.ctor(surface, "s");
         
         //Snowfall init
         field.setSurface(surface);
@@ -858,47 +688,34 @@ public class Test {
 
         game.makeTurn();
 
-        skeleton.reset();
     }
     
     public static void testCarWaitsAtWorkplaceAndLeaves(){
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.reset();
 
         //Initialization
         World world = new World();
-        skeleton.ctor(world,"world");
 
         Car car = new Car();
-        skeleton.ctor(car,"car");
         List<Vehicle> vehicles = new ArrayList<>();
         vehicles.add(car);
 
         Field cField = new Field();
-        skeleton.ctor(cField, "carField");
 
         Game game = new Game(vehicles, world);
-        skeleton.ctor(game,"game");
 
         Intersection intersection = new Intersection();
-        skeleton.ctor(intersection,"intersection");
 
         Intersection prevInter = new Intersection();
 
         WorkPlace workPlace = new WorkPlace();
-        skeleton.ctor(workPlace,"workPlace");
         
         Road road = new Road();
-        skeleton.ctor(road, "r");
 
         Lane lane = new Lane();
-        skeleton.ctor(lane, "l");
 
         Field field = new Field();
-        skeleton.ctor(field, "f");
 
         Surface surface = new Surface();
-        skeleton.ctor(surface, "s");
         
         //Snowfall init
         field.setSurface(surface);
@@ -941,46 +758,33 @@ public class Test {
         }
         
 
-        skeleton.reset();
     }
     
     public static void testCarCrashesIntoBus(){
-        Skeleton skeleton = Skeleton.getInstance();
-        skeleton.reset();
 
         World world = new World();
-        skeleton.ctor(world,"world");
 
         List<Vehicle> vehicles = new ArrayList<Vehicle>();
         //Bus init
         Bus bus = new Bus();
-        skeleton.ctor(bus,"bus");
         //vehicles.add(bus);
 
         //Car init
         Car car = new Car();
-        skeleton.ctor(car,"car");
         vehicles.add(car);
 
         //Game init
         Game game = new Game(vehicles, world);
-        skeleton.ctor(game,"game");
 
         //Fields init
         Field busStartingField = new Field();
-        skeleton.ctor(busStartingField,"busStartingField");
         Field targetField = new Field();
-        skeleton.ctor(targetField,"targetField");
         Field carStartingField = new Field();
-        skeleton.ctor(carStartingField,"carStartingField");
 
         //Surface init
         Surface targetSurface = new Surface();
-        skeleton.ctor(targetSurface,"targetSurface");
         Surface busStartingFieldSurface = new Surface();
-        skeleton.ctor(busStartingFieldSurface,"busStartingFieldSurface");
         Surface carStaringFieldSurface = new Surface();
-        skeleton.ctor(carStaringFieldSurface, "carStaringFieldSurface");
 
         //Intersection init
         Intersection i1 = new Intersection();
@@ -1017,12 +821,10 @@ public class Test {
 
         //Snowfall initialization
         Road road = new Road();
-        skeleton.ctor(road, "r");
         car.setCurrentRoad(road);
         bus.setCurrentRoad(road);
 
         Lane lane = new Lane();
-        skeleton.ctor(lane, "l");
 
         road.setDestinationA(i1);
         road.setDestinationB(i2);
@@ -1035,6 +837,5 @@ public class Test {
         bus.move(1);
         game.makeTurn();
 
-        skeleton.reset();
     }
 }

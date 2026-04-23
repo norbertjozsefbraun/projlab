@@ -2,7 +2,6 @@ package model.map;
 
 import model.buildings.Building;
 import model.entities.Vehicle;
-import test.Skeleton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +10,6 @@ public class Intersection extends Node {
     /// Fields:
     private List<Road> connectedRoads;
     private Building building;
-    private Skeleton skeleton = Skeleton.getInstance();
 
     /// Constructors:
     public Intersection() {
@@ -44,16 +42,10 @@ public class Intersection extends Node {
      */
     @Override
     public void acceptVehicle(Vehicle v){
-        skeleton.call(this, "acceptVehicle", skeleton.getObjectName(v));
 
        if(connectedRoads.isEmpty()) return;
 
-       String[] options = connectedRoads.stream()
-                .map(Road::getName)
-                .toArray(String[]::new);
-       int option = skeleton.getChoice("Which road to go to?", options);
-
-       Road targetRoad = connectedRoads.get(option-1);
+       Road targetRoad = connectedRoads.get(0);
        Intersection destination = targetRoad.getDestinationA();
        if(this.equals(destination)) {
            destination =  targetRoad.getDestinationB();
@@ -71,7 +63,6 @@ public class Intersection extends Node {
            }
        }
 
-       skeleton.returnMethod();
 
     }
 
@@ -80,12 +71,10 @@ public class Intersection extends Node {
      * @param v
      */
     public void goToBuilding(Vehicle v){
-        skeleton.call(this, "goToBuilding", skeleton.getObjectName(v));
         if(building == null) return;
 
         building.enterVehicle(v);
 
-        skeleton.returnMethod();
     }
 
 }
