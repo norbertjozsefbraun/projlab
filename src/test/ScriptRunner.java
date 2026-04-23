@@ -1,0 +1,80 @@
+package test;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.StringTokenizer;
+
+/**
+ * Reads a test script from a file and executes each line as a command.
+ * Each line in the file corresponds to one of the supported game commands.
+ */
+public class ScriptRunner {
+
+    /**
+     * Reads the file at the given path line by line and dispatches each line
+     * to the appropriate command handler.
+     *
+     * @param path the path to the script file
+     */
+    public void runFromFile(String path) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                line = line.strip();
+                if (line.isEmpty()) continue;
+                StringTokenizer st = new StringTokenizer(line);
+                switch (st.nextToken().toLowerCase()) {
+                    case "randomize"   -> randomize();
+                    case "derandomize" -> derandomize();
+                    case "start"       -> start(st);
+                    case "lsh"         -> lsh();
+                    case "ch"          -> ch(st);
+                    case "roll"        -> roll();
+                    case "move"        -> move(st);
+                    case "save"        -> save(st);
+                    case "ls"          -> ls();
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Failed to read script: " + e.getMessage());
+        }
+    }
+
+    private void randomize() {
+        // TODO: implement randomize command
+    }
+
+    private void derandomize() {
+        // TODO: implement derandomize command
+    }
+
+    private void start(StringTokenizer st) {
+        // TODO: implement start command
+    }
+
+    private void lsh() {
+        // TODO: implement lsh command
+    }
+
+    private void ch(StringTokenizer st) {
+        // TODO: implement ch command
+    }
+
+    private void roll() {
+        // TODO: implement roll command
+    }
+
+    private void move(StringTokenizer st) {
+        // TODO: implement move command
+    }
+
+    private void save(StringTokenizer st) {
+        // TODO: implement save command
+    }
+
+    private void ls() {
+        // TODO: implement ls command
+    }
+
+}
