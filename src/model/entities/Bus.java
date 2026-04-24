@@ -1,13 +1,15 @@
 package model.entities;
 
 import model.buildings.BusStop;
+import model.core.Player;
 import model.map.Intersection;
+import test.Prototype;
 
 public class Bus extends Vehicle {
     /**
      * The unique identifier of the player that drives the bus.
      */
-    private int playerId;
+    private Player player;
 
     /**
      * The starting busstop, one round is (stopA - stopB- stopA).
@@ -86,6 +88,13 @@ public class Bus extends Vehicle {
      */
     public void setPreviousStop(BusStop prev) {
         previousStop = prev;
+    }
+
+    @Override
+    public void setCurrentField(Field f) {
+        Prototype proto = Prototype.getInstance();
+        proto.changed(player.getName() + this.getVehicleId(), "currentField", currentField.getId(), f.getId());
+        super.setCurrentField(f);
     }
 
     /**

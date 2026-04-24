@@ -5,6 +5,7 @@ import model.buildings.Building;
 import model.map.Field;
 import model.map.Intersection;
 import model.map.Road;
+import test.Prototype;
 
 public abstract class Vehicle {
     /**
