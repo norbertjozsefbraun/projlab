@@ -6,13 +6,14 @@ import model.core.Shop;
 import model.items.Head;
 import model.items.Purchasable;
 import model.map.Intersection;
+import model.core.Player;
 
 public class SnowPlow extends Vehicle implements Purchasable {
 
     /**
-     * The unique identifier of the player that drives the snowplow.
+     * The player that drives the snowplow.
      */
-    private int playerId;
+    private Player player;
     
     /**
      * The garage where the snowplow belongs.
@@ -35,11 +36,11 @@ public class SnowPlow extends Vehicle implements Purchasable {
     private int price;
 
     /**
-     * Returns the unique identifier of the player.
-     * @return the playerid
+     * Returns the player.
+     * @return the player
      */
-    public int getPlayerId() {
-        return playerId;
+    public Player getPlayer() {
+        return player;
     }
 
     /**
@@ -76,11 +77,11 @@ public class SnowPlow extends Vehicle implements Purchasable {
     }
     
     /**
-     * Set the playerid to the given value.
-     * @param id the given id
+     * Set the player to the given object.
+     * @param p the given player
      */
-    public void setPlayerId(int id) {
-        playerId = id;
+    public void setPlayer(Player p) {
+        player = p;
     } 
 
     /**
@@ -109,7 +110,7 @@ public class SnowPlow extends Vehicle implements Purchasable {
 
     /**
      * Sets the price to the given value
-     * @param p teh given price
+     * @param p the given price
      */
     public void setPrice(int p) {
         price = p;
@@ -173,8 +174,27 @@ public class SnowPlow extends Vehicle implements Purchasable {
      * @param s the shop
      */
     @Override
-    public void pay(Shop s) {
+    public boolean pay(Shop s) {
         if (s.deduct(price)) {
+            return true;
         }
+        return false;
+    }
+
+    /**
+     * Tells if the vehicle can resolve the emergency crash.
+     * @return true or false (always false except snowplow, then true)
+     */
+    @Override
+    public boolean causesEmergencyClearance() {
+        return true;
+    }
+
+    /**
+     * Retruns the snowplow to the garage.
+     */
+    @Override
+    public void returnToStart() {
+        garage.enterVehicle(this);
     }
 }

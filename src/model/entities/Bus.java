@@ -4,10 +4,11 @@ import model.buildings.BusStop;
 import model.core.Player;
 import model.map.Intersection;
 import test.Prototype;
+import model.map.Field;
 
 public class Bus extends Vehicle {
     /**
-     * The unique identifier of the player that drives the bus.
+     * The player that drives the bus.
      */
     private Player player;
 
@@ -27,11 +28,11 @@ public class Bus extends Vehicle {
     private BusStop previousStop;
 
     /**
-     * Returns the unique identifier of the player.
-     * @return the playerid
+     * Returns the player object.
+     * @return the player
      */
-    public int getPlayerId() {
-        return playerId;
+    public Player getPlayerId() {
+        return player;
     }
 
     /**
@@ -59,11 +60,11 @@ public class Bus extends Vehicle {
     }
 
     /**
-     * Set the playerid to the given value.
-     * @param id teh given id
+     * Set the player to the given value.
+     * @param p the given player referrence
      */
-    public void setPlayerId(int id) {
-        playerId = id;
+    public void setPlayerId(Player p) {
+        player = p;
     }
 
     /**
@@ -90,6 +91,10 @@ public class Bus extends Vehicle {
         previousStop = prev;
     }
 
+    /**
+     * Sets the field to the given Field and tells what changed.
+     * @param prev the given field
+     */
     @Override
     public void setCurrentField(Field f) {
         Prototype proto = Prototype.getInstance();
@@ -125,5 +130,13 @@ public class Bus extends Vehicle {
      */
     @Override
     public void slip(int n) {
+    }
+
+    /**
+     * Retruns the bus to the prevoius stop.
+     */
+    @Override
+    public void returnToStart() {
+        previousStop.enterVehicle(this);
     }
 }

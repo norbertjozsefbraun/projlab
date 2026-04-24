@@ -5,7 +5,6 @@ import model.buildings.Building;
 import model.map.Field;
 import model.map.Intersection;
 import model.map.Road;
-import test.Prototype;
 
 public abstract class Vehicle {
     /**
@@ -37,6 +36,11 @@ public abstract class Vehicle {
      * The previous intersection from where the vehicle is coming.
      */
     protected Intersection previousIntersection;
+
+    /**
+     * The intersection the vehicle is heading.
+     */
+    protected Intersection destinationIntersection;
 
     /**
      * The list of buildings the vehicle can enter.
@@ -88,7 +92,15 @@ public abstract class Vehicle {
      * @return the previous intersection
      */
     public Intersection getPreviousIntersection() {
-        return  previousIntersection;
+        return previousIntersection;
+    }
+
+    /**
+     * Returns the destion intersection
+     * @return the destinstion intersection
+     */
+    public Intersection getDestinationIntersection() {
+        return destinationIntersection;
     }
 
     /**
@@ -148,7 +160,15 @@ public abstract class Vehicle {
     }
 
     /**
-     * Sets the given list of buildings to the vehicle
+     * Sets the destination intersection to the given intersection
+     * @param r the given intersection
+     */
+    public void setDestinationIntersection(Intersection i) {
+        destinationIntersection = i;
+    }
+
+    /**
+     * Sets the given list of buildings to the vehicle.
      * @param b the given list of buildings
      */
     public void setBuildings(List<Building> b) {
@@ -159,27 +179,24 @@ public abstract class Vehicle {
      * Moves the vehicle the given number of fields.
      * @param n The number of fileds the vehicle has to move
      */
-    public void move(int n) {
-        for (int i=0; i<n; i++) {
-            if(!canMove) break;
-
-            if (currentField.getNextField() != null) {
-                currentField.moveToNextField(this);
-            }
-            else if(currentField.getNextField() == null){
-                Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB() : currentRoad.getDestinationA();
-                if (buildings.contains(inter.getBuilding())) {
-                    inter.goToBuilding(this);
-                }
-            inter.acceptVehicle(this);
-            }
-
-        }
-    }
+    public abstract void move(int n);
 
     /**
      * Slips the vehicle the given number of fileds.
      * @param n
      */
     public abstract void slip(int n);
+
+    /**
+     * Tells if the vehicle can resolve the emergency crash.
+     * @return true or false (always false except snowplow, then true)
+     */
+    public boolean causesEmergencyClearance() {
+        return false;
+    }
+
+    /**
+     * Returns the vehicle to its starting position.
+     */
+    public abstract void returnToStart();
 }

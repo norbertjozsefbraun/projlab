@@ -1,5 +1,10 @@
 package model.core;
 
+import model.entities.SnowPlow;
+import model.entities.Vehicle;
+import model.items.Purchasable;
+import model.items.Head;
+
 public class Shop {
 
     /**
@@ -41,5 +46,22 @@ public class Shop {
         if (amount <= 0 || amount > balance) return false;
         balance -= amount;
         return true;
+    }
+
+    /**
+     * Makes the transaction possible.
+     * @param item the purchasable item
+     * @param player the player who started the transaction
+     * @param sp the given snowplow (null if buying snowplow)
+     */
+    public void transaction(Purchasable item, Player player, SnowPlow sp) {
+        if (item.pay(this)) {
+            if (sp == null) {
+                player.addVehicle((Vehicle)item);
+            }
+            else {
+                sp.addHead((Head)item);
+            }
+        }
     }
 }

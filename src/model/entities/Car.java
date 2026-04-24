@@ -3,6 +3,8 @@ package model.entities;
 import model.buildings.Home;
 import model.buildings.WorkPlace;
 import model.map.Intersection;
+import test.Prototype;
+import model.map.Field;
 
 public class Car extends Vehicle {
     /**
@@ -48,6 +50,17 @@ public class Car extends Vehicle {
     }
 
     /**
+     * Sets the field to the given Field and tells what changed.
+     * @param prev the given field
+     */
+    @Override
+    public void setCurrentField(Field f) {
+        Prototype proto = Prototype.getInstance();
+        proto.changed("car" + this.getVehicleId(), "currentField", currentField.getId(), f.getId());
+        super.setCurrentField(f);
+    }
+
+    /**
      * Moves the car only one field.
      * @param n not relevant
      */
@@ -89,5 +102,13 @@ public class Car extends Vehicle {
 
             move(1);
         }
+    }
+
+    /**
+     * Retruns the car to its home.
+     */
+    @Override
+    public void returnToStart() {
+        home.enterVehicle(this);
     }
 }
