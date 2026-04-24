@@ -45,12 +45,16 @@ public class Garage extends Building{
 
     /**
      * When a snowplow destorys a car it respwans in its garage
+     * Sets the vehicles currentBuilding to this Building and sets its currentField to null
+     * Manages destroyedNum
      * @param v The vehicle respawning in the garage
      */
     public void enterVehicle(Vehicle v){
-        //Todo: PLEASE IMPLEMENT THE REST THIS IS JUST THE PART I NEED
         increaseDestroyedNum();
+
         v.setCurrentBuilding(this);
+        v.setCurrentField(null);
+
         if(destroyedNum > 3){
             Game.gameOver();
         }
@@ -58,9 +62,14 @@ public class Garage extends Building{
 
     /**
      * The garage deploys the snowplow currenlty in the garage
+     * Sets its currentBuilding and previousIntersection
      * @param v The vehicle currently parking in the garage
      */
     public void deployVehicle(Vehicle v){
+
+        v.setCurrentBuilding(null);
+        v.setPreviousIntersection(getLocation());
+
         getLocation().acceptVehicle(v);
     }
 
@@ -70,6 +79,8 @@ public class Garage extends Building{
      */
     public void newSnowPlow(SnowPlow s){
         snowPlows.add(s);
+        s.setCurrentBuilding(this);
+        s.setCurrentField(null);
     }
 
     /**

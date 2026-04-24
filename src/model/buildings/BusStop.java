@@ -43,13 +43,18 @@ public class BusStop extends Building{
     }
 
     /**
+     * Adds the bus to the buses list
+     * Sets the vehicles currentBuilding to this BusStop and sets its currentField to null
      * Checks, if it's the arriving bus' last stop
      * If it is, it tells the shop to credit the money and increase the bus' finished rounds
      * @param v The vehicle entering the busstop
      */
     public void enterVehicle(Vehicle v){
         buses.add((Bus)v);
+
         v.setCurrentBuilding(this);
+        v.setCurrentField(null);
+
         Bus b = (Bus)v;
         if(b.getPreviousStop().equals(b.getStopB()) && this.equals(b.getStopA())){
             game.getShop().addFunds(18);
@@ -59,11 +64,23 @@ public class BusStop extends Building{
 
     /**
      * It deployes the bus towards its destination.
+     * Sets its currentBuilding, previousStop and previousIntersection
+     * Removes from buses list
      * @param v The vehicle leaving the busstop.
      */
     public void deployVehicle(Vehicle v){
         Bus b = (Bus)v;
+
+        //if(b.getCurrentBuilding().equals(b.getStopA())){
+        //    b.setDestinationIntersection(b.getStopB());
+        //}else if(b.getCurrentBuilding().equals(b.getStopB())){
+        //     b.setDestinationIntersection(b.getStopA());
+        //}
+
+        b.setCurrentBuilding(null);
         b.setPreviousStop(this);
+        b.setPreviousIntersection(getLocation());
+
         buses.remove((Bus)v);
         this.getLocation().acceptVehicle(v);
     }
