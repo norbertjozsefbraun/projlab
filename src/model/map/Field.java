@@ -7,11 +7,14 @@ import model.entities.Vehicle;
 
 public class Field extends Node {
     /// Fields:
+    private int fieldId;
     private Field nextField;
     private Field rightNeighbour;
     private Field leftNeighbour;
     private Surface surface;
     private int accidentTimer;
+
+    static int idCounter = 0;
 
     /// Constructor:
     public Field() {
@@ -19,9 +22,13 @@ public class Field extends Node {
         nextField = null;
         rightNeighbour = null;
         leftNeighbour = null;
+        fieldId = idCounter++;
     }
 
     /// Getters:
+    public int getId() {
+        return fieldId;
+    }
     public Field getRightNeighbour() {
         return rightNeighbour;
     }

@@ -2,6 +2,7 @@ package model.entities;
 
 import model.buildings.BusStop;
 import model.core.Player;
+import model.map.Field;
 import model.map.Intersection;
 import test.Prototype;
 
@@ -93,7 +94,7 @@ public class Bus extends Vehicle {
     @Override
     public void setCurrentField(Field f) {
         Prototype proto = Prototype.getInstance();
-        proto.changed(player.getName() + this.getVehicleId(), "currentField", currentField.getId(), f.getId());
+        proto.changed(player.getName() + this.getVehicleId(), "currentField", String.valueOf(currentField.getId()), String.valueOf(f.getId()));
         super.setCurrentField(f);
     }
 
