@@ -25,20 +25,25 @@ public class WorkPlace extends Building{
 
     /**
      * When a car arrives at the workplace, it puts the new car into to waitingCars map and allocates them a waiting time
+     * Sets the vehicles currentBuilding to this Building and sets its currentField to null
      * @param v The car entering the workplace
      */
     public void enterVehicle(Vehicle v){
         waitingCars.put((Car)v,  2);
         v.setCurrentBuilding(this);
+        v.setCurrentField(null);
     }
 
     /**
      * When the allocated waiting time for a car is over
      * The workplace deploys the car towards its home
+     * Sets its currentBuilding and previousIntersection
      * @param v The car thats waiting time is over
      */
     public void deployVehicle(Vehicle v){
         if(waitingCars.getOrDefault(v, -1) == 0){
+            v.setCurrentBuilding(null);
+            v.setPreviousIntersection(getLocation());
             getLocation().acceptVehicle(v);
         }else{
             processWaiting();
