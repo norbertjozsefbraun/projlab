@@ -48,6 +48,8 @@ public class Surface {
         snowThickness = 0;
 
         return snowAmount;
+
+        //TODO gravelt is el kell tavolitania a járműnek.
     }
 
     public void breakIce() {
@@ -60,6 +62,10 @@ public class Surface {
     }
 
     public void applySalt() {
+        //TODO
+    }
+
+    public void addGravel() {
         //TODO
     }
 

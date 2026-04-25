@@ -14,13 +14,4 @@ public class Salt extends Resource {
     /** Default constructor for Salt resource, initializes the amount and unit price to default values. */
     public Salt(){}
 
-    /** Consumes the specified quantity of salt, reducing the amount accordingly.
-     * @param quantity the quantity of salt to consume
-     */
-    @Override
-    public void consume(int quantity) {
-
-        super.consume(quantity);
-
-    }
 }

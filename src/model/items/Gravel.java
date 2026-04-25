@@ -7,12 +7,15 @@ public class Gravel extends Resource {
     * @param a the initial amount of gravel
     * @param p the unit price of gravel
     */
-    public Gravel(int a, int p){
-        amount=a;
-        unitPrice=p;
-    }
+   public Gravel(int a, int p) {
+       amount = a;
+       unitPrice = p;
+   }
 
-    Gravel(){}
+    /** Default constructor for Gravel. */
+    Gravel() {
+        super();
+    }
 
     /**
      * Consumes the specified quantity of gravel.
@@ -21,6 +24,5 @@ public class Gravel extends Resource {
     @Override
     public void consume(int quantity) {
         super.consume(quantity);
-        System.out.println("Gravel consumed: " + quantity);
     }
 }

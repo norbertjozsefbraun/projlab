@@ -34,8 +34,12 @@ public class Salter extends ResourceConsumingHead {
      */
     @Override
     public void refill(Resource r) {
-        
-        this.addAmount(14);
+        if (r instanceof Salt) {
+            this.addAmount(r.getAmount());
+            System.out.println("Sikeres újratöltés nyugtázása");
+        } else {
+            System.out.println("Nem kompatibilis típus!");
+        }
         
     }
 
@@ -43,10 +47,16 @@ public class Salter extends ResourceConsumingHead {
      * @param amount the amount of salt to add
      */
     public void addAmount(int amount) {
-
         this.salt.add(amount);
-        
+
     }
 
+    /** Checks if the Salter head has enough salt to perform its cleaning function.
+     * @return true if the head has enough salt, false otherwise
+     */
+    @Override
+    public boolean hasResource() {
+        return this.salt.getAmount() >= 5;
+    }
 
 }

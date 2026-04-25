@@ -5,6 +5,7 @@ import model.core.Shop;
 public abstract class Resource implements Purchasable {
     protected int amount = 0;
     protected int unitPrice = 10;
+    protected int maxAmount = 100;
 
     /**
      * Gets the price of the resource.
@@ -51,11 +52,15 @@ public abstract class Resource implements Purchasable {
      * @param shop the shop to pay
      */
     @Override
-    public void pay(Shop shop) {
-
-        
-        shop.deduct(this.unitPrice);
-        
+    public boolean pay(Shop shop) {
+        if (shop.getBalance() >= this.unitPrice) {
+            shop.deduct(this.unitPrice);
+            System.out.println("A tranzakció sikeres végrehajtása és rögzítése");
+            return true;
+        } else {
+            System.out.println("A tranzakció elutasítása fedezethiány miatt");
+            return false;
+        }
     }
 
     /**
@@ -63,10 +68,10 @@ public abstract class Resource implements Purchasable {
      * @param quantity the quantity to consume
      */
     public void consume(int quantity) {
-        
-        this.amount -= quantity;
-        if (this.amount < 0) {
-            this.amount = 0;
+        if (this.amount >= quantity) {
+            this.amount -= quantity;
+        } else {
+            System.out.println("Üzemanyag kifogyott!");
         }
     }
 
@@ -75,8 +80,35 @@ public abstract class Resource implements Purchasable {
      * @param quantity the quantity to add
      */
     public void add(int quantity) {
-        
         this.amount += quantity;
-        
+        if (this.amount > this.maxAmount) {
+            this.amount = this.maxAmount;
+        }
+
+    }
+    
+    /**
+     * Gets the unit price of the resource for a specific shop.
+     * @param shop the shop for which to get the unit price
+     * @return the unit price of the resource for the specified shop
+     */
+    public int getUnitPrice(Shop shop) {
+        return this.unitPrice;
+    }
+
+    /**
+     * Gets the maximum amount of the resource that can be stored.
+     * @return the maximum amount of the resource
+     */
+    public int getMaxAmount() {
+        return maxAmount;
+    }
+
+    /**
+     * Sets the maximum amount of the resource that can be stored.  
+     * @param maxAmount
+     */
+    public void setMaxAmount(int maxAmount) {
+        this.maxAmount = maxAmount;
     }
 }
