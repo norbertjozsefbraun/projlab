@@ -8,20 +8,28 @@ import java.util.List;
 
 public class Intersection extends Node {
     /// Fields:
+    private int intersectionId;
     private List<Road> connectedRoads;
     private Building building;
+
+    static int idCounter = 0;
 
     /// Constructors:
     public Intersection() {
         building = null;
         connectedRoads = new ArrayList<Road>();
+        intersectionId = idCounter++;
     }
     public Intersection(Building building) {
         this.building = building;
         connectedRoads = new ArrayList<Road>();
+        intersectionId = idCounter++;
     }
 
     /// Getters:
+    public int getId () {
+        return intersectionId;
+    }
     public Building getBuilding() {
         return building;
     }

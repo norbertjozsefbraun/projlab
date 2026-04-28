@@ -6,5 +6,5 @@ import model.core.Shop;
  */
 public interface Purchasable {
     int getPrice();
-    void pay(Shop s);
+    boolean pay(Shop s);
 }

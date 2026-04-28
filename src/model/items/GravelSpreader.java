@@ -5,6 +5,10 @@ import model.map.Field;
 public class GravelSpreader extends ResourceConsumingHead {
     private Gravel gravel = new Gravel();
 
+    /**
+     * Set the gravel resource for the GravelSpreader head.
+     * @param gravel
+     */
     public void setGravel(Gravel gravel) {
         this.gravel = gravel;
     }
@@ -18,7 +22,7 @@ public class GravelSpreader extends ResourceConsumingHead {
     public void clean(Field f) {
         if (this.hasResource()) {
             gravel.consume(5); 
-            //f.getSurface().addGravel();
+            f.getSurface().addGravel();
         } else {
             System.out.println("\tGravelSpreader üres, a szórás elmarad.");
         }
@@ -29,7 +33,12 @@ public class GravelSpreader extends ResourceConsumingHead {
      */
     @Override
     public void refill(Resource r) {
-        this.addAmount(10);
+        if (r instanceof Gravel) {
+            this.addAmount(r.getAmount());
+            System.out.println("Sikeres újratöltés nyugtázása"); // [cite: 138]
+        } else {
+            System.out.println("\tHibás erőforrás típus, a GravelSpreader csak Gravel-t fogad el.");
+        }
     }
 
     /**
@@ -38,5 +47,14 @@ public class GravelSpreader extends ResourceConsumingHead {
      */
     public void addAmount(int amount) {
         this.gravel.add(amount);
+    }
+
+    /**
+     * Checks if the GravelSpreader head has enough gravel to perform its cleaning function.
+     * @return true if the head has enough gravel, false otherwise
+     */
+    @Override
+    public boolean hasResource() {
+        return this.gravel.getAmount() >= 5;
     }
 }

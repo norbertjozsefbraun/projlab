@@ -34,6 +34,8 @@ public class ScriptRunner {
                     case "move"        -> move(st);
                     case "save"        -> save(st);
                     case "ls"          -> ls();
+                    case "transaction" -> transaction(st);
+                    case "fill"        -> fill(st);
                 }
             }
         } catch (IOException e) {
@@ -42,39 +44,46 @@ public class ScriptRunner {
     }
 
     private void randomize() {
-        // TODO: implement randomize command
+        // TODO: implement randomize command - NORBI
     }
 
     private void derandomize() {
-        // TODO: implement derandomize command
+        // TODO: implement derandomize command - BAZSI
     }
 
     private void start(StringTokenizer st) {
-        // TODO: implement start command
+        // TODO: implement start command - NORBI
     }
 
     private void lsh() {
-        // TODO: implement lsh command
+        // TODO: implement lsh command - ZOLI
     }
 
     private void ch(StringTokenizer st) {
-        // TODO: implement ch command
+        // TODO: implement ch command - ZOLI
     }
 
     private void roll() {
-        // TODO: implement roll command
+        // TODO: implement roll command - KEVE
     }
 
     private void move(StringTokenizer st) {
-        // TODO: implement move command
+        // TODO: implement move command - KEVE BAZSI (ZEKI)
     }
 
     private void save(StringTokenizer st) {
-        // TODO: implement save command
+        // TODO: implement save command - NORBI
     }
 
     private void ls() {
-        // TODO: implement ls command
+        // TODO: implement ls command - ZEKI
     }
 
+    private void transaction(StringTokenizer st) {
+        // TODO: implement transaction command - BAZSI
+    }
+
+    private void fill(StringTokenizer st) {
+        // TODO: implement fill command - ZOLI
+    }
 }

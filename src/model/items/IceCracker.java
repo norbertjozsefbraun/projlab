@@ -10,12 +10,12 @@ public class IceCracker extends Head {
      */
     @Override
     public void clean(Field f) {
-
-        
-
         Surface s = f.getSurface();
-        
-        s.breakIce();
-
+        if (s.getIsIce()) {
+            s.breakIce(); 
+            f.addSnow(10);
+            s.setIsIce(false);
+            System.out.println("Jégtörés sikeres: a jég hóvá alakult.");
+        }
     }
 }

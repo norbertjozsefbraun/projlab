@@ -25,17 +25,24 @@ public class Home extends Building{
 
     /**
      * When a car suffers an accident or arrives home, it's parked in the home, before it's deployed
+     * Sets the vehicles currentBuilding to this Building and sets its currentField to null
      * @param v The vehicle entering the home
      */
     public void enterVehicle(Vehicle v){
         v.setCurrentBuilding(this);
+        v.setCurrentField(null);
     }
 
     /**
      * The home deploys the car towards its workplace
+     * Sets its currentBuilding and previousIntersection
      * @param v The vehcile that's currently parked in the home
      */
     public void deployVehicle(Vehicle v){
+        
+        v.setCurrentBuilding(null);
+        v.setPreviousIntersection(getLocation());
+
         getLocation().acceptVehicle(v);
     }
 

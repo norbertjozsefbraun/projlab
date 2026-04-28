@@ -23,16 +23,20 @@ public abstract class Head implements CleanerEquipment, Purchasable {
         price=p;
     }
 
-    /**
-     * Pays for the head by deducting its price from the shop's balance.
-     * @param s the shop to pay
+    /** Pays for the head in the shop if the balance is sufficient.
+     * @param s the shop to pay in
+     * @return true if the payment was successful, false otherwise
      */
     @Override
-    public void pay(Shop s) {
-        
-        
-        s.deduct(this.price);
-        
+    public boolean pay(Shop s) {
+       if (s.getBalance() >= this.price) {
+            s.deduct(this.price);
+            System.out.println("A tranzakció sikeres végrehajtása és rögzítése"); // [cite: 121]
+            return true;
+        } else {
+            System.out.println("A tranzakció elutasítása fedezethiány miatt"); // [cite: 123]
+            return false;
+        }
     }
 
     /**

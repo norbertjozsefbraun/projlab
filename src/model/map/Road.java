@@ -6,6 +6,7 @@ import model.map.RoadType;
 
 public class Road {
     /// Fields:
+    private int roadId;
     private String roadName;
     private Intersection destinationA;
     private Intersection destinationB;
@@ -13,24 +14,29 @@ public class Road {
     private List<Lane> lanesToB;
     private RoadType roadType;
 
+    static int idCounter = 0;
+
     /// Constructors:
     public Road(){
         lanesToA = new ArrayList<>();
         lanesToB = new ArrayList<>();
+        roadId = idCounter++;
     }
     public Road(String name, RoadType type, int numOfLanesInOneDirection, int numOfFieldsOnOneLane) {
         roadName = name;
         roadType = type;
         lanesToA = new ArrayList<>();
         lanesToB = new ArrayList<>();
+        roadId = idCounter++;
 
         // Initialise lanes in each direction
         for (int i = 0; i < numOfLanesInOneDirection; i++) {
-            Lane newLane1 = new Lane(this, numOfFieldsOnOneLane);
-            Lane newLane2 = new Lane(this, numOfFieldsOnOneLane);
-
-            lanesToA.add(newLane1);
-            lanesToB.add(newLane2);
+            Lane newLane = new Lane(this, numOfFieldsOnOneLane);
+            lanesToB.add(newLane);
+        }
+        for (int i = 0; i < numOfLanesInOneDirection; i++) {
+            Lane newLane = new Lane(this, numOfFieldsOnOneLane);
+            lanesToA.add(newLane);
         }
 
         // Link left and right neighbours
@@ -64,6 +70,7 @@ public class Road {
     public String getName() {
         return roadName;
     }
+    public int getId() { return roadId; }
     public Intersection getDestinationA() {
         return destinationA;
     }
