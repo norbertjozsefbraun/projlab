@@ -109,7 +109,6 @@ public class SnowPlow extends Vehicle implements Purchasable {
      * @param h the given head
      */
     public void setActiveHead(Head h) {
-        proto.changed(toString(), "setActiveHead", activeHead.getClass().getSimpleName(), h.getClass().getSimpleName());
         activeHead = h;
     }
 
@@ -157,6 +156,7 @@ public class SnowPlow extends Vehicle implements Purchasable {
     */
    public void changeHead(Head h) {
         if (heads.contains(h)) {
+            proto.changed(toString(), "activeHead", activeHead.getClass().getSimpleName(), h.getClass().getSimpleName());
             activeHead.setEquipped(false);
             h.setEquipped(true);
             activeHead = h;

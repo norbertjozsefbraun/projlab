@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.StringTokenizer;
 import model.entities.Vehicle;
 import model.core.Session;
+import model.core.Shop;
 import model.entities.SnowPlow;
+import model.core.Player;
+import model.items.*;
 
 /**
  * Reads a test script from a file and executes each line as a command.
@@ -53,6 +56,8 @@ public class ScriptRunner {
 
     private void derandomize() {
         // TODO: implement derandomize command - BAZSI
+        Session session = Session.getInstance();
+        session.getGame().setDerandomized(true);
     }
 
     private void start(StringTokenizer st) {
@@ -111,6 +116,44 @@ public class ScriptRunner {
 
     private void transaction(StringTokenizer st) {
         // TODO: implement transaction command - BAZSI
+        if (!st.hasMoreTokens()) return;
+        String itemName = st.nextToken();
+
+        if (!st.hasMoreTokens()) return;
+        int amount = Integer.parseInt(st.nextToken());
+
+        if (!st.hasMoreTokens()) return;
+        String playerName = st.nextToken();
+
+        if (!st.hasMoreTokens()) return;
+        int spId = Integer.parseInt(st.nextToken());
+
+        Session session = Session.getInstance();
+        Shop shop = session.getGame().getShop();
+        List<Vehicle> vehicles = session.getGame().getVehicles();
+        List<Player> players = session.getGame().getPlayers();
+        SnowPlow snowPlow = null;
+        Player player = null;
+
+        if (spId != 0) {
+            for (Vehicle v : vehicles) {
+                if (v.getVehicleId() == spId) {
+                    snowPlow = (SnowPlow) v;
+                }
+            }
+        }
+        for (Player p : players) {
+            if (p.getName().equals(playerName)) {
+                player = p;
+            }
+        }
+
+        Purchasable item = createItem(itemName);
+        if (item == null) {
+            System.out.println("Unkown item " + itemName);
+            return; 
+        } 
+        shop.transaction(item, amount, player, snowPlow);
     }
 
     /**
@@ -145,5 +188,21 @@ public class ScriptRunner {
 
 
 
+    }
+
+    private Purchasable createItem(String itemName) {
+        switch (itemName.toLowerCase()) {
+            case "salt": return new Salt();
+            case "grav": return new Gravel();
+            case "bio": return new Biokerosene();
+            case "sw": return new Sweeper();
+            case "ic": return new IceCracker();
+            case "bw": return new Blower();
+            case "dr": return new Dragon();
+            case "st": return new Salter();
+            case "gr": return new GravelSpreader();
+            case "sp": return new SnowPlow();
+            default: return null;
+        }
     }
 }
