@@ -154,8 +154,6 @@ public void onPurchased(Player player, SnowPlow snowPlow, int amount) {
                 }
             }
         }
-        
- 
 }
 }
 
