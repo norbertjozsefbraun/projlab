@@ -62,11 +62,6 @@ public class Road {
     }
 
     /// Getters:
-    public List<Lane> getLanesTowards(Intersection destination) {
-        if(destinationA.equals(destination)) { return lanesToA; }
-        if(destinationB.equals(destination)) { return lanesToB; }
-        return null;
-    }
     public String getName() {
         return roadName;
     }
@@ -76,6 +71,19 @@ public class Road {
     }
     public Intersection getDestinationB() {
         return destinationB;
+    }
+    public RoadType getRoadType() { return roadType; }
+    public List<Lane> getLanesTowards(Intersection destination) {
+        List<Lane> result;
+
+        if (destination.equals(this.destinationA)) {
+            result = this.lanesToA;
+        } else if (destination.equals(this.destinationB)) {
+            result = this.lanesToB;
+        } else {
+            result = new ArrayList<>();
+        }
+        return result;
     }
 
     /// Setters:
@@ -99,6 +107,19 @@ public class Road {
         }
         for(Lane lane: lanesToB){
             lane.snowfall();
+        }
+    }
+
+    public void tickTimers() {
+        if (lanesToA != null) {
+            for (Lane lane : lanesToA) {
+                lane.tickTimers();
+            }
+        }
+        if (lanesToB != null) {
+            for (Lane lane : lanesToB) {
+                lane.tickTimers();
+            }
         }
     }
 

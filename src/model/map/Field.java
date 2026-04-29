@@ -197,7 +197,14 @@ public class Field extends Node {
     }
 
 
-
+    public void tickTimers() {
+        if (this.accidentTimer > 0) {
+            this.accidentTimer--;
+        }
+        if (this.surface != null) {
+            this.surface.tickTimers();
+        }
+    }
 
 
 

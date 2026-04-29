@@ -33,6 +33,8 @@ public class Intersection extends Node {
     public Building getBuilding() {
         return building;
     }
+    public List<Road> getConnectedRoads() { return connectedRoads; }
+
     /// Setters:
     public void setConnectedRoads(List<Road> connectedRoads) {
         this.connectedRoads = connectedRoads;

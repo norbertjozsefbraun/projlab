@@ -39,7 +39,6 @@ public class Surface {
 
     /// Functions:
 
-
     public void vehiclePasses(Vehicle v) {
         passTimes.add(Game.getTicker().getCurrent());
 
@@ -74,7 +73,11 @@ public class Surface {
     }
 
     public void applySalt() {
-        //TODO
+        if (snowThickness > 35) {
+            saltTimer = 5;
+        } else {
+            saltTimer = 3;
+        }
     }
 
     public void addGravel() {
@@ -82,7 +85,20 @@ public class Surface {
     }
 
     public void addSnow(int amount) {
-        snowThickness += amount;
+        if (saltTimer == 0) {
+            snowThickness += amount;
+        }
+    }
+
+    public void tickTimers() {
+        if (this.saltTimer > 0) {
+            this.saltTimer--;
+
+            if (this.saltTimer == 0) {
+                this.snowThickness = 0;
+                this.isIce = false;
+            }
+        }
     }
 
 }
