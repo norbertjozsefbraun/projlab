@@ -1,23 +1,47 @@
 package test;
 
+import static test.ScriptRunnerHelper.createItem;
+import static test.ScriptRunnerHelper.executeAndCapture;
+import static test.ScriptRunnerHelper.loadThisWorld;
+import static test.ScriptRunnerHelper.normalizePlayerType;
+import static test.ScriptRunnerHelper.stripQuotes;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
+
+import model.core.Game;
+import model.entities.DirectionType;
 import model.entities.Vehicle;
 import model.items.*;
+import model.entities.Bus;
+import model.entities.Car;
+import model.entities.DirectionType;
 import model.core.Session;
 import model.core.Shop;
 import model.entities.SnowPlow;
 import model.core.Player;
 import model.items.*;
+import model.map.World;
 
 /**
  * Reads a test script from a file and executes each line as a command.
  * Each line in the file corresponds to one of the supported game commands.
  */
 public class ScriptRunner {
+    private final StringBuilder capturedOutput = new StringBuilder();
+
+    private int currentVehicleIndex = 0;
 
     /**
      * Reads the file at the given path line by line and dispatches each line
@@ -32,18 +56,30 @@ public class ScriptRunner {
                 line = line.strip();
                 if (line.isEmpty()) continue;
                 StringTokenizer st = new StringTokenizer(line);
-                switch (st.nextToken().toLowerCase()) {
-                    case "randomize"   -> randomize();
-                    case "derandomize" -> derandomize();
-                    case "start"       -> start(st);
-                    case "lsh"         -> lsh(st);
-                    case "ch"          -> ch(st);
-                    case "roll"        -> roll();
-                    case "move"        -> move(st);
+                String command = st.nextToken().toLowerCase();
+                if (!"save".equals(command)) {
+                    capturedOutput.setLength(0);
+                }
+
+                switch (command) {
+                    case "randomize"   -> executeAndCapture(this::randomize, capturedOutput);
+                    case "derandomize" -> executeAndCapture(this::derandomize, capturedOutput);
+                    case "start"       -> executeAndCapture(() -> start(st), capturedOutput);
+                    case "roadconfig"  -> executeAndCapture(() -> roadconfig(st), capturedOutput);
+                    case "connect"     -> executeAndCapture(() -> connect(st), capturedOutput);
+                    case "setb"        -> executeAndCapture(() -> setb(st), capturedOutput);
+                    case "setveh"      -> executeAndCapture(() -> setVeh(st), capturedOutput);
+                    case "setfieldcontents" -> executeAndCapture(() -> setFieldContents(st), capturedOutput);
+                    case "lsh"         -> executeAndCapture(() -> lsh(st), capturedOutput);
+                    case "ch"          -> executeAndCapture(() -> ch(st), capturedOutput);
+                    case "roll"        -> executeAndCapture(this::roll, capturedOutput);
+                    case "move"        -> executeAndCapture(() -> move(st), capturedOutput);
                     case "save"        -> save(st);
-                    case "ls"          -> ls();
-                    case "transaction" -> transaction(st);
-                    case "fill"        -> fill(st);
+                    case "ls"          -> executeAndCapture(this::ls, capturedOutput);
+                    case "transaction" -> executeAndCapture(() -> transaction(st), capturedOutput);
+                    case "fill"        -> executeAndCapture(() -> fill(st), capturedOutput);
+                    case "setheads"    -> executeAndCapture(() -> setHeads(st), capturedOutput);
+                    default             -> executeAndCapture(() -> System.out.println("Unknown command: " + command), capturedOutput);
                 }
             }
         } catch (IOException e) {
@@ -52,17 +88,187 @@ public class ScriptRunner {
     }
 
     private void randomize() {
-        // TODO: implement randomize command - NORBI
+        Session session = Session.getInstance();
+        session.getGame().setDerandomized(false);
     }
 
     private void derandomize() {
-        // TODO: implement derandomize command - BAZSI
         Session session = Session.getInstance();
         session.getGame().setDerandomized(true);
     }
 
     private void start(StringTokenizer st) {
-        // TODO: implement start command - NORBI
+        int playerCount = -1;
+        int carCount = 0;
+        Map<Integer, String> playerNames = new HashMap<>();
+        Map<Integer, String> playerTypes = new HashMap<>();
+        Map<Integer, String> snowPlowHeads = new HashMap<>();
+
+        while (st.hasMoreTokens()) {
+            String option = st.nextToken();
+
+            if ("-pc".equals(option)) {
+                if (!st.hasMoreTokens()) {
+                    System.out.println("Missing value for -pc.");
+                    return;
+                }
+                playerCount = Integer.parseInt(st.nextToken());
+                continue;
+            }
+
+            if ("-cc".equals(option)) {
+                if (!st.hasMoreTokens()) {
+                    System.out.println("Missing value for -cc.");
+                    return;
+                }
+                carCount = Integer.parseInt(st.nextToken());
+                continue;
+            }
+
+            if (option.startsWith("-p") && option.length() > 2 && Character.isDigit(option.charAt(2))) {
+                int playerIndex = Integer.parseInt(option.substring(2));
+                if (!st.hasMoreTokens()) {
+                    System.out.println("Missing player name for " + option + ".");
+                    return;
+                }
+                String playerName = stripQuotes(st.nextToken());
+
+                if (!st.hasMoreTokens()) {
+                    System.out.println("Missing player type for " + option + ".");
+                    return;
+                }
+                String rawType = st.nextToken();
+                String normalizedType = normalizePlayerType(rawType);
+                if (normalizedType == null) {
+                    System.out.println("Unknown player type: " + rawType + ". Use !bus or !plow.");
+                    return;
+                }
+
+                playerNames.put(playerIndex, playerName);
+                playerTypes.put(playerIndex, normalizedType);
+                continue;
+            }
+
+            if (option.startsWith("-sh") && option.length() > 3 && Character.isDigit(option.charAt(3))) {
+                int snowPlowIndex = Integer.parseInt(option.substring(3));
+                if (!st.hasMoreTokens()) {
+                    System.out.println("Missing value for " + option + ".");
+                    return;
+                }
+
+                String headCode = st.nextToken().toLowerCase();
+                if (!"sw".equals(headCode) && !"ic".equals(headCode)) {
+                    System.out.println("Unknown head code for " + option + ": " + headCode + ". Use sw or ic.");
+                    return;
+                }
+                snowPlowHeads.put(snowPlowIndex, headCode);
+                continue;
+            }
+
+            System.out.println("Unknown start option: " + option);
+            return;
+        }
+
+        if (playerCount <= 0) {
+            System.out.println("Invalid player count. Use -pc <positive integer>.");
+            return;
+        }
+
+        for (int i = 1; i <= playerCount; i++) {
+            if (!playerNames.containsKey(i) || !playerTypes.containsKey(i)) {
+                System.out.println("Missing player definition for -p" + i + ".");
+                return;
+            }
+        }
+
+        List<Player> players = new ArrayList<>();
+        List<Vehicle> vehicles = new ArrayList<>();
+        int nextVehicleId = 1;
+        int currentSnowPlowIndex = 1;
+
+        for (int i = 1; i <= playerCount; i++) {
+            Player player = new Player();
+            player.setName(playerNames.get(i));
+            player.setType(playerTypes.get(i));
+            players.add(player);
+
+            if ("bus".equals(player.getType())) {
+                Bus bus = new Bus();
+                bus.setVehicleId(nextVehicleId++);
+                bus.setPlayer(player);
+                bus.setCanMove(true);
+                bus.setDirection(DirectionType.AH);
+                player.addVehicle(bus);
+                vehicles.add(bus);
+            } else {
+                SnowPlow snowPlow = new SnowPlow();
+                snowPlow.setVehicleId(nextVehicleId++);
+                snowPlow.setPlayer(player);
+                snowPlow.setCanMove(true);
+                snowPlow.setDirection(DirectionType.AH);
+
+                Head sweeper = new Sweeper();
+                Head iceCracker = new IceCracker();
+                List<Head> heads = new ArrayList<>();
+                heads.add(sweeper);
+                heads.add(iceCracker);
+                snowPlow.setHeads(heads);
+
+                String defaultHeadCode = snowPlowHeads.getOrDefault(currentSnowPlowIndex, "sw");
+                if ("ic".equals(defaultHeadCode)) {
+                    snowPlow.setActiveHead(iceCracker);
+                    iceCracker.setEquipped(true);
+                } else {
+                    snowPlow.setActiveHead(sweeper);
+                    sweeper.setEquipped(true);
+                }
+
+                currentSnowPlowIndex++;
+                player.addVehicle(snowPlow);
+                vehicles.add(snowPlow);
+            }
+        }
+
+        for (int i = 0; i < carCount; i++) {
+            Car car = new Car();
+            car.setVehicleId(nextVehicleId++);
+            car.setCanMove(true);
+            vehicles.add(car);
+        }
+
+        String vmipath = "TODO";
+        World defaultWorld = loadThisWorld(vmipath);
+
+        Session session = Session.getInstance();
+        session.newGame(vehicles, defaultWorld);
+        session.getGame().setPlayers(players);
+
+        System.out.println("Game started with " + players.size() + " players, "
+                + (vehicles.size() - carCount) + " driven vehicles and " + carCount + " cars.");
+    }
+
+    private void roadconfig(StringTokenizer st) {
+        // TODO: implement roadconfig command - Keve
+    }
+
+    private void connect(StringTokenizer st) {
+        // TODO: implement connect command - Keve
+    }
+
+    private void setb(StringTokenizer st) {
+        // TODO: implement setb command - Zeki
+    }
+
+    private void setVeh(StringTokenizer st) {
+        // TODO: implement setVeh command - Bazsi
+    }
+
+    private void setFieldContents(StringTokenizer st) {
+        // TODO: implement setFieldContents command - Keve
+    }
+
+    private void setHeads(StringTokenizer st) {
+            // TODO: implement setHeads command - Zoli
     }
  
     /**
@@ -98,7 +304,7 @@ public class ScriptRunner {
     private void ch(StringTokenizer st) {
         if (!st.hasMoreTokens()) return;
             String spId = st.nextToken();
-            
+
         if (!st.hasMoreTokens()) return;
             String newHeadType = st.nextToken();
 
@@ -127,14 +333,93 @@ public class ScriptRunner {
 
     private void roll() {
         // TODO: implement roll command - KEVE
+        Session session = Session.getInstance();
+        Game game = session.getGame();
+
+        if (game != null) {
+            /// rollDice metodust at kell allitani public-ra (?)
+            //game.rollDice();
+        }
     }
+
 
     private void move(StringTokenizer st) {
         // TODO: implement move command - KEVE BAZSI (ZEKI)
+        Session session = Session.getInstance();
+        Game game = session.getGame();
+
+        if (game == null || game.getVehicles() == null || game.getVehicles().isEmpty()) {
+            return;
+        }
+
+        // ha uj kor, havazas
+        if (currentVehicleIndex == 0) {
+            if (game.getWorld() != null) {
+                game.getWorld().snowfall();
+            }
+        }
+
+        Vehicle currentVehicle = game.getVehicles().get(currentVehicleIndex);
+
+        // irany beallitasa
+        if (st.hasMoreTokens()) {
+            String direction = st.nextToken();
+            switch (direction) {
+                case "ri": currentVehicle.setDirection(DirectionType.RI); break;
+                case "le": currentVehicle.setDirection(DirectionType.LE); break;
+                default: currentVehicle.setDirection(DirectionType.AH); break;
+            }
+        }
+        // move
+        currentVehicle.move(game.getDice().nextInt());
+
+        // tick timers
+        game.getWorld().tickTimers();
+
+        // következő hívás a következő járművet mozgatja
+        currentVehicleIndex++;
+        if (currentVehicleIndex >= game.getVehicles().size()) {
+            currentVehicleIndex = 0;
+
+            if (game.getRounds() != null) {
+                game.setRounds(game.getRounds() + 1);
+            }
+
+        }
     }
 
     private void save(StringTokenizer st) {
-        // TODO: implement save command - NORBI
+        if (!st.hasMoreTokens()) {
+            System.out.println("Missing save target folder path.");
+            return;
+        }
+
+        StringBuilder folderArgBuilder = new StringBuilder(st.nextToken());
+        while (st.hasMoreTokens()) {
+            folderArgBuilder.append(" ").append(st.nextToken());
+        }
+
+        String folderArg = stripQuotes(folderArgBuilder.toString());
+        Path targetFolder;
+        try {
+            targetFolder = Paths.get(folderArg);
+        } catch (InvalidPathException e) {
+            System.out.println("Invalid folder path: " + folderArg);
+            return;
+        }
+
+        try {
+            Files.createDirectories(targetFolder);
+
+            Path outputFile = targetFolder.resolve("output");
+
+            String outputSinceLastTestCommand = capturedOutput.toString();
+
+            Files.writeString(outputFile, outputSinceLastTestCommand, StandardCharsets.UTF_8);
+            System.out.println("Saved output to: " + outputFile.toAbsolutePath());
+        } catch (IOException e) {
+            System.out.println("Failed to save output: " + e.getMessage());
+        }
     }
 
     private void ls() {
@@ -203,24 +488,18 @@ public class ScriptRunner {
 
         for (Vehicle v : vehicles) {
             if (v.getVehicleId() == Integer.parseInt(idStr)) {
+                if (v instanceof SnowPlow sp) {
                     SnowPlow snowPlow = (SnowPlow) v;
             }
         }
     }
 
-    private Purchasable createItem(String itemName) {
-        switch (itemName.toLowerCase()) {
-            case "salt": return new Salt();
-            case "grav": return new Gravel();
-            case "bio": return new Biokerosene();
-            case "sw": return new Sweeper();
-            case "ic": return new IceCracker();
-            case "bw": return new Blower();
-            case "dr": return new Dragon();
-            case "st": return new Salter();
-            case "gr": return new GravelSpreader();
-            case "sp": return new SnowPlow();
-            default: return null;
-        }
+
+       
+       
+
+
+
     }
+
 }

@@ -61,7 +61,7 @@ public class Bus extends Vehicle {
      * Set the player to the given value.
      * @param p the given player referrence
      */
-    public void setPlayerId(Player p) {
+    public void setPlayer(Player p) {
         player = p;
     }
 
