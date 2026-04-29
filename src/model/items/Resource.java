@@ -1,6 +1,8 @@
 package model.items;
 
+import model.core.Player;
 import model.core.Shop;
+import model.entities.SnowPlow;
 
 public abstract class Resource implements Purchasable {
     protected int amount = 0;
@@ -110,5 +112,15 @@ public abstract class Resource implements Purchasable {
      */
     public void setMaxAmount(int maxAmount) {
         this.maxAmount = maxAmount;
+    }
+
+    /**
+     * Defines the action to be taken when the resource is purchased by a player.
+     * @param player the player who purchased the resource
+     * @param snowPlow the snow plow associated with the purchase
+     */
+    @Override
+    public void onPurchased (Player player, SnowPlow snowPlow){
+        
     }
 }
