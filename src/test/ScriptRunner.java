@@ -59,6 +59,11 @@ public class ScriptRunner {
                     case "randomize"   -> executeAndCapture(this::randomize, capturedOutput);
                     case "derandomize" -> executeAndCapture(this::derandomize, capturedOutput);
                     case "start"       -> executeAndCapture(() -> start(st), capturedOutput);
+                    case "roadconfig"  -> executeAndCapture(() -> roadconfig(st), capturedOutput);
+                    case "connect"     -> executeAndCapture(() -> connect(st), capturedOutput);
+                    case "setb"        -> executeAndCapture(() -> setb(st), capturedOutput);
+                    case "setveh"      -> executeAndCapture(() -> setVeh(st), capturedOutput);
+                    case "setfieldcontents" -> executeAndCapture(() -> setFieldContents(st), capturedOutput);
                     case "lsh"         -> executeAndCapture(() -> lsh(st), capturedOutput);
                     case "ch"          -> executeAndCapture(() -> ch(st), capturedOutput);
                     case "roll"        -> executeAndCapture(this::roll, capturedOutput);
@@ -67,6 +72,7 @@ public class ScriptRunner {
                     case "ls"          -> executeAndCapture(this::ls, capturedOutput);
                     case "transaction" -> executeAndCapture(() -> transaction(st), capturedOutput);
                     case "fill"        -> executeAndCapture(() -> fill(st), capturedOutput);
+                    case "setheads"    -> executeAndCapture(() -> setHeads(st), capturedOutput);
                     default             -> executeAndCapture(() -> System.out.println("Unknown command: " + command), capturedOutput);
                 }
             }
@@ -234,6 +240,30 @@ public class ScriptRunner {
         System.out.println("Game started with " + players.size() + " players, "
                 + (vehicles.size() - carCount) + " driven vehicles and " + carCount + " cars.");
     }
+
+    private void roadconfig(StringTokenizer st) {
+        // TODO: implement roadconfig command - Keve
+    }
+
+    private void connect(StringTokenizer st) {
+        // TODO: implement connect command - Keve
+    }
+
+    private void setb(StringTokenizer st) {
+        // TODO: implement setb command - Zeki
+    }
+
+    private void setVeh(StringTokenizer st) {
+        // TODO: implement setVeh command - Bazsi
+    }
+
+    private void setFieldContents(StringTokenizer st) {
+        // TODO: implement setFieldContents command - Keve
+    }
+
+    private void setHeads(StringTokenizer st) {
+            // TODO: implement setHeads command - Zoli
+    }
  
     /**
      * Lists the heads of the specified snowplow.
@@ -390,4 +420,5 @@ public class ScriptRunner {
 
 
     }
+
 }
