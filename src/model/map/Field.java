@@ -3,6 +3,7 @@ package model.map;
 import java.util.ArrayList;
 import java.util.List;
 import model.entities.Car;
+import model.entities.DirectionType;
 import model.entities.SnowPlow;
 import model.entities.Vehicle;
 
@@ -78,6 +79,13 @@ public class Field extends Node {
 
 
     /// Functional functions:
+
+    /**
+     * Moving to the next field (for cars)
+     * Chooses direction automatically, if it cant move to a field in one direction
+     * Priority: 1:AH, 2:LE, 3:RI
+     * @param v: The vehicle that is moving
+     */
     public void moveToNextField(Vehicle v) {
 
         Field currentField = v.getCurrentField();
@@ -102,6 +110,32 @@ public class Field extends Node {
             }
         }
 
+    }
+
+    /**
+     * Moving to the next field (for snowplows and buses)
+     * @param v: The vehicle that is moving
+     * @param direction: AH, RI, LE
+     */
+    public void moveToNextField(Vehicle v, DirectionType direction) {
+        Field currentField = v.getCurrentField();
+        if (currentField != null) {
+            Field forwardField = currentField.getNextField();
+
+            if (forwardField != null) {
+                Field targetField = forwardField;
+
+                if (direction.equals(DirectionType.LE)) {
+                    targetField = forwardField.getLeftNeighbour();
+                } else if (direction.equals(DirectionType.RI)) {
+                    targetField = forwardField.getRightNeighbour();
+                }
+
+                if (targetField != null) {
+                    targetField.acceptVehicle(v);
+                }
+            }
+        }
     }
 
     private boolean isPassable() {
