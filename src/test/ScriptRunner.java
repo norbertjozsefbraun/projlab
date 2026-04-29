@@ -5,6 +5,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.StringTokenizer;
+
+import model.core.Game;
+import model.entities.DirectionType;
 import model.entities.Vehicle;
 import model.core.Session;
 import model.core.Shop;
@@ -17,6 +20,8 @@ import model.items.*;
  * Each line in the file corresponds to one of the supported game commands.
  */
 public class ScriptRunner {
+
+    private int currentVehicleIndex = 0;
 
     /**
      * Reads the file at the given path line by line and dispatches each line
@@ -100,10 +105,59 @@ public class ScriptRunner {
 
     private void roll() {
         // TODO: implement roll command - KEVE
+        Session session = Session.getInstance();
+        Game game = session.getGame();
+
+        if (game != null) {
+            /// rollDice metodust at kell allitani public-ra (?)
+            //game.rollDice();
+        }
     }
+
 
     private void move(StringTokenizer st) {
         // TODO: implement move command - KEVE BAZSI (ZEKI)
+        Session session = Session.getInstance();
+        Game game = session.getGame();
+
+        if (game == null || game.getVehicles() == null || game.getVehicles().isEmpty()) {
+            return;
+        }
+
+        // ha uj kor, havazas
+        if (currentVehicleIndex == 0) {
+            if (game.getWorld() != null) {
+                game.getWorld().snowfall();
+            }
+        }
+
+        Vehicle currentVehicle = game.getVehicles().get(currentVehicleIndex);
+
+        // irany beallitasa
+        if (st.hasMoreTokens()) {
+            String direction = st.nextToken();
+            switch (direction) {
+                case "ri": currentVehicle.setDirection(DirectionType.RI); break;
+                case "le": currentVehicle.setDirection(DirectionType.LE); break;
+                default: currentVehicle.setDirection(DirectionType.AH); break;
+            }
+        }
+        // move
+        currentVehicle.move(game.getDice().nextInt());
+
+        // tick timers
+        game.getWorld().tickTimers();
+
+        // következő hívás a következő járművet mozgatja
+        currentVehicleIndex++;
+        if (currentVehicleIndex >= game.getVehicles().size()) {
+            currentVehicleIndex = 0;
+
+            if (game.getRounds() != null) {
+                game.setRounds(game.getRounds() + 1);
+            }
+
+        }
     }
 
     private void save(StringTokenizer st) {
