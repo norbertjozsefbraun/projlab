@@ -1,8 +1,11 @@
 package model.items;
 
+import java.util.List;
+
 import model.core.Player;
 import model.core.Shop;
 import model.entities.SnowPlow;
+import test.Prototype;
 
 public abstract class Resource implements Purchasable {
     protected int amount = 0;
@@ -120,7 +123,40 @@ public abstract class Resource implements Purchasable {
      * @param snowPlow the snow plow associated with the purchase
      */
     @Override
-    public void onPurchased (Player player, SnowPlow snowPlow){
+public void onPurchased(Player player, SnowPlow snowPlow, int amount) {
+    if (snowPlow != null) {
+        List<Head> allHeads = snowPlow.getHeads();
+
+        for (Head h : allHeads) {
+            if (h instanceof ResourceConsumingHead) {
+                ResourceConsumingHead resHead = (ResourceConsumingHead) h;
+                
+                Resource resourceToFill = null;
+                    
+                if (this instanceof Biokerosene) {
+                    resourceToFill = new Biokerosene(amount, this.unitPrice);
+                } else if (this instanceof Salt) {
+                    resourceToFill = new Salt(amount, this.unitPrice);
+                } else if (this instanceof Gravel) {
+                    resourceToFill = new Gravel(amount, this.unitPrice);
+                }
+
+                int oldAmount = resHead.getResource().getAmount();
+                resHead.refill(resourceToFill);
+
+                if (resHead.getResource().getAmount() > oldAmount) {
+                    Prototype.getInstance().changed(
+                        "snowplow" + snowPlow.getVehicleId(),
+                        this.getClass().getSimpleName() + "Amount",
+                        String.valueOf(oldAmount),
+                        String.valueOf(resHead.getResource().getAmount())
+                    );
+                }
+            }
+        }
         
-    }
+ 
+}
+}
+
 }

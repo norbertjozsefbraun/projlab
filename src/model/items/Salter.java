@@ -59,4 +59,12 @@ public class Salter extends ResourceConsumingHead {
         return this.salt.getAmount() >= 5;
     }
 
+    /**
+     * Gets the current salt resource used by this Salter head.
+     * @return the salt resource
+     */
+    @Override
+    public Resource getResource() {
+        return this.salt;
+    }
 }

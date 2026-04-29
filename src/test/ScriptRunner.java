@@ -122,8 +122,6 @@ public class ScriptRunner {
         };
 
         snowPlow.changeHead(activHead);
-        Prototype.getInstance().changed("snowplow" + spId, "activeHead", oldHead.getClass().getSimpleName(), activHead.getClass().getSimpleName());
-
 
     }
 

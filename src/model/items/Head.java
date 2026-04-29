@@ -67,8 +67,9 @@ public abstract class Head implements CleanerEquipment, Purchasable {
      * Handles the logic when the head is purchased by a player, equipping it to the player's snowplow.
      * @param player the player who purchased the head
      * @param snowplow the snowplow to equip the head to
+     * @param amount the amount of the head to purchase
      */
-    public void onPurchased(Player player, SnowPlow snowplow) {
+    public void onPurchased(Player player, SnowPlow snowplow, int amount) {
         if (snowplow != null) {
             snowplow.addHead(this); 
             this.setEquipped(true);
