@@ -1,5 +1,6 @@
 package model.map;
 
+import java.util.ArrayList;
 import java.util.List;
 import model.entities.Car;
 import model.entities.SnowPlow;
@@ -130,24 +131,32 @@ public class Field extends Node {
         surface.addSnow(amount);
     }
 
+
     private void checkAccident() {
-        //TODO, THIS IS JUST THE PART I NEED PLEASE IMPLEMENT GENERAL SOLUTION
+        if (this.vehicles.size() >= 2) {
+            boolean emergencyClearance = false;
 
-        boolean hasSnowPlow = false;
-        for(var currVehicle : this.vehicles) {
-            if(currVehicle.getClass().getSimpleName().equals("SnowPlow")) hasSnowPlow = true;
-        }
+            // find if there is a snowplow on the field
+            for (Vehicle currVehicle : this.vehicles) {
+                if (currVehicle.causesEmergencyClearance()) {
+                    emergencyClearance = true;
+                    break;
+                }
+            }
 
-        if(this.vehicles.size() >= 2){
-            for(var currVehicle : this.vehicles){
-                if(currVehicle.getClass().getSimpleName().equals("SnowPlow")){
-                    ((SnowPlow) currVehicle).getGarage().enterVehicle(currVehicle);
+            List<Vehicle> involvedVehicles = new ArrayList<>(this.vehicles);
 
-                }else if(currVehicle.getClass().getSimpleName().equals("Car")){
+            // if snowplow hit other vehicles, all of them return to the start
+            if (emergencyClearance) {
+                for (Vehicle currVehicle : involvedVehicles) {
+                    currVehicle.setCanMove(true);
+                    currVehicle.returnToStart();
+                }
+            } else {
+                // register accident
+                this.accidentTimer = 5;
+                for (Vehicle currVehicle : involvedVehicles) {
                     currVehicle.setCanMove(false);
-                    if (hasSnowPlow) {
-                        ((Car) currVehicle).getHome().enterVehicle(currVehicle);
-                    }
                 }
             }
         }
