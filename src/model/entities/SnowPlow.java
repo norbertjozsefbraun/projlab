@@ -2,13 +2,16 @@ package model.entities;
 
 import java.util.List;
 import model.buildings.Garage;
+import model.core.Player;
 import model.core.Shop;
 import model.items.Head;
 import model.items.Purchasable;
+import model.map.Field;
 import model.map.Intersection;
-import model.core.Player;
+import test.Prototype;
 
 public class SnowPlow extends Vehicle implements Purchasable {
+    Prototype proto = Prototype.getInstance();
 
     /**
      * The player that drives the snowplow.
@@ -97,6 +100,7 @@ public class SnowPlow extends Vehicle implements Purchasable {
      * @param heads the given list of heads
     */
    public void setHeads(List<Head> heads) {
+        proto.changed(toString(), "setActiveHead", activeHead.getClass().getSimpleName(), h.getClass().getSimpleName());
        this.heads = heads;
     }
     
@@ -105,6 +109,7 @@ public class SnowPlow extends Vehicle implements Purchasable {
      * @param h the given head
      */
     public void setActiveHead(Head h) {
+        proto.changed(toString(), "setActiveHead", activeHead.getClass().getSimpleName(), h.getClass().getSimpleName());
         activeHead = h;
     }
 
@@ -124,7 +129,7 @@ public class SnowPlow extends Vehicle implements Purchasable {
     public void move(int n) {
         for (int i=0; i<n; i++) {
             if (currentField.getNextField() != null) {
-                currentField.moveToNextField(this);
+                currentField.moveToNextField(this, direction);
                 if(this.getGarage().getDestroyedNum() < 4) {
                     activeHead.clean(currentField);
                 }   
@@ -156,7 +161,6 @@ public class SnowPlow extends Vehicle implements Purchasable {
             h.setEquipped(true);
             activeHead = h;
         }
-
     }
 
     /**
@@ -179,6 +183,17 @@ public class SnowPlow extends Vehicle implements Purchasable {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Gives the player a snowplow.
+     * @param player the player
+     * @param amount how many (only one can be at once)
+     * @param snowplow null
+     */
+    @Override
+    public void onPurchased(Player player, int amount, SnowPlow snowplow) {
+        player.addVehicle(this);
     }
 
     /**

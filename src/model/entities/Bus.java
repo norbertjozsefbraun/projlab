@@ -2,10 +2,7 @@ package model.entities;
 
 import model.buildings.BusStop;
 import model.core.Player;
-import model.map.Field;
 import model.map.Intersection;
-import test.Prototype;
-import model.map.Field;
 
 public class Bus extends Vehicle {
     /**
@@ -93,17 +90,6 @@ public class Bus extends Vehicle {
     }
 
     /**
-     * Sets the field to the given Field and tells what changed.
-     * @param prev the given field
-     */
-    @Override
-    public void setCurrentField(Field f) {
-        Prototype proto = Prototype.getInstance();
-        proto.changed(player.getName() + this.getVehicleId(), "currentField", String.valueOf(currentField.getId()), String.valueOf(f.getId()));
-        super.setCurrentField(f);
-    }
-
-    /**
      * Moves the bus the given number of fields.
      * @param n The number of fileds the bus has to move
      */
@@ -114,7 +100,7 @@ public class Bus extends Vehicle {
 
             Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB() : currentRoad.getDestinationA();
             if (currentField.getNextField() != null) {
-                currentField.moveToNextField(this);
+                currentField.moveToNextField(this, direction);
             }
             else if(currentField.getNextField() == null){
                 if (buildings.contains(inter.getBuilding())) {

@@ -2,10 +2,12 @@ package model.core;
 
 import model.entities.SnowPlow;
 import model.entities.Vehicle;
-import model.items.Purchasable;
 import model.items.Head;
+import model.items.Purchasable;
+import test.Prototype;
 
 public class Shop {
+    Prototype proto = Prototype.getInstance();
 
     /**
      * The balance that stores the amount of money the player gather.
@@ -34,6 +36,7 @@ public class Shop {
      */
     public void addFunds(int amount) {
         if (amount <= 0) return;
+        proto.changed(getClass().getSimpleName().toLowerCase(), "balance", String.valueOf(balance), String.valueOf(amount));
         balance += amount;
     }
 
@@ -44,6 +47,7 @@ public class Shop {
      */
     public boolean deduct(int amount) {
         if (amount <= 0 || amount > balance) return false;
+        proto.changed(getClass().getSimpleName().toLowerCase(), "balance", String.valueOf(balance), String.valueOf(amount));
         balance -= amount;
         return true;
     }
@@ -54,14 +58,9 @@ public class Shop {
      * @param player the player who started the transaction
      * @param sp the given snowplow (null if buying snowplow)
      */
-    public void transaction(Purchasable item, Player player, SnowPlow sp) {
+    public void transaction(Purchasable item, int amount, Player player, SnowPlow sp) {
         if (item.pay(this)) {
-            if (sp == null) {
-                player.addVehicle((Vehicle)item);
-            }
-            else {
-                sp.addHead((Head)item);
-            }
+            item.onPurchased(player, amount, sp);
         }
     }
 }
