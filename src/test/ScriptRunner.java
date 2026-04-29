@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
+import java.util.ArrayList;
 
 /**
  * Reads a test script from a file and executes each line as a command.
@@ -77,6 +78,39 @@ public class ScriptRunner {
 
     private void ls() {
         // TODO: implement ls command - ZEKI
+        // Kiirni az osszes elerheto testcaset konzolra
+        // mainbe listabol?
+        ArrayList<String> testCases = new ArrayList<>();
+        testCases.add("auto-sikeres-lep");
+        testCases.add("fejcsere");
+        testCases.add("busz-kor-teljesitese");
+        testCases.add("hokotro-es-auto-utkozese");
+        testCases.add("havazas");
+        testCases.add("jegpancel-kialakulasa");
+        testCases.add("auto-megcsuszik-a-jegen");
+        testCases.add("auto-megakad-a-hoban");
+        testCases.add("autok-utkozese");
+        testCases.add("auto-buszba-csuszik");
+        testCases.add("auto-elindul-a-munkahelyerol");
+        testCases.add("auto-megerkezik-a-munkahelyere");
+        testCases.add("auto-elindul-otthonrol");
+        testCases.add("auto-hazaer");
+        testCases.add("jatek-vege");
+        testCases.add("gravelspreader-working");
+        testCases.add("hoeltakaritas-fuvassal");
+        testCases.add("zuzalek-feltoltese");
+        testCases.add("sozas");
+        testCases.add("langszoro-ujratoltese");
+        testCases.add("utszakasz-soprese");
+        testCases.add("soszoro-fej-urjatoltese");
+        testCases.add("jegtores");
+        testCases.add("olvasztas");
+
+        System.out.println("Elerheto tesztesetek:");
+        int i = 1;
+        for (String testCase : testCases) {
+            System.out.println("\t" + i++ + ". " + testCase);
+        }
     }
 
     private void transaction(StringTokenizer st) {
