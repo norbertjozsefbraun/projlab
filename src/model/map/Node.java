@@ -12,9 +12,7 @@ public abstract class Node {
         vehicles = new ArrayList<>();
     }
 
-    public void acceptVehicle(Vehicle v) {
-        //TODO
-    }
+    public abstract void acceptVehicle(Vehicle v);
 
     public void removeVehicle(Vehicle v) {
 

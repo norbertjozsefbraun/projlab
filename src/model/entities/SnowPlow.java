@@ -2,17 +2,21 @@ package model.entities;
 
 import java.util.List;
 import model.buildings.Garage;
+import model.core.Player;
 import model.core.Shop;
 import model.items.Head;
 import model.items.Purchasable;
+import model.map.Field;
 import model.map.Intersection;
+import test.Prototype;
 
 public class SnowPlow extends Vehicle implements Purchasable {
+    Prototype proto = Prototype.getInstance();
 
     /**
-     * The unique identifier of the player that drives the snowplow.
+     * The player that drives the snowplow.
      */
-    private int playerId;
+    private Player player;
     
     /**
      * The garage where the snowplow belongs.
@@ -35,11 +39,11 @@ public class SnowPlow extends Vehicle implements Purchasable {
     private int price;
 
     /**
-     * Returns the unique identifier of the player.
-     * @return the playerid
+     * Returns the player.
+     * @return the player
      */
-    public int getPlayerId() {
-        return playerId;
+    public Player getPlayer() {
+        return player;
     }
 
     /**
@@ -76,11 +80,11 @@ public class SnowPlow extends Vehicle implements Purchasable {
     }
     
     /**
-     * Set the playerid to the given value.
-     * @param id the given id
+     * Set the player to the given object.
+     * @param p the given player
      */
-    public void setPlayerId(int id) {
-        playerId = id;
+    public void setPlayer(Player p) {
+        player = p;
     } 
 
     /**
@@ -96,6 +100,7 @@ public class SnowPlow extends Vehicle implements Purchasable {
      * @param heads the given list of heads
     */
    public void setHeads(List<Head> heads) {
+        proto.changed(toString(), "setActiveHead", activeHead.getClass().getSimpleName(), h.getClass().getSimpleName());
        this.heads = heads;
     }
     
@@ -109,7 +114,7 @@ public class SnowPlow extends Vehicle implements Purchasable {
 
     /**
      * Sets the price to the given value
-     * @param p teh given price
+     * @param p the given price
      */
     public void setPrice(int p) {
         price = p;
@@ -123,7 +128,7 @@ public class SnowPlow extends Vehicle implements Purchasable {
     public void move(int n) {
         for (int i=0; i<n; i++) {
             if (currentField.getNextField() != null) {
-                currentField.moveToNextField(this);
+                currentField.moveToNextField(this, direction);
                 if(this.getGarage().getDestroyedNum() < 4) {
                     activeHead.clean(currentField);
                 }   
@@ -151,11 +156,11 @@ public class SnowPlow extends Vehicle implements Purchasable {
     */
    public void changeHead(Head h) {
         if (heads.contains(h)) {
+            proto.changed(toString(), "activeHead", activeHead.getClass().getSimpleName(), h.getClass().getSimpleName());
             activeHead.setEquipped(false);
             h.setEquipped(true);
             activeHead = h;
         }
-
     }
 
     /**
@@ -173,8 +178,38 @@ public class SnowPlow extends Vehicle implements Purchasable {
      * @param s the shop
      */
     @Override
-    public void pay(Shop s) {
+    public boolean pay(Shop s) {
         if (s.deduct(price)) {
+            return true;
         }
+        return false;
+    }
+
+    /**
+     * Gives the player a snowplow.
+     * @param player the player
+     * @param amount how many (only one can be at once)
+     * @param snowplow null
+     */
+    @Override
+    public void onPurchased(Player player, int amount, SnowPlow snowplow) {
+        player.addVehicle(this);
+    }
+
+    /**
+     * Tells if the vehicle can resolve the emergency crash.
+     * @return true or false (always false except snowplow, then true)
+     */
+    @Override
+    public boolean causesEmergencyClearance() {
+        return true;
+    }
+
+    /**
+     * Retruns the snowplow to the garage.
+     */
+    @Override
+    public void returnToStart() {
+        garage.enterVehicle(this);
     }
 }

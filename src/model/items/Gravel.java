@@ -13,7 +13,7 @@ public class Gravel extends Resource {
    }
 
     /** Default constructor for Gravel. */
-    Gravel() {
+    public Gravel() {
         super();
     }
 

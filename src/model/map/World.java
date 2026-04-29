@@ -1,9 +1,7 @@
 package model.map;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class World {
     /// Fields:
@@ -18,8 +16,16 @@ public class World {
 
     /// Getters:
     public List<Lane> getLanesTowards(Intersection destination) {
-        //TODO
-        return null;
+        List<Lane> foundLanes = new ArrayList<>();
+
+        for (Road road : this.roads) {
+            List<Lane> lanesFromRoad = road.getLanesTowards(destination);
+
+            if (lanesFromRoad != null && !lanesFromRoad.isEmpty()) {
+                foundLanes.addAll(lanesFromRoad);
+            }
+        }
+        return foundLanes;
     }
 
     /// Setters:
@@ -34,17 +40,75 @@ public class World {
 
     /// Functional functions:
     public Queue<Intersection> calculateRoute(Intersection start, Intersection destination) {
-        //TODO
-        return null;
+        Queue<Intersection> finalRoute = new LinkedList<>();
+        if (start.equals(destination)) {
+            return finalRoute;
+        }
+
+        Queue<Intersection> queue = new LinkedList<>();
+        Set<Intersection> visited = new HashSet<>();
+        Map<Intersection, Intersection> parentMap = new HashMap<>();
+
+        queue.add(start);
+        visited.add(start);
+        boolean targetFound = false;
+
+        while (!queue.isEmpty()) {
+            Intersection current = queue.poll();
+
+            if (current.equals(destination)) {
+                targetFound = true;
+                break;
+            }
+
+            // Végigmegyünk a jelenlegi kereszteződésből induló utakon
+            for (Road road : current.getConnectedRoads()) {
+                Intersection neighbor;
+
+                // Meghatározzuk a túloldalt
+                if (road.getDestinationA().equals(current)) {
+                    neighbor = road.getDestinationB();
+                } else {
+                    neighbor = road.getDestinationA();
+                }
+
+                // Ha még nem jártunk ott, felvesszük a listára
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    parentMap.put(neighbor, current);
+                    queue.add(neighbor);
+                }
+            }
+        }
+
+        // Útvonal visszafejtése
+        if (targetFound) {
+            LinkedList<Intersection> tempPath = new LinkedList<>();
+            Intersection step = destination;
+
+            while (!step.equals(start)) {
+                tempPath.addFirst(step);
+                step = parentMap.get(step);
+            }
+
+            finalRoute.addAll(tempPath);
+        }
+        return finalRoute;
     }
 
     public void snowfall() {
         for(Road road: roads){
-            road.snowfall();
+            if(road.getRoadType() != RoadType.TUNNEL) {
+                road.snowfall();
+            }
         }
     }
 
     public void tickTimers() {
-        //TODO
+        if (this.roads != null) {
+            for (Road road : this.roads) {
+                road.tickTimers();
+            }
+        }
     }
 }

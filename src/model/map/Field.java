@@ -1,7 +1,9 @@
 package model.map;
 
+import java.util.ArrayList;
 import java.util.List;
 import model.entities.Car;
+import model.entities.DirectionType;
 import model.entities.SnowPlow;
 import model.entities.Vehicle;
 
@@ -77,6 +79,13 @@ public class Field extends Node {
 
 
     /// Functional functions:
+
+    /**
+     * Moving to the next field (for cars)
+     * Chooses direction automatically, if it cant move to a field in one direction
+     * Priority: 1:AH, 2:LE, 3:RI
+     * @param v: The vehicle that is moving
+     */
     public void moveToNextField(Vehicle v) {
 
         Field currentField = v.getCurrentField();
@@ -101,6 +110,32 @@ public class Field extends Node {
             }
         }
 
+    }
+
+    /**
+     * Moving to the next field (for snowplows and buses)
+     * @param v: The vehicle that is moving
+     * @param direction: AH, RI, LE
+     */
+    public void moveToNextField(Vehicle v, DirectionType direction) {
+        Field currentField = v.getCurrentField();
+        if (currentField != null) {
+            Field forwardField = currentField.getNextField();
+
+            if (forwardField != null) {
+                Field targetField = forwardField;
+
+                if (direction.equals(DirectionType.LE)) {
+                    targetField = forwardField.getLeftNeighbour();
+                } else if (direction.equals(DirectionType.RI)) {
+                    targetField = forwardField.getRightNeighbour();
+                }
+
+                if (targetField != null) {
+                    targetField.acceptVehicle(v);
+                }
+            }
+        }
     }
 
     private boolean isPassable() {
@@ -130,31 +165,46 @@ public class Field extends Node {
         surface.addSnow(amount);
     }
 
+
     private void checkAccident() {
-        //TODO, THIS IS JUST THE PART I NEED PLEASE IMPLEMENT GENERAL SOLUTION
+        if (this.vehicles.size() >= 2) {
+            boolean emergencyClearance = false;
 
-        boolean hasSnowPlow = false;
-        for(var currVehicle : this.vehicles) {
-            if(currVehicle.getClass().getSimpleName().equals("SnowPlow")) hasSnowPlow = true;
-        }
+            // find if there is a snowplow on the field
+            for (Vehicle currVehicle : this.vehicles) {
+                if (currVehicle.causesEmergencyClearance()) {
+                    emergencyClearance = true;
+                    break;
+                }
+            }
 
-        if(this.vehicles.size() >= 2){
-            for(var currVehicle : this.vehicles){
-                if(currVehicle.getClass().getSimpleName().equals("SnowPlow")){
-                    ((SnowPlow) currVehicle).getGarage().enterVehicle(currVehicle);
+            List<Vehicle> involvedVehicles = new ArrayList<>(this.vehicles);
 
-                }else if(currVehicle.getClass().getSimpleName().equals("Car")){
+            // if snowplow hit other vehicles, all of them return to the start
+            if (emergencyClearance) {
+                for (Vehicle currVehicle : involvedVehicles) {
+                    currVehicle.setCanMove(true);
+                    currVehicle.returnToStart();
+                }
+            } else {
+                // register accident
+                this.accidentTimer = 5;
+                for (Vehicle currVehicle : involvedVehicles) {
                     currVehicle.setCanMove(false);
-                    if (hasSnowPlow) {
-                        ((Car) currVehicle).getHome().enterVehicle(currVehicle);
-                    }
                 }
             }
         }
     }
 
 
-
+    public void tickTimers() {
+        if (this.accidentTimer > 0) {
+            this.accidentTimer--;
+        }
+        if (this.surface != null) {
+            this.surface.tickTimers();
+        }
+    }
 
 
 

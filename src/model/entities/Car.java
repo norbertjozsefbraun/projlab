@@ -90,4 +90,12 @@ public class Car extends Vehicle {
             move(1);
         }
     }
+
+    /**
+     * Retruns the car to its home.
+     */
+    @Override
+    public void returnToStart() {
+        home.enterVehicle(this);
+    }
 }
