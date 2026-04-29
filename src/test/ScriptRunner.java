@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.StringTokenizer;
 import model.entities.Vehicle;
+import model.items.*;
 import model.core.Session;
 import model.entities.SnowPlow;
 
@@ -32,7 +33,7 @@ public class ScriptRunner {
                     case "randomize"   -> randomize();
                     case "derandomize" -> derandomize();
                     case "start"       -> start(st);
-                    case "lsh"         -> lsh();
+                    case "lsh"         -> lsh(st);
                     case "ch"          -> ch(st);
                     case "roll"        -> roll();
                     case "move"        -> move(st);
@@ -90,7 +91,35 @@ public class ScriptRunner {
      * @param st the string tokenizer containing the command arguments
      */
     private void ch(StringTokenizer st) {
-        // TODO: implement ch command - ZOLI
+        if (!st.hasMoreTokens()) return;
+            String spId = st.nextToken();
+            
+        if (!st.hasMoreTokens()) return;
+            String newHeadType = st.nextToken();
+
+        Session session = Session.getInstance();
+        List<Vehicle> vehicles = session.getGame().getVehicles();
+        SnowPlow snowPlow = null;
+        for (Vehicle v : vehicles) {
+            if (v.getVehicleId() == Integer.parseInt(spId)) {
+                snowPlow = (SnowPlow) v;
+            }
+        }
+
+        Head oldHead = snowPlow.getActiveHead();
+        Head activHead = switch (newHeadType) {
+            case "dr" -> new Dragon();
+            case "st" -> new Salter();
+            case "sw" -> new Sweeper();
+            case "gr" -> new GravelSpreader();
+            case "bl" -> new Blower();
+            default -> null;
+        };
+
+        snowPlow.changeHead(activHead);
+        Prototype.getInstance().changed("snowplow" + spId, "activeHead", oldHead.getClass().getSimpleName(), activHead.getClass().getSimpleName());
+
+
     }
 
     private void roll() {
@@ -120,30 +149,21 @@ public class ScriptRunner {
     private void fill(StringTokenizer st) {
 
         if (!st.hasMoreTokens()) return;
-        String idStr = st.nextToken();
+            String idStr = st.nextToken();
             
         if (!st.hasMoreTokens()) return;
-        String resourceType = st.nextToken();
+            String resourceType = st.nextToken();
             
         if (!st.hasMoreTokens()) return;
-        int amountToAdd = Integer.parseInt(st.nextToken());
+            int amountToAdd = Integer.parseInt(st.nextToken());
 
         Session session = Session.getInstance();
         List<Vehicle> vehicles = session.getGame().getVehicles();
 
         for (Vehicle v : vehicles) {
             if (v.getVehicleId() == Integer.parseInt(idStr)) {
-                if (v instanceof SnowPlow sp) {
                     SnowPlow snowPlow = (SnowPlow) v;
-                }
             }
         }
-
-
-       
-       
-
-
-
     }
 }
