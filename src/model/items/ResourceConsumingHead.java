@@ -13,4 +13,10 @@ public abstract class ResourceConsumingHead extends Head implements ResourceUser
      * @param r the resource to refill with
      */
     public abstract void refill(Resource r);
+
+    /**
+     * Gets the current resource used by this head.
+     * @return the resource object
+     */
+    public abstract Resource getResource();
 }

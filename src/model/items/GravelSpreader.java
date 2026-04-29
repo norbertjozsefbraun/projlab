@@ -57,4 +57,13 @@ public class GravelSpreader extends ResourceConsumingHead {
     public boolean hasResource() {
         return this.gravel.getAmount() >= 5;
     }
+
+    /**
+     * Gets the current gravel resource used by this GravelSpreader head.
+     * @return the gravel resource
+     */
+    @Override
+    public Resource getResource() {
+        return this.gravel;
+    }
 }
