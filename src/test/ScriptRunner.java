@@ -3,7 +3,11 @@ package test;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.StringTokenizer;
+import model.entities.Vehicle;
+import model.core.Session;
+import model.entities.SnowPlow;
 
 /**
  * Reads a test script from a file and executes each line as a command.
@@ -54,11 +58,37 @@ public class ScriptRunner {
     private void start(StringTokenizer st) {
         // TODO: implement start command - NORBI
     }
+ 
+    /**
+     * Lists the heads of the specified snowplow.
+     * @param st the string tokenizer containing the command arguments
+     */
+    private void lsh(StringTokenizer st) {
+        String idStr = st.nextToken();
+        Session session = Session.getInstance();
+        List<Vehicle> vehicles = session.getGame().getVehicles();
 
-    private void lsh() {
-        // TODO: implement lsh command - ZOLI
+        SnowPlow snowPlow = null;
+        for (Vehicle v : vehicles) {
+            if (v.getVehicleId() == Integer.parseInt(idStr)) {
+                snowPlow = (SnowPlow) v;
+            }
+        }
+
+        if (snowPlow == null) {
+            System.out.println("Snowplow not found.");
+            return;
+        }
+
+        for (int i=0;i<snowPlow.getHeads().size();i++) {
+            System.out.println("\t" + i + ": " + snowPlow.getHeads().get(i).getClass().getSimpleName());
+        }
     }
 
+    /**
+     * Changes the current head to the specified type. 
+     * @param st the string tokenizer containing the command arguments
+     */
     private void ch(StringTokenizer st) {
         // TODO: implement ch command - ZOLI
     }
@@ -83,7 +113,37 @@ public class ScriptRunner {
         // TODO: implement transaction command - BAZSI
     }
 
+    /**
+     * Fills the specified area with the given type.
+     * @param st the string tokenizer containing the command arguments
+     */
     private void fill(StringTokenizer st) {
-        // TODO: implement fill command - ZOLI
+
+        if (!st.hasMoreTokens()) return;
+        String idStr = st.nextToken();
+            
+        if (!st.hasMoreTokens()) return;
+        String resourceType = st.nextToken();
+            
+        if (!st.hasMoreTokens()) return;
+        int amountToAdd = Integer.parseInt(st.nextToken());
+
+        Session session = Session.getInstance();
+        List<Vehicle> vehicles = session.getGame().getVehicles();
+
+        for (Vehicle v : vehicles) {
+            if (v.getVehicleId() == Integer.parseInt(idStr)) {
+                if (v instanceof SnowPlow sp) {
+                    SnowPlow snowPlow = (SnowPlow) v;
+                }
+            }
+        }
+
+
+       
+       
+
+
+
     }
 }
