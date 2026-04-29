@@ -2,6 +2,9 @@ package model.map;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
+
+import model.core.Game;
+import model.core.Ticker;
 import model.entities.Vehicle;
 
 public class Surface {
@@ -10,6 +13,7 @@ public class Surface {
     private boolean isIce;
     private Queue<Integer> passTimes;
     private int saltTimer;
+    private boolean hasGravel;
 
     /// Getters:
     public int getSnowThickness() {
@@ -30,15 +34,24 @@ public class Surface {
         isIce = false;
         passTimes = new ArrayDeque<>();
         saltTimer = 0;
+        hasGravel = false;
     }
 
     /// Functions:
-    public void vehiclePasses(Vehicle v){
 
-        //int alt = skeleton.getChoice("Áthaladt 5 jármű az utolsó 10 időegységben?", new String[]{"Igen", "Nem"});
-        //if(alt == 1){
-        //    isIce = true;
-        //}
+
+    public void vehiclePasses(Vehicle v) {
+        passTimes.add(Game.getTicker().getCurrent());
+
+        // remove old passes
+        while (!passTimes.isEmpty() && (Game.getTicker().getCurrent() - passTimes.peek() >= 10)) {
+            passTimes.poll();
+        }
+
+        // add ice
+        if (passTimes.size() >= 5 && saltTimer == 0) {
+            this.isIce = true;
+        }
 
     }
 
@@ -46,10 +59,9 @@ public class Surface {
 
         int snowAmount = snowThickness;
         snowThickness = 0;
+        hasGravel = false;
 
         return snowAmount;
-
-        //TODO gravelt is el kell tavolitania a járműnek.
     }
 
     public void breakIce() {
@@ -66,7 +78,7 @@ public class Surface {
     }
 
     public void addGravel() {
-        //TODO
+        hasGravel = true;
     }
 
     public void addSnow(int amount) {
