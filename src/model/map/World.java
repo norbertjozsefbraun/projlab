@@ -27,6 +27,10 @@ public class World {
         }
         return foundLanes;
     }
+    //NEW BY ZEKY
+    public List<Intersection> getIntersections(){
+        return intersections;
+    } 
 
     /// Setters:
     public void setRoads(List<Road> roads){

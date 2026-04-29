@@ -21,6 +21,11 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.ArrayList;
 
+import model.buildings.Building;
+import model.buildings.BusStop;
+import model.buildings.Garage;
+import model.buildings.Home;
+import model.buildings.WorkPlace;
 import model.core.Game;
 import model.entities.DirectionType;
 import model.entities.Vehicle;
@@ -33,6 +38,7 @@ import model.core.Shop;
 import model.entities.SnowPlow;
 import model.core.Player;
 import model.items.*;
+import model.map.Intersection;
 import model.map.World;
 
 /**
@@ -256,8 +262,134 @@ public class ScriptRunner {
         // TODO: implement connect command - Keve
     }
 
+    /**
+     * PARAMS: <intersection ID> <bs/ho/wo/ga>
+     * Adott ID-ju intersection buildengjet beallitja tipus szerint
+     * @param st
+     */
     private void setb(StringTokenizer st) {
         // TODO: implement setb command - Zeki
+        if(!st.hasMoreTokens()){
+            System.out.println("Missing intersection ID!");
+            return;
+        }
+        int intersectionID = Integer.parseInt(st.nextToken());
+        if(!st.hasMoreTokens()){
+            System.out.println("Missing building type! You can choose from: <bs, ho, wo, ga>");
+            return;
+        }
+
+        String veh = st.nextToken();
+        if(st.hasMoreTokens()){
+            System.out.println("Too many arguments!");
+            return;
+        }
+        Session session = Session.getInstance();
+        Game game = session.getGame();
+
+        var intersection = game.getWorld().getIntersections().stream().filter(i -> i.getId() == intersectionID).findFirst().orElse(null);
+
+        // Ha nincs ilyen ID
+        if (intersection == null){
+            System.out.println("No Intersection with the provided ID exists!");
+            return;
+        }
+
+        Building building = intersection.getBuilding();
+        
+        switch(veh){
+            case "bs" -> {
+                if(!(building instanceof BusStop) && building!=null){
+                    System.out.println("The intersection with the given intersection ID does not have the correct type of Building!");
+                    return;
+                }
+                if(building == null){
+                    building = new BusStop();
+                    intersection.setBuilding(building);
+                }
+                //RAELLENORIZNI HOLNAP JOE A HOZZAADAS
+                BusStop stop = (BusStop)building;
+                for (Vehicle vehicle : game.getVehicles()) {
+                    if (vehicle instanceof Bus bus) {
+                        // 1. BEÁLLÍTÁS
+                        if (bus.getStopA() == null) {
+                            bus.setStopA(stop);
+                        } else if (bus.getStopB() == null) {
+                            // Csak akkor állítjuk be B-nek, ha nem ugyanaz, mint az A
+                            if (!stop.equals(bus.getStopA())) {
+                                bus.setStopB(stop);
+                            }
+                        } else {
+                            // Ha mindkettő tele van, csere (pl. az A-t eldobjuk, jön az új)
+                            if (!stop.equals(bus.getStopA()) && !stop.equals(bus.getStopB())) {
+                                bus.setStopA(stop);
+                            }
+                        }
+                        // 2. SZINKRONIZÁCIÓ (Ez a kulcs a "max 2" szabályhoz!)
+                        List<Building> newList = new ArrayList<>();
+                        if (bus.getStopA() != null) newList.add(bus.getStopA());
+                        if (bus.getStopB() != null) newList.add(bus.getStopB());
+                        
+                        bus.setBuildings(newList);
+                    }
+                }
+            }   
+
+            case "ho" ->{
+                if(!(building instanceof Home) && building!=null){
+                    System.out.println("The intersection with the given intersection ID does not have the correct type of Building!");
+                    return;
+                }
+                if(building == null){
+                    building = new Home();
+                    intersection.setBuilding(building);
+                }
+                Home home = (Home)building;
+                for (Vehicle vehicle : game.getVehicles()) {
+                    if(vehicle instanceof Car car){
+                        car.setHome(home);
+                    }
+                }
+            }
+            
+            case "wo" ->{
+                if(!(building instanceof WorkPlace) && building!=null){
+                    System.out.println("The intersection with the given intersection ID does not have the correct type of Building!");
+                    return;
+                }
+                if(building == null){
+                    building = new WorkPlace();
+                    intersection.setBuilding(building);
+                }
+                WorkPlace workPlace = (WorkPlace)building;
+                for (Vehicle vehicle : game.getVehicles()) {
+                    if(vehicle instanceof Car car){
+                        car.setWork(workPlace);
+                    }
+                }
+            }
+
+            case "ga" ->{
+                if(!(building instanceof Garage) && building != null){
+                    System.out.println("The intersection with the given intersection ID does not have the correct type of Building!");
+                    return;
+                }
+                if(building == null){
+                    building = new Garage();
+                    intersection.setBuilding(building);
+                }
+                Garage garage = (Garage)building;
+                for (Vehicle vehicle : game.getVehicles()) {
+                    if(vehicle instanceof SnowPlow snowPlow){
+                        snowPlow.setGarage(garage);
+                    }
+                }
+            }
+            default ->{
+                System.out.println("Unknown type of building! Available options: <bs, ho, wo, ga>");
+                return;
+            }   
+        } 
     }
 
     private void setVeh(StringTokenizer st) {
@@ -425,8 +557,6 @@ public class ScriptRunner {
 
     private void ls() {
         // TODO: implement ls command - ZEKI
-        // Kiirni az osszes elerheto testcaset konzolra
-        // mainbe listabol?
         ArrayList<String> testCases = new ArrayList<>();
         testCases.add("auto-sikeres-lep");
         testCases.add("fejcsere");
