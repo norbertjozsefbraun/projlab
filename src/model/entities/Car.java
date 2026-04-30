@@ -1,8 +1,11 @@
 package model.entities;
 
+import java.util.ArrayList;
 import model.buildings.Home;
 import model.buildings.WorkPlace;
+import model.map.Field;
 import model.map.Intersection;
+import model.map.Road;
 
 public class Car extends Vehicle {
     /**
@@ -14,6 +17,49 @@ public class Car extends Vehicle {
      * The workplace where the car is heading.
      */
     private WorkPlace work;
+
+    public Car() {}
+
+    /**
+     * The constructor for the car if it starts from home.
+     * @param home The starting building
+     * @param work The destiantion
+     */
+    public Car(Home home, WorkPlace work) {
+        vehicleId = idCounter++;
+        canMove = true;
+        this.home = home;
+        this.work = work;
+        currentBuilding = home;
+        buildings = new ArrayList<>();
+        buildings.add(home);
+        buildings.add(work);
+        currentRoad = null;
+        currentField = null;
+        destinationIntersection = work.getLocation();
+    }
+
+    /**
+     * The constructor if the car starts on the map.
+     * @param home the home
+     * @param work the workplace
+     * @param field the starting field
+     * @param road the starting road
+     */
+    public Car(Home home, WorkPlace work, Field field, Road road) {
+        vehicleId = idCounter++;
+        canMove = true;
+        this.home = home;
+        this.work = work;
+        currentBuilding = home;
+        buildings = new ArrayList<>();
+        buildings.add(home);
+        buildings.add(work);
+        currentRoad = road;
+        currentField = field;
+        destinationIntersection = work.getLocation();
+        field.acceptVehicle(this);
+    }
 
     /**
      * Returns the home of teh car.

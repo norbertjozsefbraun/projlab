@@ -1,8 +1,6 @@
 package model.core;
 
 import model.entities.SnowPlow;
-import model.entities.Vehicle;
-import model.items.Head;
 import model.items.Purchasable;
 import test.Prototype;
 
@@ -60,7 +58,7 @@ public class Shop {
      */
     public void transaction(Purchasable item, int amount, Player player, SnowPlow sp) {
         if (item.pay(this)) {
-            item.onPurchased(player, amount, sp);
+            item.onPurchased(player, sp, amount);
         }
     }
 }

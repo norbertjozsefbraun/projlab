@@ -9,6 +9,7 @@ import test.Prototype;
 
 public abstract class Vehicle {
     Prototype proto = Prototype.getInstance();
+    static int idCounter = 0;
 
     /**
      * Unique identifier of the vehicles.
