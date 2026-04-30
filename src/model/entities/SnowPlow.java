@@ -1,5 +1,6 @@
 package model.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import model.buildings.Garage;
 import model.core.Player;
@@ -8,6 +9,7 @@ import model.items.Head;
 import model.items.Purchasable;
 import model.map.Field;
 import model.map.Intersection;
+import model.map.Road;
 import test.Prototype;
 
 public class SnowPlow extends Vehicle implements Purchasable {
@@ -37,6 +39,47 @@ public class SnowPlow extends Vehicle implements Purchasable {
      * The price of a new snowplow
      */
     private int price;
+
+    public SnowPlow() {}
+
+    /**
+     * Constructor if the snowplow starts from the garage.
+     * @param player the player who owns the snowplow
+     * @param garage the starting building
+     */
+    public SnowPlow(Player player, Garage garage) {
+        vehicleId = idCounter++;
+        this.player = player;
+        canMove = true;
+        buildings = new ArrayList<>();
+        buildings.add(garage);
+        currentBuilding = garage;
+        this.garage = garage;
+        currentField = null;
+        currentRoad = null;
+        heads = new ArrayList<>();
+    } 
+
+    /**
+     * The constructor if the snowplow starts on the map.
+     * @param player the player who owns the snowplow
+     * @param garage the garage of the snwoplow
+     * @param field the starting field
+     * @param road teh starting road
+     */
+    public SnowPlow(Player player, Garage garage, Field field, Road road) {
+        vehicleId = idCounter++;
+        this.player = player;
+        canMove = true;
+        this.garage = garage;
+        buildings = new ArrayList<>();
+        buildings.add(garage);
+        currentBuilding = null;
+        currentField = field;
+        currentRoad = road;
+        heads = new ArrayList<>();
+        field.acceptVehicle(this);
+    }
 
     /**
      * Returns the player.
@@ -100,8 +143,7 @@ public class SnowPlow extends Vehicle implements Purchasable {
      * @param heads the given list of heads
     */
    public void setHeads(List<Head> heads) {
-        proto.changed(toString(), "setActiveHead", activeHead.getClass().getSimpleName(), h.getClass().getSimpleName());
-       this.heads = heads;
+        this.heads = heads;
     }
     
     /**
@@ -192,7 +234,7 @@ public class SnowPlow extends Vehicle implements Purchasable {
      * @param snowplow null
      */
     @Override
-    public void onPurchased(Player player, int amount, SnowPlow snowplow) {
+    public void onPurchased(Player player, SnowPlow snowplow, int amount) {
         player.addVehicle(this);
     }
 

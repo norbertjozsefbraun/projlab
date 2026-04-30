@@ -2,6 +2,7 @@ package model.map;
 
 
 import java.util.*;
+import java.mode
 
 public class World {
     /// Fields:
@@ -30,6 +31,18 @@ public class World {
     public List<Intersection> getIntersections(){
         return intersections;
     } 
+
+    public List<Road> getRoads() {
+        return roads;
+    }
+
+    public List<Intersection> getIntersections() {
+        return intersections;
+    }
+
+    public Field getFieldById(String roadName, int fieldId) {
+        //TODO
+    }
 
     /// Setters:
     public void setRoads(List<Road> roads){

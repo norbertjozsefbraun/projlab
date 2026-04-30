@@ -1,11 +1,5 @@
 package test;
 
-import static test.ScriptRunnerHelper.createItem;
-import static test.ScriptRunnerHelper.executeAndCapture;
-import static test.ScriptRunnerHelper.loadThisWorld;
-import static test.ScriptRunnerHelper.normalizePlayerType;
-import static test.ScriptRunnerHelper.stripQuotes;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,27 +13,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.ArrayList;
-
 import model.buildings.Building;
 import model.buildings.BusStop;
 import model.buildings.Garage;
 import model.buildings.Home;
 import model.buildings.WorkPlace;
 import model.core.Game;
-import model.entities.DirectionType;
-import model.entities.Vehicle;
-import model.items.*;
+import model.core.Player;
+import model.core.Session;
+import model.core.Shop;
 import model.entities.Bus;
 import model.entities.Car;
 import model.entities.DirectionType;
-import model.core.Session;
-import model.core.Shop;
 import model.entities.SnowPlow;
-import model.core.Player;
+import model.entities.Vehicle;
 import model.items.*;
+import model.map.Field;
 import model.map.Intersection;
+import model.map.Road;
 import model.map.World;
+import static test.ScriptRunnerHelper.createItem;
+import static test.ScriptRunnerHelper.executeAndCapture;
+import static test.ScriptRunnerHelper.loadThisWorld;
+import static test.ScriptRunnerHelper.normalizePlayerType;
+import static test.ScriptRunnerHelper.stripQuotes;
 
 /**
  * Reads a test script from a file and executes each line as a command.
@@ -328,7 +325,83 @@ public class ScriptRunner {
     }
 
     private void setVeh(StringTokenizer st) {
-        // TODO: implement setVeh command - Bazsi
+        if (!st.hasMoreTokens()) return;
+        String roadName = st.nextToken();
+        if (!st.hasMoreTokens()) return;
+        String fieldId = st.nextToken();
+        if (!st.hasMoreTokens()) return;
+        String intersectionId = st.nextToken();
+        if (!st.hasMoreTokens()) return;
+        String playerName = st.nextToken();
+        if (!st.hasMoreTokens()) return;
+        String vehType = st.nextToken();
+        
+        Session session = Session.getInstance();
+        Game game = session.getGame();
+        World world = game.getWorld();
+
+        List<Building> buildings = new ArrayList<>();
+        while (st.hasMoreTokens()) {
+            String strId = st.nextToken();
+            if (!strId.equals("null")) {
+                int bId = Integer.parseInt(strId);
+                for (Intersection i : world.getIntersections()) {
+                    if (i.getId() == bId) {
+                        buildings.add(i.getBuilding());
+                    }
+                }
+            }
+        }
+
+        Player player = null;
+        for (Player p : game.getPlayers()) {
+            if (p.getName().equals(playerName)) player = p;
+        }
+
+        Road road = null;
+        for (Road r : world.getRoads()) {
+            if (r.getName().equals(roadName)) road = r;
+        }
+
+        Field field = null;
+        if (!fieldId.equals("null")) field = world.getFieldById(roadName, Integer.parseInt(fieldId));     
+        List<Vehicle> vehicles = new ArrayList<>();
+
+        switch (vehType) {
+            case "sp":
+                if (buildings.isEmpty()) return;
+                Garage garage = (Garage)buildings.get(0);
+                if (intersectionId.equals("null")) {
+                    vehicles.add(new SnowPlow(player, garage, field, road));
+                }
+                else {
+                    vehicles.add(new SnowPlow(player, garage));
+                }
+                break;
+            case "bu":
+                if (buildings.size() < 2) return;
+                BusStop stopA = (BusStop)buildings.get(0);
+                BusStop stopB = (BusStop)buildings.get(1);
+                if (intersectionId.equals("null")) {
+                    vehicles.add(new Bus(player, stopA, stopB, field, road));
+                }
+                else {
+                    vehicles.add(new Bus(player, stopA, stopB));
+                }
+                break;
+            case "ca":
+                if (buildings.size() < 2) return;
+                Home home = (Home)buildings.get(0);
+                WorkPlace work = (WorkPlace)buildings.get(1);
+                if (intersectionId.equals("null")) {
+                    vehicles.add(new Car(home, work, field, road));
+                }
+                else {
+                    vehicles.add(new Car(home, work));
+                }
+                break;
+        }
+        game.setVehicles(vehicles);
     }
 
     private void setFieldContents(StringTokenizer st) {
@@ -567,7 +640,6 @@ public class ScriptRunner {
     }
 
     private void transaction(StringTokenizer st) {
-        // TODO: implement transaction command - BAZSI
         if (!st.hasMoreTokens()) return;
         String itemName = st.nextToken();
 
