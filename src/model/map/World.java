@@ -27,7 +27,6 @@ public class World {
         }
         return foundLanes;
     }
-    //NEW BY ZEKY
     public List<Intersection> getIntersections(){
         return intersections;
     } 
