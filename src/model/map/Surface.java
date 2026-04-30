@@ -28,6 +28,14 @@ public class Surface {
         this.isIce = isIce;
     }
 
+    public void setSnowThickness(int snowThickness) {
+        this.snowThickness = snowThickness;
+    }
+
+    public void setHasGravel(boolean hasGravel) {
+        this.hasGravel = hasGravel;
+    }
+
     /// Constructor:
     public Surface() {
         snowThickness = 0;

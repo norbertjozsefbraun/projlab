@@ -1,10 +1,13 @@
 package model.map;
 
 import model.buildings.Building;
+import model.core.Session;
 import model.entities.Vehicle;
+import model.map.World;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 public class Intersection extends Node {
     /// Fields:
@@ -55,23 +58,50 @@ public class Intersection extends Node {
 
        if(connectedRoads.isEmpty()) return;
 
-       Road targetRoad = connectedRoads.get(0);
-       Intersection destination = targetRoad.getDestinationA();
-       if(this.equals(destination)) {
-           destination =  targetRoad.getDestinationB();
-       }
+       Intersection finalDestination = v.getDestinationIntersection();
+        if (finalDestination == null) {
+            return;
+        }
+        World world = Session.getInstance().getGame().getWorld();
 
-       var lanes = targetRoad.getLanesTowards(destination);
+        // calculate next target intersection
+        Queue<Intersection> route = world.calculateRoute(this, finalDestination);
+        if (route == null || route.isEmpty()) {
+            return;
+        }
 
-       // try to get on one of the lanes
-       for(Lane lane : lanes) {
-           Field prevField = v.getCurrentField();
-           lane.getFirstField().acceptVehicle(v);
-           // if lane changed, stop trying
-           if(!prevField.equals(v.getCurrentField())) {
-               break;
-           }
-       }
+        Intersection nextIntersection = route.poll();
+        if (this.equals(nextIntersection)) {
+            nextIntersection = route.poll();
+        }
+
+        if (nextIntersection == null) return;
+
+        // find roqd
+        Road targetRoad = null;
+        for (Road road : connectedRoads) {
+            if (nextIntersection.equals(road.getDestinationA()) ||
+                    nextIntersection.equals(road.getDestinationB())) {
+                targetRoad = road;
+                break;
+            }
+        }
+        if (targetRoad == null) {
+            return;
+        }
+        // find lanes to the right direction
+        var lanes = targetRoad.getLanesTowards(nextIntersection);
+
+        // try to go to one of the lanes
+        for(Lane lane : lanes) {
+            Field prevField = v.getCurrentField();
+
+            lane.getFirstField().acceptVehicle(v);
+
+            if (prevField != v.getCurrentField()) {
+                break;
+            }
+        }
 
 
     }

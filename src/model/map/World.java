@@ -36,6 +36,41 @@ public class World {
         return intersections;
     }
 
+    public Field getFieldById(int fieldId) {
+        if (this.roads == null) return null;
+
+        for (Road road : this.roads) {
+            var lanesToA = road.getLanesToA();
+            var lanesToB = road.getLanesToB();
+
+            if (lanesToA != null) {
+                for (Lane lane : lanesToA) {
+                    var fields = lane.getFields();
+                    if (fields != null) {
+                        for (Field field : fields) {
+                            if (field.getId() == fieldId) {
+                                return field;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (lanesToB != null) {
+                for (Lane lane : lanesToB) {
+                    var fields = lane.getFields();
+                    if (fields != null) {
+                        for (Field field : fields) {
+                            if (field.getId() == fieldId) {
+                                return field;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
     public Field getFieldById(String roadName, int fieldId) {
         Road road = null;
         for(Road r : this.roads){
