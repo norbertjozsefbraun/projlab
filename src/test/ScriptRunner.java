@@ -336,10 +336,6 @@ public class ScriptRunner {
             System.out.println("Snowplow not found.");
             return;
         }
-
-        for (int i=0;i<snowPlow.getHeads().size();i++) {
-            System.out.println("\t" + i + ": " + snowPlow.getHeads().get(i).getClass().getSimpleName());
-        }
     }
 
     /**
@@ -546,4 +542,3 @@ public class ScriptRunner {
 
     }
 
-}
