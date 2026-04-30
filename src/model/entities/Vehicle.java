@@ -8,6 +8,8 @@ import model.map.Road;
 import test.Prototype;
 
 public abstract class Vehicle {
+    Prototype proto = Prototype.getInstance();
+
     /**
      * Unique identifier of the vehicles.
      */
@@ -39,9 +41,19 @@ public abstract class Vehicle {
     protected Intersection previousIntersection;
 
     /**
+     * The intersection the vehicle is heading.
+     */
+    protected Intersection destinationIntersection;
+
+    /**
      * The list of buildings the vehicle can enter.
      */
     protected List<Building> buildings;
+
+    /**
+     * The direction the vehicle is moving.
+     */
+    protected DirectionType direction;
     
     /**
      * Returns the unique identifier of the vehicle
@@ -88,7 +100,15 @@ public abstract class Vehicle {
      * @return the previous intersection
      */
     public Intersection getPreviousIntersection() {
-        return  previousIntersection;
+        return previousIntersection;
+    }
+
+    /**
+     * Returns the destion intersection
+     * @return the destinstion intersection
+     */
+    public Intersection getDestinationIntersection() {
+        return destinationIntersection;
     }
 
     /**
@@ -97,6 +117,14 @@ public abstract class Vehicle {
      */
     public List<Building> getBuildings() {
         return buildings;
+    }
+
+    /**
+     * Returns in which direction the vehicle is moving. 
+     * @return DirectionType direction (AH, RI, LE)
+     */
+    public DirectionType getDirection() {
+        return direction;
     }
 
     /**
@@ -112,6 +140,7 @@ public abstract class Vehicle {
      * @param ability the ability to move
      */
     public void setCanMove(boolean ability) {
+        proto.changed(toString(), "canMove", String.valueOf(canMove), String.valueOf(ability));
         canMove = ability;
     }
 
@@ -120,6 +149,9 @@ public abstract class Vehicle {
      * @param f the given field
      */
     public void setCurrentField(Field f) {
+        String oldValue = currentField == null ? "null" : "field" + String.valueOf(currentField.getId());
+        String newValue = f == null ? "null" : "field" + String.valueOf(f.getId());
+        proto.changed(toString(), "currentField", oldValue, newValue);
         currentField = f;
     }
 
@@ -128,6 +160,9 @@ public abstract class Vehicle {
      * @param r the given road
      */
     public void setCurrentRoad(Road r) {
+        String oldValue = currentRoad == null ? "null" : currentRoad.getName();
+        String newValue = r == null ? "null" : "field" + r.getName();
+        proto.changed(toString(), "currentRoad", oldValue, newValue);
         currentRoad = r;
     }
 
@@ -136,6 +171,9 @@ public abstract class Vehicle {
      * @param b the given building
      */
     public void setCurrentBuilding(Building b) {
+        String oldValue = currentBuilding == null ? "null" : currentBuilding.getClass().getSimpleName().toLowerCase() + String.valueOf(currentBuilding.getLocation().getId());
+        String newValue = b == null ? "null" : b.getClass().getSimpleName().toLowerCase() + String.valueOf(b.getLocation().getId());
+        proto.changed(toString(), "currentBuilding", oldValue, newValue);
         currentBuilding = b;
     }
 
@@ -148,7 +186,15 @@ public abstract class Vehicle {
     }
 
     /**
-     * Sets the given list of buildings to the vehicle
+     * Sets the destination intersection to the given intersection
+     * @param r the given intersection
+     */
+    public void setDestinationIntersection(Intersection i) {
+        destinationIntersection = i;
+    }
+
+    /**
+     * Sets the given list of buildings to the vehicle.
      * @param b the given list of buildings
      */
     public void setBuildings(List<Building> b) {
@@ -156,30 +202,40 @@ public abstract class Vehicle {
     }
 
     /**
+     * Sets the direction of the vehicle.
+     * @param d the direction
+     */
+    public void setDirection(DirectionType d) {
+        direction = d;
+    }
+
+    /**
      * Moves the vehicle the given number of fields.
      * @param n The number of fileds the vehicle has to move
      */
-    public void move(int n) {
-        for (int i=0; i<n; i++) {
-            if(!canMove) break;
-
-            if (currentField.getNextField() != null) {
-                currentField.moveToNextField(this);
-            }
-            else if(currentField.getNextField() == null){
-                Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB() : currentRoad.getDestinationA();
-                if (buildings.contains(inter.getBuilding())) {
-                    inter.goToBuilding(this);
-                }
-            inter.acceptVehicle(this);
-            }
-
-        }
-    }
+    public abstract void move(int n);
 
     /**
      * Slips the vehicle the given number of fileds.
      * @param n
      */
     public abstract void slip(int n);
+
+    /**
+     * Tells if the vehicle can resolve the emergency crash.
+     * @return true or false (always false except snowplow, then true)
+     */
+    public boolean causesEmergencyClearance() {
+        return false;
+    }
+
+    /**
+     * Returns the vehicle to its starting position.
+     */
+    public abstract void returnToStart();
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName().toLowerCase() + vehicleId;
+    }
 }

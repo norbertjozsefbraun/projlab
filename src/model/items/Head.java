@@ -1,6 +1,8 @@
 package model.items;
 
+import model.core.Player;
 import model.core.Shop;
+import model.entities.SnowPlow;
 import model.map.Field;
 
 public abstract class Head implements CleanerEquipment, Purchasable {
@@ -59,4 +61,18 @@ public abstract class Head implements CleanerEquipment, Purchasable {
      * @param f the field to clean
      */
     public abstract void clean(Field f);
+
+
+    /**
+     * Handles the logic when the head is purchased by a player, equipping it to the player's snowplow.
+     * @param player the player who purchased the head
+     * @param snowplow the snowplow to equip the head to
+     * @param amount the amount of the head to purchase
+     */
+    public void onPurchased(Player player, SnowPlow snowplow, int amount) {
+        if (snowplow != null) {
+            snowplow.addHead(this); 
+            this.setEquipped(true);
+        }
+    }
 }

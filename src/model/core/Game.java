@@ -30,7 +30,8 @@ public class Game {
     //Dice to roll with
     private Random dice;
 
-
+    //If true than roll will be always 1
+    private boolean derandomized;
 
     /// Constructor:
     public Game(List<Vehicle> vehcs, World world){
@@ -40,6 +41,7 @@ public class Game {
         shop = new Shop();
         rounds = 0;
         dice = new Random();
+        derandomized = false;
     }
 
     /// Getters:
@@ -69,6 +71,10 @@ public class Game {
 
     public Shop getShop() {
         return shop;
+    }
+
+    public boolean isDerandomized() {
+        return derandomized;
     }
 
     /// Setters:
@@ -101,6 +107,10 @@ public class Game {
         this.world = world;
     }
 
+    public void setDerandomized(boolean value) {
+        derandomized = value;
+    }
+
     /// Functional functions:
 
     /*
@@ -108,6 +118,7 @@ public class Game {
     @no params
      */
     private Integer rollDice(){
+        if (derandomized) return 1;
         int min = 1;
         int max = 6;
 

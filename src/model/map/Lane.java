@@ -64,5 +64,13 @@ public class Lane {
         }
     }
 
+    public void tickTimers() {
+        if (fields != null) {
+            for (Field field : fields) {
+                field.tickTimers();
+            }
+        }
+    }
+
 
 }

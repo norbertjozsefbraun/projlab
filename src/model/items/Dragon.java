@@ -65,4 +65,13 @@ public class Dragon extends ResourceConsumingHead {
     public boolean hasResource() {
         return this.kerosene.getAmount() >= 10;
     }
+
+    /**
+     * Gets the current kerosene resource used by this Dragon head.
+     * @return the kerosene resource
+     */
+    @Override
+    public Resource getResource() {
+        return this.kerosene;
+    }
 }
