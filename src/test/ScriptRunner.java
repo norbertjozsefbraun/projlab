@@ -133,9 +133,7 @@ public class ScriptRunner {
 
         for (Vehicle v : vehicles) {
             if (v.getVehicleId() == Integer.parseInt(idStr)) {
-                if (v instanceof SnowPlow sp) {
                     SnowPlow snowPlow = (SnowPlow) v;
-                }
             }
         }
 
