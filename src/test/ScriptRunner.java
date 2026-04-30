@@ -287,6 +287,7 @@ public class ScriptRunner {
         Session session = Session.getInstance();
         Game game = session.getGame();
 
+        //Megkeressük azt az intersectiont aminek az id-ja egyezik az inputkent kapott
         var intersection = game.getWorld().getIntersections().stream().filter(i -> i.getId() == intersectionID).findFirst().orElse(null);
 
         // Ha nincs ilyen ID
@@ -294,96 +295,26 @@ public class ScriptRunner {
             System.out.println("No Intersection with the provided ID exists!");
             return;
         }
-
-        Building building = intersection.getBuilding();
         
         switch(veh){
             case "bs" -> {
-                if(!(building instanceof BusStop) && building!=null){
-                    System.out.println("The intersection with the given intersection ID does not have the correct type of Building!");
-                    return;
-                }
-                if(building == null){
-                    building = new BusStop();
-                    intersection.setBuilding(building);
-                }
-                //RAELLENORIZNI HOLNAP JOE A HOZZAADAS
-                BusStop stop = (BusStop)building;
-                for (Vehicle vehicle : game.getVehicles()) {
-                    if (vehicle instanceof Bus bus) {
-                        // 1. BEÁLLÍTÁS
-                        if (bus.getStopA() == null) {
-                            bus.setStopA(stop);
-                        } else if (bus.getStopB() == null) {
-                            // Csak akkor állítjuk be B-nek, ha nem ugyanaz, mint az A
-                            if (!stop.equals(bus.getStopA())) {
-                                bus.setStopB(stop);
-                            }
-                        } else {
-                            // Ha mindkettő tele van, csere (pl. az A-t eldobjuk, jön az új)
-                            if (!stop.equals(bus.getStopA()) && !stop.equals(bus.getStopB())) {
-                                bus.setStopA(stop);
-                            }
-                        }
-                        // 2. SZINKRONIZÁCIÓ (Ez a kulcs a "max 2" szabályhoz!)
-                        List<Building> newList = new ArrayList<>();
-                        if (bus.getStopA() != null) newList.add(bus.getStopA());
-                        if (bus.getStopB() != null) newList.add(bus.getStopB());
-                        
-                        bus.setBuildings(newList);
-                    }
-                }
+                BusStop stop = new BusStop();
+                intersection.setBuilding(stop);       
             }   
 
             case "ho" ->{
-                if(!(building instanceof Home) && building!=null){
-                    System.out.println("The intersection with the given intersection ID does not have the correct type of Building!");
-                    return;
-                }
-                if(building == null){
-                    building = new Home();
-                    intersection.setBuilding(building);
-                }
-                Home home = (Home)building;
-                for (Vehicle vehicle : game.getVehicles()) {
-                    if(vehicle instanceof Car car){
-                        car.setHome(home);
-                    }
-                }
+                Home home = new Home();
+                intersection.setBuilding(home);
             }
             
             case "wo" ->{
-                if(!(building instanceof WorkPlace) && building!=null){
-                    System.out.println("The intersection with the given intersection ID does not have the correct type of Building!");
-                    return;
-                }
-                if(building == null){
-                    building = new WorkPlace();
-                    intersection.setBuilding(building);
-                }
-                WorkPlace workPlace = (WorkPlace)building;
-                for (Vehicle vehicle : game.getVehicles()) {
-                    if(vehicle instanceof Car car){
-                        car.setWork(workPlace);
-                    }
-                }
+                WorkPlace wp = new WorkPlace();
+                intersection.setBuilding(wp);
             }
 
             case "ga" ->{
-                if(!(building instanceof Garage) && building != null){
-                    System.out.println("The intersection with the given intersection ID does not have the correct type of Building!");
-                    return;
-                }
-                if(building == null){
-                    building = new Garage();
-                    intersection.setBuilding(building);
-                }
-                Garage garage = (Garage)building;
-                for (Vehicle vehicle : game.getVehicles()) {
-                    if(vehicle instanceof SnowPlow snowPlow){
-                        snowPlow.setGarage(garage);
-                    }
-                }
+                Garage garage = new Garage();
+                intersection.setBuilding(garage);
             }
             default ->{
                 System.out.println("Unknown type of building! Available options: <bs, ho, wo, ga>");
