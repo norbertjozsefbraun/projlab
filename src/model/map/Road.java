@@ -73,6 +73,8 @@ public class Road {
         return destinationB;
     }
     public RoadType getRoadType() { return roadType; }
+    public List<Lane> getLanesToA() { return lanesToA; }
+    public List<Lane> getLanesToB() { return lanesToB; }
     public List<Lane> getLanesTowards(Intersection destination) {
         List<Lane> result;
 
