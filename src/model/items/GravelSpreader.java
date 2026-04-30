@@ -1,5 +1,6 @@
 package model.items;
 import model.map.Field;
+import test.Prototype;
 
 
 public class GravelSpreader extends ResourceConsumingHead {
@@ -46,7 +47,9 @@ public class GravelSpreader extends ResourceConsumingHead {
      * @param amount the amount of gravel to add
      */
     public void addAmount(int amount) {
+        int oldAmount = this.gravel.amount;
         this.gravel.add(amount);
+        Prototype.getInstance().changed("GravelSpreader", "gravel", String.valueOf(oldAmount), String.valueOf(this.gravel.amount));
     }
 
     /**

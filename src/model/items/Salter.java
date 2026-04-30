@@ -1,5 +1,6 @@
 package model.items;
 import model.map.Field;
+import test.Prototype;
 
 public class Salter extends ResourceConsumingHead {
     private Salt salt = new Salt();
@@ -47,8 +48,9 @@ public class Salter extends ResourceConsumingHead {
      * @param amount the amount of salt to add
      */
     public void addAmount(int amount) {
+        int oldAmount = this.salt.amount;
         this.salt.add(amount);
-
+        Prototype.getInstance().changed("Salter", "salt", String.valueOf(oldAmount), String.valueOf(this.salt.amount));
     }
 
     /** Checks if the Salter head has enough salt to perform its cleaning function.

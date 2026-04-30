@@ -1,5 +1,6 @@
 package model.items;
 import model.map.Field;
+import test.Prototype;
 
 public class Dragon extends ResourceConsumingHead {
     private Biokerosene kerosene = new Biokerosene();
@@ -50,10 +51,13 @@ public class Dragon extends ResourceConsumingHead {
      * @param amount the amount of kerosene to add
      */
     public void addAmount(int amount) {
+        int oldAmount = this.kerosene.amount;
         if (this.kerosene.amount + amount > this.kerosene.maxAmount) {
             this.kerosene.amount = this.kerosene.maxAmount;
+            Prototype.getInstance().changed("Dragon", "kerosene", String.valueOf(oldAmount), String.valueOf(this.kerosene.maxAmount));
         } else {
             this.kerosene.add(amount);
+            Prototype.getInstance().changed("Dragon", "kerosene", String.valueOf(oldAmount), String.valueOf(this.kerosene.amount));
         }
     }
     

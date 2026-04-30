@@ -1,5 +1,6 @@
 package model.items;
 
+import test.Prototype;
 
 public class Gravel extends Resource {
    /**
@@ -23,6 +24,8 @@ public class Gravel extends Resource {
      */
     @Override
     public void consume(int quantity) {
+        int oldAmount = this.amount;
         super.consume(quantity);
+        Prototype.getInstance().changed("Gravel", "amount", String.valueOf(oldAmount), String.valueOf(this.amount));
     }
 }

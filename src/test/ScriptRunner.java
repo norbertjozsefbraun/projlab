@@ -331,8 +331,53 @@ public class ScriptRunner {
         // TODO: implement setFieldContents command - Keve
     }
 
+    /**
+     * Sets the heads of the specified snowplow.
+     * @param st the string tokenizer containing the command arguments
+     */
     private void setHeads(StringTokenizer st) {
-            // TODO: implement setHeads command - Zoli
+        if (!st.hasMoreTokens()) {
+            System.out.println("Missing snowplow id.");
+            return;
+        }
+        String idStr = st.nextToken();
+        
+        Session session = Session.getInstance();
+        List<Vehicle> vehicles = session.getGame().getVehicles();
+        
+        SnowPlow snowPlow = null;
+        for (Vehicle v : vehicles) {
+            if (v.getVehicleId() == Integer.parseInt(idStr)) {
+                snowPlow = (SnowPlow) v;
+                break;
+            }
+        }
+        
+        if (snowPlow == null) {
+            System.out.println("Snowplow not found.");
+            return;
+        }
+        
+        List<Head> heads = new ArrayList<>();
+        while (st.hasMoreTokens()) {
+            String headCode = st.nextToken().toLowerCase();
+            Purchasable item = createItem(headCode);
+            if (item instanceof Head) {
+                heads.add((Head) item);
+            } else {
+                System.out.println("Unknown head type: " + headCode);
+                return;
+            }
+        }
+        
+        if (heads.isEmpty()) {
+            System.out.println("No heads specified.");
+            return;
+        }
+        
+        snowPlow.setHeads(heads);
+        snowPlow.setActiveHead(heads.get(0));
+        heads.get(0).setEquipped(true);
     }
  
     /**
@@ -354,10 +399,6 @@ public class ScriptRunner {
         if (snowPlow == null) {
             System.out.println("Snowplow not found.");
             return;
-        }
-
-        for (int i=0;i<snowPlow.getHeads().size();i++) {
-            System.out.println("\t" + i + ": " + snowPlow.getHeads().get(i).getClass().getSimpleName());
         }
     }
 
@@ -583,7 +624,6 @@ public class ScriptRunner {
 
         for (Vehicle v : vehicles) {
             if (v.getVehicleId() == Integer.parseInt(idStr)) {
-                if (v instanceof SnowPlow sp) {
                     SnowPlow snowPlow = (SnowPlow) v;
             }
         }
@@ -597,4 +637,3 @@ public class ScriptRunner {
 
     }
 
-}
