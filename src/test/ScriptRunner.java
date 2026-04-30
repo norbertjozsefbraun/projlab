@@ -300,21 +300,25 @@ public class ScriptRunner {
             case "bs" -> {
                 BusStop stop = new BusStop();
                 intersection.setBuilding(stop);       
+                stop.setLocation(intersection);
             }   
 
             case "ho" ->{
                 Home home = new Home();
                 intersection.setBuilding(home);
+                home.setLocation(intersection);
             }
             
             case "wo" ->{
                 WorkPlace wp = new WorkPlace();
                 intersection.setBuilding(wp);
+                wp.setLocation(intersection);
             }
 
             case "ga" ->{
                 Garage garage = new Garage();
                 intersection.setBuilding(garage);
+                garage.setLocation(intersection);
             }
             default ->{
                 System.out.println("Unknown type of building! Available options: <bs, ho, wo, ga>");
