@@ -1,0 +1,15 @@
+roadconfig 1esut standard 2 5 2esut standard 2 5 3asut standard 2 5 4esut standard 2 5 5osut standard 2 5 6osut standard 2 5 7esut standard 2 5 8asut standard 2 5 9esut standard 2 5 10esut standard 2 5 11esut standard 2 5 12esut standard 2 5
+connect 1esut A 8asut A
+connect 1esut B 2esut B 11esut B
+connect 2esut A 3asut A
+connect 3asut B 4esut B 10esut B
+connect 4esut A 5osut A
+connect 5osut B 6osut B 9esut B
+connect 6osut A 7esut A
+connect 7esut B 8asut B 12esut B
+connect 9esut A 10esut A 11esut A 12esut A
+setb 1 ga
+setb 2 wo
+setb 3 ho
+setb 4 bs
+setb 5 bs

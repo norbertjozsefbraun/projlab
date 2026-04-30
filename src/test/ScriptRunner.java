@@ -55,37 +55,62 @@ public class ScriptRunner {
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                line = line.strip();
-                if (line.isEmpty()) continue;
-                StringTokenizer st = new StringTokenizer(line);
-                String command = st.nextToken().toLowerCase();
-                if (!"save".equals(command)) {
-                    capturedOutput.setLength(0);
-                }
-
-                switch (command) {
-                    case "randomize"   -> executeAndCapture(this::randomize, capturedOutput);
-                    case "derandomize" -> executeAndCapture(this::derandomize, capturedOutput);
-                    case "start"       -> executeAndCapture(() -> start(st), capturedOutput);
-                    case "roadconfig"  -> executeAndCapture(() -> roadconfig(st), capturedOutput);
-                    case "connect"     -> executeAndCapture(() -> connect(st), capturedOutput);
-                    case "setb"        -> executeAndCapture(() -> setb(st), capturedOutput);
-                    case "setveh"      -> executeAndCapture(() -> setVeh(st), capturedOutput);
-                    case "setfieldcontents" -> executeAndCapture(() -> setFieldContents(st), capturedOutput);
-                    case "lsh"         -> executeAndCapture(() -> lsh(st), capturedOutput);
-                    case "ch"          -> executeAndCapture(() -> ch(st), capturedOutput);
-                    case "roll"        -> executeAndCapture(this::roll, capturedOutput);
-                    case "move"        -> executeAndCapture(() -> move(st), capturedOutput);
-                    case "save"        -> save(st);
-                    case "ls"          -> executeAndCapture(this::ls, capturedOutput);
-                    case "transaction" -> executeAndCapture(() -> transaction(st), capturedOutput);
-                    case "fill"        -> executeAndCapture(() -> fill(st), capturedOutput);
-                    case "setheads"    -> executeAndCapture(() -> setHeads(st), capturedOutput);
-                    default             -> executeAndCapture(() -> System.out.println("Unknown command: " + command), capturedOutput);
-                }
+                executeCommandLine(line);
             }
         } catch (IOException e) {
             System.out.println("Failed to read script: " + e.getMessage());
+        }
+    }
+
+    public void runFromStdIn() {
+        try (BufferedReader reader = new BufferedReader(new java.io.InputStreamReader(System.in, StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if ("exit".equalsIgnoreCase(line.strip())) {
+                    break;
+                }
+                executeCommandLine(line);
+            }
+        } catch (IOException e) {
+            System.out.println("Failed to read stdin: " + e.getMessage());
+        }
+    }
+
+    public void executeCommandLine(String rawLine) {
+        if (rawLine == null) {
+            return;
+        }
+
+        String line = rawLine.strip();
+        if (line.isEmpty()) {
+            return;
+        }
+
+        StringTokenizer st = new StringTokenizer(line);
+        String command = st.nextToken().toLowerCase();
+        if (!"save".equals(command)) {
+            capturedOutput.setLength(0);
+        }
+
+        switch (command) {
+            case "randomize"   -> executeAndCapture(this::randomize, capturedOutput);
+            case "derandomize" -> executeAndCapture(this::derandomize, capturedOutput);
+            case "start"       -> executeAndCapture(() -> start(st), capturedOutput);
+            case "roadconfig"  -> executeAndCapture(() -> roadconfig(st), capturedOutput);
+            case "connect"     -> executeAndCapture(() -> connect(st), capturedOutput);
+            case "setb"        -> executeAndCapture(() -> setb(st), capturedOutput);
+            case "setveh"      -> executeAndCapture(() -> setVeh(st), capturedOutput);
+            case "setfieldcontents" -> executeAndCapture(() -> setFieldContents(st), capturedOutput);
+            case "lsh"         -> executeAndCapture(() -> lsh(st), capturedOutput);
+            case "ch"          -> executeAndCapture(() -> ch(st), capturedOutput);
+            case "roll"        -> executeAndCapture(this::roll, capturedOutput);
+            case "move"        -> executeAndCapture(() -> move(st), capturedOutput);
+            case "save"        -> save(st);
+            case "ls"          -> executeAndCapture(this::ls, capturedOutput);
+            case "transaction" -> executeAndCapture(() -> transaction(st), capturedOutput);
+            case "fill"        -> executeAndCapture(() -> fill(st), capturedOutput);
+            case "setheads"    -> executeAndCapture(() -> setHeads(st), capturedOutput);
+            default             -> executeAndCapture(() -> System.out.println("Unknown command: " + command), capturedOutput);
         }
     }
 
@@ -100,6 +125,15 @@ public class ScriptRunner {
     }
 
     private void start(StringTokenizer st) {
+
+        String vmipath = "src\\test\\tests\\base-mechanic\\world.txt";
+        World defaultWorld = loadThisWorld(vmipath);
+
+        List<Vehicle> vehicles = new ArrayList<>();
+
+        Session session = Session.getInstance();
+        session.newGame(vehicles, defaultWorld);
+
         int playerCount = -1;
         int carCount = 0;
         Map<Integer, String> playerNames = new HashMap<>();
@@ -184,7 +218,6 @@ public class ScriptRunner {
         }
 
         List<Player> players = new ArrayList<>();
-        List<Vehicle> vehicles = new ArrayList<>();
         int nextVehicleId = 1;
         int currentSnowPlowIndex = 1;
 
@@ -195,33 +228,33 @@ public class ScriptRunner {
             players.add(player);
 
             if ("bus".equals(player.getType())) {
-                Bus bus = new Bus();
-                bus.setVehicleId(nextVehicleId++);
-                bus.setPlayer(player);
-                bus.setCanMove(true);
+                BusStop stopA = (BusStop) Session.getInstance().getGame().getWorld().getIntersections().get(4).getBuilding();
+                BusStop stopB = (BusStop) Session.getInstance().getGame().getWorld().getIntersections().get(5).getBuilding();
+                Bus bus = new Bus(player, stopA, stopB);
                 bus.setDirection(DirectionType.AH);
                 player.addVehicle(bus);
                 vehicles.add(bus);
             } else {
-                SnowPlow snowPlow = new SnowPlow();
-                snowPlow.setVehicleId(nextVehicleId++);
-                snowPlow.setPlayer(player);
-                snowPlow.setCanMove(true);
+                Garage garage = (Garage) Session.getInstance().getGame().getWorld().getIntersections().get(1).getBuilding();
+                SnowPlow snowPlow = new SnowPlow(player, garage);
                 snowPlow.setDirection(DirectionType.AH);
 
                 Head sweeper = new Sweeper();
                 Head iceCracker = new IceCracker();
                 List<Head> heads = new ArrayList<>();
-                heads.add(sweeper);
-                heads.add(iceCracker);
-                snowPlow.setHeads(heads);
+                
 
                 String defaultHeadCode = snowPlowHeads.getOrDefault(currentSnowPlowIndex, "sw");
                 if ("ic".equals(defaultHeadCode)) {
+                    heads.add(iceCracker);
+                    snowPlow.setHeads(heads);
+
                     snowPlow.setActiveHead(iceCracker);
                     iceCracker.setEquipped(true);
                 } else {
                     snowPlow.setActiveHead(sweeper);
+                    heads.add(sweeper);
+                    snowPlow.setHeads(heads);
                     sweeper.setEquipped(true);
                 }
 
@@ -232,18 +265,14 @@ public class ScriptRunner {
         }
 
         for (int i = 0; i < carCount; i++) {
-            Car car = new Car();
-            car.setVehicleId(nextVehicleId++);
-            car.setCanMove(true);
+            Home home = (Home) Session.getInstance().getGame().getWorld().getIntersections().get(3).getBuilding();
+            WorkPlace workPlace = (WorkPlace) Session.getInstance().getGame().getWorld().getIntersections().get(2).getBuilding();
+            Car car = new Car(home, workPlace);
             vehicles.add(car);
         }
 
-        String vmipath = "TODO";
-        World defaultWorld = loadThisWorld(vmipath);
-
-        Session session = Session.getInstance();
-        session.newGame(vehicles, defaultWorld);
         session.getGame().setPlayers(players);
+        session.getGame().setVehicles(vehicles);
 
         System.out.println("Game started with " + players.size() + " players, "
                 + (vehicles.size() - carCount) + " driven vehicles and " + carCount + " cars.");
