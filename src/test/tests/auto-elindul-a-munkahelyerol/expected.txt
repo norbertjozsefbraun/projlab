@@ -1,2 +1,2 @@
 car1 currentField null ::: field1
-car2 currentBudiling workPlace1 ::: null
+car2 currentBuilding workPlace1 ::: null
