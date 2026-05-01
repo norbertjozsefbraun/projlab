@@ -325,15 +325,34 @@ public class ScriptRunner {
     }
 
     private void setVeh(StringTokenizer st) {
-        if (!st.hasMoreTokens()) return;
-        String roadName = st.nextToken();
-        if (!st.hasMoreTokens()) return;
+        if (!st.hasMoreTokens()) {
+            System.out.println("Missing road name.");
+            return;
+        }
+        String roadName = stripQuotes(st.nextToken());
+
+        if (!st.hasMoreTokens()) {
+            System.out.println("Missing field id.");
+            return;
+        }
         String fieldId = st.nextToken();
-        if (!st.hasMoreTokens()) return;
+
+        if (!st.hasMoreTokens()) {
+            System.out.println("Missing intersection id.");
+            return;
+        }
         String intersectionId = st.nextToken();
-        if (!st.hasMoreTokens()) return;
-        String playerName = st.nextToken();
-        if (!st.hasMoreTokens()) return;
+
+        if (!st.hasMoreTokens()) {
+            System.out.println("Missing player name.");
+            return;
+        }
+        String playerName = stripQuotes(st.nextToken());
+
+        if (!st.hasMoreTokens()) {
+            System.out.println("Missing vehicle type.");
+            return;
+        }
         String vehType = st.nextToken();
         
         Session session = Session.getInstance();

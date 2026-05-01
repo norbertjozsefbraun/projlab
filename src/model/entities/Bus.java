@@ -49,6 +49,7 @@ public class Bus extends Vehicle {
         currentBuilding = stopA;
         currentRoad = null;
         currentField = null;
+        stopA.enterVehicle(this);
     }
 
     /**
@@ -148,6 +149,11 @@ public class Bus extends Vehicle {
     public void move(int n) {
         for (int i=0; i<n; i++) {
             if (!canMove) break;
+            
+            if (currentField == null && currentBuilding != null) {
+                currentBuilding.deployVehicle(this);
+                return;
+            }
 
             Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB() : currentRoad.getDestinationA();
             if (currentField.getNextField() != null) {

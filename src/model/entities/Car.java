@@ -37,6 +37,7 @@ public class Car extends Vehicle {
         currentRoad = null;
         currentField = null;
         destinationIntersection = work.getLocation();
+        home.enterVehicle(this);
     }
 
     /**
@@ -102,8 +103,8 @@ public class Car extends Vehicle {
 
         if(!canMove) return;
 
-        if(currentField == null && !(this.getCurrentBuilding().equals(null))){
-            getCurrentBuilding().deployVehicle(this);
+        if (currentField == null && currentBuilding != null) {
+            currentBuilding.deployVehicle(this);
             return;
         }
 

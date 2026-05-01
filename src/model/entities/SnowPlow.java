@@ -58,6 +58,7 @@ public class SnowPlow extends Vehicle implements Purchasable {
         currentField = null;
         currentRoad = null;
         heads = new ArrayList<>();
+        garage.enterVehicle(this);
     } 
 
     /**
@@ -169,6 +170,10 @@ public class SnowPlow extends Vehicle implements Purchasable {
     @Override
     public void move(int n) {
         for (int i=0; i<n; i++) {
+            if (currentField == null && currentBuilding != null) {
+                currentBuilding.deployVehicle(this);
+                return;
+            }
             if (currentField.getNextField() != null) {
                 currentField.moveToNextField(this, direction);
                 if(this.getGarage().getDestroyedNum() < 4) {
