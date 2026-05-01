@@ -304,6 +304,7 @@ public class ScriptRunner {
             System.out.println("Unknown test case: " + testCaseName);
             return;
         }
+        Path outputPath = scriptPath.getParent().resolve("output.txt");
 
         Session session = Session.getInstance();
         World emptyWorld = new World();
@@ -406,8 +407,7 @@ public class ScriptRunner {
 
                 executeCommandLine(strippedLine);
             }
-
-            stopReadingStdIn = true;
+            writeCapturedOutput(outputPath);
         } catch (IOException e) {
             System.out.println("Failed to read script: " + e.getMessage());
         } finally {
@@ -959,13 +959,15 @@ public class ScriptRunner {
 
             Path outputFile = targetFolder.resolve("output.txt");
 
-            String outputSinceLastTestCommand = capturedOutput.toString();
-
-            Files.writeString(outputFile, outputSinceLastTestCommand, StandardCharsets.UTF_8);
+            writeCapturedOutput(outputFile);
             System.out.println("Saved output to: " + outputFile.toAbsolutePath());
         } catch (IOException e) {
             System.out.println("Failed to save output: " + e.getMessage());
         }
+    }
+
+    private void writeCapturedOutput(Path outputFile) throws IOException {
+        Files.writeString(outputFile, capturedOutput.toString(), StandardCharsets.UTF_8);
     }
 
     private void ls() {
@@ -1105,9 +1107,6 @@ public class ScriptRunner {
             System.out.println("No compatible head found for resource " + resourceType + " on snowplow " + snowPlowId);
         }
     }
-
-
-
 
     }
 

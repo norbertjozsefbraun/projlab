@@ -1,0 +1,28 @@
+surface1 isIce false ::: true
+
+surface2 isIce false ::: true
+
+surface3 isIce false ::: true
+
+surface4 isIce false ::: true
+
+snowplow1 currentField field2 ::: field2
+
+Salter salt 0 ::: 100
+
+Sikeres újratöltés nyugtázása
+GravelSpreader gravel 0 ::: 100
+
+Sikeres újratöltés nyugtázása
+Dragon kerosene 0 ::: 100
+
+Sikeres újratöltés nyugtázása
+field2 snowThickness 20 ::: 25
+
+field1 snowThickness 20 ::: 25
+
+field4 snowThickness 20 ::: 25
+
+field3 snowThickness 20 ::: 25
+
+	 Nincs szomszéd, a hó kikerül a pályáról
