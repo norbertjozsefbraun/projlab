@@ -67,12 +67,11 @@ public class Bus extends Vehicle {
         canMove = true;
         this.stopA = stopA;
         this.stopB = stopB;
-        previousStop = null;
         buildings = new ArrayList<>();
         buildings.add(stopA);
         buildings.add(stopB);
         currentBuilding = null;
-        previousStop = stopA;
+        previousStop = stopB;
         currentRoad = road;
         currentField = field;
         // field.acceptVehicle(this);
