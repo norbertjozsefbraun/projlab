@@ -164,28 +164,25 @@ public class SnowPlow extends Vehicle implements Purchasable {
     }
 
     /**
-     * Moves the vehicle the given number of fields.
-     * @param n The number of fileds the vehivle has to move
+     * Moves the vehicle.
      */
     @Override
-    public void move(int n) {
-        for (int i=0; i<n; i++) {
-            if (currentField == null && currentBuilding != null) {
-                currentBuilding.deployVehicle(this);
-                return;
-            }
-            if (currentField.getNextField() != null) {
-                currentField.moveToNextField(this, direction);
-                if(this.getGarage().getDestroyedNum() < 4) {
-                    activeHead.clean(currentField);
-                }   
-            }
-            else if(currentField.getNextField() == null){
-                Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB() : currentRoad.getDestinationA();
-                inter.acceptVehicle(this);
-                if(this.getGarage().getDestroyedNum() < 4) {
-                    activeHead.clean(currentField);
-                }
+    public void move() {
+        if (currentField == null && currentBuilding != null) {
+            currentBuilding.deployVehicle(this);
+            return;
+        }
+        if (currentField.getNextField() != null) {
+            currentField.moveToNextField(this, direction);
+            if(this.getGarage().getDestroyedNum() < 4) {
+                activeHead.clean(currentField);
+            }   
+        }
+        else if(currentField.getNextField() == null){
+            Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB() : currentRoad.getDestinationA();
+            inter.acceptVehicle(this);
+            if(this.getGarage().getDestroyedNum() < 4) {
+                activeHead.clean(currentField);
             }
         }
     }

@@ -143,7 +143,7 @@ public class Game {
             //Rolling the dice
             Integer rolled = rollDice();
 
-            currVehicle.move(rolled);
+            currVehicle.move();
         }
     }
 

@@ -142,30 +142,27 @@ public class Bus extends Vehicle {
     }
 
     /**
-     * Moves the bus the given number of fields.
-     * @param n The number of fileds the bus has to move
+     * Moves the bus.
      */
     @Override
-    public void move(int n) {
-        for (int i=0; i<n; i++) {
-            if (!canMove) break;
-            
-            if (currentField == null && currentBuilding != null) {
-                currentBuilding.deployVehicle(this);
-                return;
-            }
+    public void move() {
+        if (!canMove) return;
+        
+        if (currentField == null && currentBuilding != null) {
+            currentBuilding.deployVehicle(this);
+            return;
+        }
 
-            Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB() : currentRoad.getDestinationA();
-            if (currentField.getNextField() != null) {
-                currentField.moveToNextField(this, direction);
+        Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB() : currentRoad.getDestinationA();
+        if (currentField.getNextField() != null) {
+            currentField.moveToNextField(this, direction);
+        }
+        else if(currentField.getNextField() == null){
+            if (buildings.contains(inter.getBuilding())) {
+                inter.goToBuilding(this);
+                currentBuilding.deployVehicle(this);
             }
-            else if(currentField.getNextField() == null){
-                if (buildings.contains(inter.getBuilding())) {
-                    inter.goToBuilding(this);
-                    currentBuilding.deployVehicle(this);
-                }
-                else inter.acceptVehicle(this);
-            }
+            else inter.acceptVehicle(this);
         }
     }
 

@@ -95,12 +95,10 @@ public class Car extends Vehicle {
     }
 
     /**
-     * Moves the car only one field.
-     * @param n not relevant
+     * Moves the car.
      */
     @Override
-    public void move(int n) {
-
+    public void move() {
         if(!canMove) return;
 
         if (currentField == null && currentBuilding != null) {
@@ -134,7 +132,7 @@ public class Car extends Vehicle {
         for (int i=0; i<n; i++) {
             if (!canMove) break;
 
-            move(1);
+            move();
         }
     }
 
