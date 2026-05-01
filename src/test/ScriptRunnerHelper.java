@@ -248,6 +248,26 @@ public final class ScriptRunnerHelper {
         return true;
     }
 
+    public static Intersection resolvePreviousIntersection(Road road, model.map.Field field) {
+        if (road == null || field == null) {
+            return null;
+        }
+
+        for (var lane : road.getLanesToA()) {
+            if (lane.getFields() != null && lane.getFields().contains(field)) {
+                return road.getDestinationB();
+            }
+        }
+
+        for (var lane : road.getLanesToB()) {
+            if (lane.getFields() != null && lane.getFields().contains(field)) {
+                return road.getDestinationA();
+            }
+        }
+
+        return null;
+    }
+
     public static Purchasable createItem(String itemName) {
         switch (itemName.toLowerCase()) {
             case "salt": return new Salt();

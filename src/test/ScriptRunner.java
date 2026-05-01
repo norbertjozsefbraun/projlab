@@ -32,6 +32,7 @@ import static test.ScriptRunnerHelper.createItem;
 import static test.ScriptRunnerHelper.executeAndCapture;
 import static test.ScriptRunnerHelper.loadThisWorld;
 import static test.ScriptRunnerHelper.normalizePlayerType;
+import static test.ScriptRunnerHelper.resolvePreviousIntersection;
 import static test.ScriptRunnerHelper.stripQuotes;
 
 /**
@@ -617,6 +618,8 @@ public class ScriptRunner {
         Field field = null;
         if (!fieldId.equals("null")) field = world.getFieldById(roadName, Integer.parseInt(fieldId));     
         List<Vehicle> vehicles = new ArrayList<>();
+        
+        Intersection previousIntersection = resolvePreviousIntersection(road, field);
 
         switch (vehType) {
             case "sp":
@@ -626,7 +629,11 @@ public class ScriptRunner {
                 } 
                 Garage garage = (Garage)buildings.get(0);
                 if (intersectionId.equals("null")) {
-                    vehicles.add(new SnowPlow(player, garage, field, road));
+                    SnowPlow snowplow = new SnowPlow(player, garage, field, road);
+                    if (previousIntersection != null) {
+                        snowplow.setPreviousIntersection(previousIntersection);
+                    }
+                    vehicles.add(snowplow);
                 }
                 else {
                     vehicles.add(new SnowPlow(player, garage));
@@ -640,7 +647,11 @@ public class ScriptRunner {
                 BusStop stopA = (BusStop)buildings.get(0);
                 BusStop stopB = (BusStop)buildings.get(1);
                 if (intersectionId.equals("null")) {
-                    vehicles.add(new Bus(player, stopA, stopB, field, road));
+                    Bus bus = new Bus(player, stopA, stopB, field, road);
+                    if (previousIntersection != null) {
+                        bus.setPreviousIntersection(previousIntersection);
+                    }
+                    vehicles.add(bus);
                 }
                 else {
                     vehicles.add(new Bus(player, stopA, stopB));
@@ -654,7 +665,11 @@ public class ScriptRunner {
                 Home home = (Home)buildings.get(0);
                 WorkPlace work = (WorkPlace)buildings.get(1);
                 if (intersectionId.equals("null")) {
-                    vehicles.add(new Car(home, work, field, road));
+                    Car car = new Car(home, work, field, road);
+                    if (previousIntersection != null) {
+                        car.setPreviousIntersection(previousIntersection);
+                    }
+                    vehicles.add(car);
                 }
                 else {
                     vehicles.add(new Car(home, work));
