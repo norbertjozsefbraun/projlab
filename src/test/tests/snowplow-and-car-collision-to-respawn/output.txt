@@ -32,6 +32,7 @@ field13 snowThickness 0 ::: 5
 
 field14 snowThickness 0 ::: 5
 
+1
 snowplow1 currentField field1 ::: field2
 
 car2 currentBuilding null ::: home2

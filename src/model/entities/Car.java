@@ -146,6 +146,5 @@ public class Car extends Vehicle {
     @Override
     public void returnToStart() {
         home.enterVehicle(this);
-        canMove = false;
     }
 }
