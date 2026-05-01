@@ -53,7 +53,7 @@ public class Car extends Vehicle {
         canMove = true;
         this.home = home;
         this.work = work;
-        currentBuilding = home;
+        currentBuilding = null;
         buildings = new ArrayList<>();
         buildings.add(home);
         buildings.add(work);
@@ -146,5 +146,6 @@ public class Car extends Vehicle {
     @Override
     public void returnToStart() {
         home.enterVehicle(this);
+        canMove = false;
     }
 }

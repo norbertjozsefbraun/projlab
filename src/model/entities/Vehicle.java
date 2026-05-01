@@ -141,7 +141,7 @@ public abstract class Vehicle {
      * @param ability the ability to move
      */
     public void setCanMove(boolean ability) {
-        proto.changed(toString(), "canMove", String.valueOf(canMove), String.valueOf(ability));
+        if (canMove != ability) proto.changed(toString(), "canMove", String.valueOf(canMove), String.valueOf(ability));
         canMove = ability;
     }
 

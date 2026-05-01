@@ -6,6 +6,7 @@ connect road4 B road1 A
 setb 1 ga
 setb 2 ho
 setb 4 wo
+setFieldContents 2 0 1 0
 setVeh road1 1 null 1 sp 1
 setVeh road1 2 null 0 ca 2 4
 setHeads 1 ic

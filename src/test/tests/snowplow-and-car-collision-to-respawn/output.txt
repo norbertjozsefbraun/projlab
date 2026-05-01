@@ -1,0 +1,44 @@
+surface2 isIce false ::: true
+
+field3 snowThickness 0 ::: 5
+
+field4 snowThickness 0 ::: 5
+
+field1 snowThickness 0 ::: 5
+
+field2 snowThickness 0 ::: 5
+
+field7 snowThickness 0 ::: 5
+
+field8 snowThickness 0 ::: 5
+
+field5 snowThickness 0 ::: 5
+
+field6 snowThickness 0 ::: 5
+
+field11 snowThickness 0 ::: 5
+
+field12 snowThickness 0 ::: 5
+
+field9 snowThickness 0 ::: 5
+
+field10 snowThickness 0 ::: 5
+
+field15 snowThickness 0 ::: 5
+
+field16 snowThickness 0 ::: 5
+
+field13 snowThickness 0 ::: 5
+
+field14 snowThickness 0 ::: 5
+
+snowplow1 currentField field1 ::: field2
+
+car2 currentBuilding null ::: home2
+
+car2 currentField field2 ::: null
+
+snowplow1 currentBuilding null ::: garage1
+
+snowplow1 currentField field2 ::: null
+
