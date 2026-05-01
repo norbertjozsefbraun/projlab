@@ -1,0 +1,13 @@
+start -pc 1 -p1 P1 !plow
+roadconfig ut1 standard 1 1
+roadconfig ut2 standard 1 1
+connect 1 A 2 B
+setFieldContents 1 20 1 0
+setFieldContents 2 20 1 0
+setFieldContents 3 20 1 0
+setFieldContents 4 20 1 0
+setVeh ut1 2 null 1 sp 1
+setHeads 1 sw ic dr st gr bl
+derandomize
+ch 1 dr
+fill 1 bio 50

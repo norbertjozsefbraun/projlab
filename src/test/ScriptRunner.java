@@ -126,7 +126,7 @@ public class ScriptRunner {
 
     private void start(StringTokenizer st) {
 
-        String vmipath = "src\\test\\tests\\base-mechanic\\world.txt";
+        String vmipath = "test\\tests\\base-mechanic\\world.txt";
         World defaultWorld = loadThisWorld(vmipath);
 
         List<Vehicle> vehicles = new ArrayList<>();
@@ -813,23 +813,60 @@ public class ScriptRunner {
      * @param st the string tokenizer containing the command arguments
      */
     private void fill(StringTokenizer st) {
-
         if (!st.hasMoreTokens()) return;
-            String idStr = st.nextToken();
-            
+        int snowPlowId = Integer.parseInt(st.nextToken());
         if (!st.hasMoreTokens()) return;
-            String resourceType = st.nextToken();
-            
+        String resourceType = st.nextToken().toLowerCase();
         if (!st.hasMoreTokens()) return;
-            int amountToAdd = Integer.parseInt(st.nextToken());
+        int amountToAdd = Integer.parseInt(st.nextToken());
 
         Session session = Session.getInstance();
-        List<Vehicle> vehicles = session.getGame().getVehicles();
+        if (session.getGame() == null || session.getGame().getVehicles() == null) {
+            return;
+        }
 
-        for (Vehicle v : vehicles) {
-            if (v.getVehicleId() == Integer.parseInt(idStr)) {
-                    SnowPlow snowPlow = (SnowPlow) v;
+        SnowPlow snowPlow = null;
+        for (Vehicle v : session.getGame().getVehicles()) {
+            if (v.getVehicleId() == snowPlowId && v instanceof SnowPlow) {
+                snowPlow = (SnowPlow) v;
+                break;
             }
+        }
+
+        if (snowPlow == null) {
+            return;
+        }
+
+        Resource resource = switch (resourceType) {
+            case "salt" -> new Salt(amountToAdd, 0);
+            case "grav" -> new Gravel(amountToAdd, 0);
+            case "bio" -> new Biokerosene(amountToAdd, 0);
+            default -> null;
+        };
+
+        if (resource == null) {
+            return;
+        }
+
+        boolean filled = false;
+        for (Head head : snowPlow.getHeads()) {
+            if (!(head instanceof ResourceConsumingHead)) {
+                continue;
+            }
+            ResourceConsumingHead resourceHead = (ResourceConsumingHead) head;
+            Resource headResource = resourceHead.getResource();
+
+            if ((resource instanceof Salt && headResource instanceof Salt)
+                    || (resource instanceof Gravel && headResource instanceof Gravel)
+                    || (resource instanceof Biokerosene && headResource instanceof Biokerosene)) {
+                resourceHead.refill(resource);
+                filled = true;
+                break;
+            }
+        }
+
+        if (!filled) {
+            System.out.println("No compatible head found for resource " + resourceType + " on snowplow " + snowPlowId);
         }
     }
 

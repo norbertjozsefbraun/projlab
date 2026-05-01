@@ -1,0 +1,3 @@
+targetField snowAmount 20 ::: 0
+
+farNeighbor snowAmount 20 ::: 40

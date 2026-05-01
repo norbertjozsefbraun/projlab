@@ -1,0 +1,3 @@
+targetField snowAmount 20 ::: 0
+targetField surface isIcy true ::: false
+dragon1 keroseneAmount 100 ::: 90
