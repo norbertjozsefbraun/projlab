@@ -1,0 +1,7 @@
+roadconfig road1 standard 2 2 road2 standard 2 2
+setFieldContents 1 0 0 0
+connect road1 A road2 B
+setb 1 ho
+setVeh road1 1 null 0 ca 1 null
+derandomize
+move ah

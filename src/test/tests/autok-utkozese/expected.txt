@@ -1,0 +1,3 @@
+car2 currentField field1 ::: field2
+car2 canMove true ::: false
+car1 canMove true ::: false

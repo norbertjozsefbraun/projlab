@@ -1,0 +1,8 @@
+roadconfig road1 standard 2 5
+setFieldContents 1 0 0 0
+setFieldContents 2 0 1 0
+setFieldContents 3 0 0 0
+setVeh road1 1 null 0 ca null null
+setVeh road1 3 null 0 ca null null
+derandomize
+move ah
