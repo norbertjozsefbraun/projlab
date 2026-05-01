@@ -6,6 +6,7 @@ import java.util.Queue;
 import model.core.Game;
 import model.core.Ticker;
 import model.entities.Vehicle;
+import test.Prototype;
 
 public class Surface {
     /// Fields:
@@ -14,6 +15,8 @@ public class Surface {
     private Queue<Integer> passTimes;
     private int saltTimer;
     private boolean hasGravel;
+    private int surfaceId;
+    private static int idCounter = 1;
 
     /// Getters:
     public int getSnowThickness() {
@@ -25,9 +28,11 @@ public class Surface {
 
     /// Setters:
     public void setIsIce(boolean isIce) {
-        this.isIce = isIce;
+        if (this.isIce != isIce) {
+            Prototype.getInstance().changed("surface" + this.surfaceId, "isIce", String.valueOf(this.isIce), String.valueOf(isIce));
+            this.isIce = isIce;
+        }
     }
-
     public void setSnowThickness(int snowThickness) {
         this.snowThickness = snowThickness;
     }
@@ -43,23 +48,32 @@ public class Surface {
         passTimes = new ArrayDeque<>();
         saltTimer = 0;
         hasGravel = false;
+
+        surfaceId = idCounter++;
     }
 
     /// Functions:
 
     public void vehiclePasses(Vehicle v) {
-        passTimes.add(Game.getTicker().getCurrent());
+        if (Game.getTicker() != null) {
+            passTimes.add(Game.getTicker().getCurrent());
 
-        // remove old passes
-        while (!passTimes.isEmpty() && (Game.getTicker().getCurrent() - passTimes.peek() >= 10)) {
-            passTimes.poll();
+            while (!passTimes.isEmpty() && (Game.getTicker().getCurrent() - passTimes.peek() >= 10)) {
+                passTimes.poll();
+            }
+        } else {
+            passTimes.add(1);
+            if (passTimes.size() > 10) {
+                passTimes.poll();
+            }
         }
 
-        // add ice
         if (passTimes.size() >= 5 && saltTimer == 0) {
-            this.isIce = true;
+            if (!this.isIce) {
+                Prototype.getInstance().changed("surface" + this.surfaceId, "isIce", "false", "true");
+                this.isIce = true;
+            }
         }
-
     }
 
     public int sweepSnow() {
@@ -72,24 +86,39 @@ public class Surface {
     }
 
     public void breakIce() {
-        isIce = false;
+        if (this.isIce) {
+            Prototype.getInstance().changed("surface" + this.surfaceId, "isIce", "true", "false");
+            this.isIce = false;
+        }
     }
 
     public void meltAll() {
         snowThickness = 0;
-        isIce = false;
+        if (this.isIce) {
+            Prototype.getInstance().changed("surface" + this.surfaceId, "isIce", "true", "false");
+            this.isIce = false;
+        }
     }
 
     public void applySalt() {
+        boolean hadSalt = (this.saltTimer > 0);
+
         if (snowThickness > 35) {
             saltTimer = 5;
         } else {
             saltTimer = 3;
         }
+
+        if (!hadSalt && this.saltTimer > 0) {
+            Prototype.getInstance().changed("surface" + this.surfaceId, "hasSalt", "false", "true");
+        }
     }
 
     public void addGravel() {
-        hasGravel = true;
+        if (!this.hasGravel) {
+            Prototype.getInstance().changed("surface" + this.surfaceId, "hasGravel", "false", "true");
+            this.hasGravel = true;
+        }
     }
 
     public void addSnow(int amount) {
@@ -104,7 +133,13 @@ public class Surface {
 
             if (this.saltTimer == 0) {
                 this.snowThickness = 0;
-                this.isIce = false;
+
+                if (this.isIce) {
+                    Prototype.getInstance().changed("surface" + this.surfaceId, "isIce", "true", "false");
+                    this.isIce = false;
+                }
+
+                Prototype.getInstance().changed("surface" + this.surfaceId, "hasSalt", "true", "false");
             }
         }
     }

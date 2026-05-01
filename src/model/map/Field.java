@@ -6,6 +6,7 @@ import model.entities.Car;
 import model.entities.DirectionType;
 import model.entities.SnowPlow;
 import model.entities.Vehicle;
+import test.Prototype;
 
 public class Field extends Node {
     /// Fields:
@@ -16,7 +17,7 @@ public class Field extends Node {
     private Surface surface;
     private int accidentTimer;
 
-    static int idCounter = 0;
+    static int idCounter = 1;
 
     /// Constructor:
     public Field() {
@@ -144,25 +145,36 @@ public class Field extends Node {
 
     @Override
     public void acceptVehicle(Vehicle v) {
-
         if(isPassable()) {
-            v.getCurrentField().removeVehicle(v);
+            Field oldField = v.getCurrentField();
+
+            if (oldField != null) {
+                oldField.removeVehicle(v);
+            }
+
             v.setCurrentField(this);
             vehicles.add(v);
-            
+
             surface.vehiclePasses(v);
-            
+
             checkAccident();
 
             if(surface.getIsIce()) {
                 v.slip(2);
             }
         }
-
     }
 
     public void addSnow(int amount){
+        int oldSnow = surface.getSnowThickness();
+
         surface.addSnow(amount);
+
+        int newSnow = surface.getSnowThickness();
+
+        if (oldSnow != newSnow) {
+            Prototype.getInstance().changed(getClass().getSimpleName().toLowerCase() + fieldId, "snowThickness", String.valueOf(oldSnow), String.valueOf(newSnow));
+        }
     }
 
 

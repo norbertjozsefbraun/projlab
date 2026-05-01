@@ -15,7 +15,7 @@ public class Intersection extends Node {
     private List<Road> connectedRoads;
     private Building building;
 
-    static int idCounter = 0;
+    static int idCounter = 1;
 
     /// Constructors:
     public Intersection() {

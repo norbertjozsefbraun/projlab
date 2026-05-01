@@ -14,7 +14,7 @@ public class Road {
     private List<Lane> lanesToB;
     private RoadType roadType;
 
-    static int idCounter = 0;
+    static int idCounter = 1;
 
     /// Constructors:
     public Road(){
