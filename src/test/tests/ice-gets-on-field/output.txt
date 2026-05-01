@@ -1,0 +1,120 @@
+field12 snowThickness 0 ::: 5
+
+field13 snowThickness 0 ::: 5
+
+field14 snowThickness 0 ::: 5
+
+field15 snowThickness 0 ::: 5
+
+field16 snowThickness 0 ::: 5
+
+field17 snowThickness 0 ::: 5
+
+field18 snowThickness 0 ::: 5
+
+field19 snowThickness 0 ::: 5
+
+field20 snowThickness 0 ::: 5
+
+field21 snowThickness 0 ::: 5
+
+field22 snowThickness 0 ::: 5
+
+field1 snowThickness 0 ::: 5
+
+field2 snowThickness 0 ::: 5
+
+field3 snowThickness 0 ::: 5
+
+field4 snowThickness 0 ::: 5
+
+field5 snowThickness 0 ::: 5
+
+field6 snowThickness 5 ::: 10
+
+field7 snowThickness 0 ::: 5
+
+field8 snowThickness 0 ::: 5
+
+field9 snowThickness 0 ::: 5
+
+field10 snowThickness 0 ::: 5
+
+field11 snowThickness 0 ::: 5
+
+field24 snowThickness 0 ::: 5
+
+field23 snowThickness 0 ::: 5
+
+car1 currentField field5 ::: field6
+
+car1 currentField field6 ::: field7
+
+car1 currentField field7 ::: field8
+
+car1 currentField field8 ::: field9
+
+car1 currentField field9 ::: field10
+
+car1 currentField field10 ::: field11
+
+car2 currentField field4 ::: field5
+
+car2 currentField field5 ::: field6
+
+car2 currentField field6 ::: field7
+
+car2 currentField field7 ::: field8
+
+car2 currentField field8 ::: field9
+
+car2 currentField field9 ::: field10
+
+car3 currentField field3 ::: field4
+
+car3 currentField field4 ::: field5
+
+car3 currentField field5 ::: field6
+
+car3 currentField field6 ::: field7
+
+car3 currentField field7 ::: field8
+
+car3 currentField field8 ::: field9
+
+car4 currentField field2 ::: field3
+
+car4 currentField field3 ::: field4
+
+car4 currentField field4 ::: field5
+
+car4 currentField field5 ::: field6
+
+car4 currentField field6 ::: field7
+
+car4 currentField field7 ::: field8
+
+car5 currentField field1 ::: field2
+
+car5 currentField field2 ::: field3
+
+car5 currentField field3 ::: field4
+
+car5 currentField field4 ::: field5
+
+car5 currentField field5 ::: field6
+
+surface6 isIce false ::: true
+
+car5 currentField field6 ::: field7
+
+surface7 isIce false ::: true
+
+car5 currentField field7 ::: field8
+
+surface8 isIce false ::: true
+
+car4 canMove true ::: false
+
+car5 canMove true ::: false
+

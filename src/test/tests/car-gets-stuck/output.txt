@@ -1,0 +1,48 @@
+field7 snowThickness 0 ::: 5
+
+field8 snowThickness 0 ::: 5
+
+field9 snowThickness 0 ::: 5
+
+field10 snowThickness 0 ::: 5
+
+field11 snowThickness 0 ::: 5
+
+field12 snowThickness 0 ::: 5
+
+field1 snowThickness 0 ::: 5
+
+field2 snowThickness 35 ::: 40
+
+field3 snowThickness 0 ::: 5
+
+field4 snowThickness 45 ::: 50
+
+field5 snowThickness 0 ::: 5
+
+field6 snowThickness 35 ::: 40
+
+field19 snowThickness 0 ::: 5
+
+field20 snowThickness 0 ::: 5
+
+field21 snowThickness 0 ::: 5
+
+field22 snowThickness 0 ::: 5
+
+field23 snowThickness 0 ::: 5
+
+field24 snowThickness 0 ::: 5
+
+field13 snowThickness 0 ::: 5
+
+field14 snowThickness 0 ::: 5
+
+field15 snowThickness 0 ::: 5
+
+field16 snowThickness 0 ::: 5
+
+field17 snowThickness 0 ::: 5
+
+field18 snowThickness 0 ::: 5
+

@@ -1,0 +1,3 @@
+car1 currentField field1 ::: field2
+car1 currentField field2 ::: field3
+car1 currentField field3 ::: field4

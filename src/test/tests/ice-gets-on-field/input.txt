@@ -1,0 +1,48 @@
+roadconfig road1 standard 1 11
+roadconfig road2 standard 1 1
+connect 1 A 2 A
+connect 1 B 2 B
+setb 1 ho
+setb 2 wo
+setFieldContents 6 5 0 0
+setVeh road1 5 null 1 ca 1 2
+setVeh road1 4 null 1 ca 1 2
+setVeh road1 3 null 1 ca 1 2
+setVeh road1 2 null 1 ca 1 2
+setVeh road1 1 null 1 ca 1 2
+derandomize
+roll 6
+move ah
+move ah
+move ah
+move ah
+move ah
+move ah
+roll 6
+move ah
+move ah
+move ah
+move ah
+move ah
+move ah
+roll 6
+move ah
+move ah
+move ah
+move ah
+move ah
+move ah
+roll 6
+move ah
+move ah
+move ah
+move ah
+move ah
+move ah
+roll 6
+move ah
+move ah
+move ah
+move ah
+move ah
+move ah

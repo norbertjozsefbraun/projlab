@@ -1,0 +1,4 @@
+field1 snowThickness 0 ::: 5
+field2 snowThickness 0 ::: 5
+field3 snowThickness 0 ::: 5
+field4 snowThickness 0 ::: 5
