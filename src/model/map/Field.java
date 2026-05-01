@@ -155,11 +155,13 @@ public class Field extends Node {
             v.setCurrentField(this);
             vehicles.add(v);
 
+            boolean wasIce = surface.getIsIce();
+
             surface.vehiclePasses(v);
 
             checkAccident();
 
-            if(surface.getIsIce()) {
+            if(wasIce && v.getCurrentField() == this) {
                 v.slip(2);
             }
         }

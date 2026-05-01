@@ -20,26 +20,6 @@ field4 snowThickness 0 ::: 5
 
 field5 snowThickness 0 ::: 5
 
-field16 snowThickness 0 ::: 5
-
-field17 snowThickness 0 ::: 5
-
-field18 snowThickness 0 ::: 5
-
-field19 snowThickness 0 ::: 5
-
-field20 snowThickness 0 ::: 5
-
-field11 snowThickness 0 ::: 5
-
-field12 snowThickness 0 ::: 5
-
-field13 snowThickness 0 ::: 5
-
-field14 snowThickness 0 ::: 5
-
-field15 snowThickness 0 ::: 5
-
 car1 currentField field1 ::: field2
 
 car1 currentField field2 ::: field3

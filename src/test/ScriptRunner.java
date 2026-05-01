@@ -858,13 +858,6 @@ public class ScriptRunner {
             movesLeft = 1;
         }
 
-        // ha új kör, havazik
-        if (currentVehicleIndex == 0 && isNewRound) {
-            if (game.getWorld() != null) {
-                game.getWorld().snowfall();
-            }
-            isNewRound = false;
-        }
 
         Vehicle currentVehicle = game.getVehicles().get(currentVehicleIndex);
 
@@ -881,6 +874,16 @@ public class ScriptRunner {
                 default:
                     currentVehicle.setDirection(DirectionType.AH);
                     break;
+            }
+        }
+
+        if(st.hasMoreTokens()) {
+            // ha új kör, havazik
+            if (currentVehicleIndex == 0 && isNewRound) {
+                if (game.getWorld() != null) {
+                    game.getWorld().snowfall();
+                }
+                isNewRound = false;
             }
         }
 
