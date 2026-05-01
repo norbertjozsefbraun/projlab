@@ -1,7 +1,6 @@
 package test;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -29,7 +28,6 @@ import model.entities.SnowPlow;
 import model.entities.Vehicle;
 import model.items.*;
 import model.map.*;
-
 import static test.ScriptRunnerHelper.createItem;
 import static test.ScriptRunnerHelper.executeAndCapture;
 import static test.ScriptRunnerHelper.loadThisWorld;
@@ -388,7 +386,7 @@ public class ScriptRunner {
                                         garage.setLocation(intersection);
                                     }
                                     case "bu" -> {
-                                        BusStop busStop = new BusStop();
+                                        BusStop busStop = new BusStop(game);
                                         intersection.setBuilding(busStop);
                                         busStop.setLocation(intersection);
                                     }
@@ -529,7 +527,7 @@ public class ScriptRunner {
         
         switch(veh){
             case "bs" -> {
-                BusStop stop = new BusStop();
+                BusStop stop = new BusStop(game);
                 intersection.setBuilding(stop);       
                 stop.setLocation(intersection);
             }   
@@ -622,7 +620,10 @@ public class ScriptRunner {
 
         switch (vehType) {
             case "sp":
-                if (buildings.isEmpty()) return;
+                if (buildings.isEmpty()) {
+                    System.out.println("Missing building.");
+                    return;
+                } 
                 Garage garage = (Garage)buildings.get(0);
                 if (intersectionId.equals("null")) {
                     vehicles.add(new SnowPlow(player, garage, field, road));
@@ -632,7 +633,10 @@ public class ScriptRunner {
                 }
                 break;
             case "bu":
-                if (buildings.size() < 2) return;
+                if (buildings.size() < 2) {
+                    System.out.println("Missing buildings.");
+                    return;
+                } 
                 BusStop stopA = (BusStop)buildings.get(0);
                 BusStop stopB = (BusStop)buildings.get(1);
                 if (intersectionId.equals("null")) {
@@ -643,7 +647,10 @@ public class ScriptRunner {
                 }
                 break;
             case "ca":
-                if (buildings.size() < 2) return;
+                if (buildings.size() < 2) {
+                    System.out.println("Missing buildings.");
+                    return;
+                } 
                 Home home = (Home)buildings.get(0);
                 WorkPlace work = (WorkPlace)buildings.get(1);
                 if (intersectionId.equals("null")) {
@@ -654,7 +661,7 @@ public class ScriptRunner {
                 }
                 break;
         }
-        game.setVehicles(vehicles);
+        game.getVehicles().addAll(vehicles);
     }
 
     /**
@@ -762,6 +769,11 @@ public class ScriptRunner {
         if (snowPlow == null) {
             System.out.println("Snowplow not found.");
             return;
+        }
+        else {
+            for (Head h : snowPlow.getHeads()) {
+                System.out.println(h);
+            }
         }
     }
 
@@ -945,7 +957,7 @@ public class ScriptRunner {
         try {
             Files.createDirectories(targetFolder);
 
-            Path outputFile = targetFolder.resolve("output");
+            Path outputFile = targetFolder.resolve("output.txt");
 
             String outputSinceLastTestCommand = capturedOutput.toString();
 

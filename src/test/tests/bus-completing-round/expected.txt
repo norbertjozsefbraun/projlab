@@ -1,0 +1,6 @@
+bus1 currentField field1 ::: null
+bus currentBuilding null ::: busStop1
+game rounds 0 ::: 1
+shop balance 0 ::: 18
+bus1 currentField null ::: field2
+bus1 currentBuilding busStop1 ::: null

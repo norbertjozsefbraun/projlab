@@ -1,6 +1,7 @@
 package model.entities;
 
 import java.util.ArrayList;
+import java.util.List;
 import model.buildings.BusStop;
 import model.core.Player;
 import model.map.Field;
@@ -74,7 +75,10 @@ public class Bus extends Vehicle {
         previousStop = stopA;
         currentRoad = road;
         currentField = field;
-        field.acceptVehicle(this);
+        // field.acceptVehicle(this);
+        List<Vehicle> vehicles = new ArrayList<>();
+        vehicles.add(this);
+        field.setVehicles(vehicles);
     }
 
     /**

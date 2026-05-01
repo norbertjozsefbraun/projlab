@@ -79,7 +79,10 @@ public class SnowPlow extends Vehicle implements Purchasable {
         currentField = field;
         currentRoad = road;
         heads = new ArrayList<>();
-        field.acceptVehicle(this);
+        // field.acceptVehicle(this);
+        List<Vehicle> vehicles = new ArrayList<>();
+        vehicles.add(this);
+        field.setVehicles(vehicles);
     }
 
     /**

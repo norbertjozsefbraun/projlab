@@ -1,6 +1,7 @@
 package model.entities;
 
 import java.util.ArrayList;
+import java.util.List;
 import model.buildings.Home;
 import model.buildings.WorkPlace;
 import model.map.Field;
@@ -59,7 +60,10 @@ public class Car extends Vehicle {
         currentRoad = road;
         currentField = field;
         destinationIntersection = work.getLocation();
-        field.acceptVehicle(this);
+        // field.acceptVehicle(this);
+        List<Vehicle> vehicles = new ArrayList<>();
+        vehicles.add(this);
+        field.setVehicles(vehicles);
     }
 
     /**

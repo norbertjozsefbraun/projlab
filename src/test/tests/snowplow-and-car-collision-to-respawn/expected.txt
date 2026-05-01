@@ -1,0 +1,9 @@
+snowplow1 currentField field1 ::: field2
+field2 surface isIcy true ::: false
+field2 surface snowAmount 0 ::: 5
+car1 canMove true ::: false
+car1 currentField field2 ::: null
+car1 currentBuilding null ::: home1
+snowplow1 currentFiled ::: null
+snowplow1 currentBuilding null ::: garage1
+garage1 destroyedNum 0 ::: 1

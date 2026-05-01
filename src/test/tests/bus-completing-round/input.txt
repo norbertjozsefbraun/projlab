@@ -1,0 +1,11 @@
+roadconfig road1 standard 1 2 road2 standard 1 2 road3 standard 1 2 road4 standard 1 2
+connect road1 B road2 A
+connect road2 B road3 A
+connect road3 B road4 A
+connect road4 B road1 A
+setb 1 bs
+setb 3 bs
+setVeh road1 2 null 1 bu 1 3
+derandomize
+move ah
+save src/test/tests/bus-completing-round
