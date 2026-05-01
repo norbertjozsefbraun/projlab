@@ -43,6 +43,28 @@ public class Car extends Vehicle {
 
     /**
      * The constructor if the car starts on the map.
+     * @param field the starting field
+     * @param road the starting road
+     */
+    public Car(Field field, Road road) {
+        vehicleId = idCounter++;
+        canMove = true;
+        this.home = null;
+        this.work = null;
+        currentBuilding = null;
+        buildings = new ArrayList<>();
+        buildings.add(home);
+        buildings.add(work);
+        currentRoad = road;
+        currentField = field;
+        // field.acceptVehicle(this);
+        List<Vehicle> vehicles = new ArrayList<>();
+        vehicles.add(this);
+        field.setVehicles(vehicles);
+    }
+
+    /**
+     * The constructor if the car starts on the map.
      * @param home the home
      * @param work the workplace
      * @param field the starting field

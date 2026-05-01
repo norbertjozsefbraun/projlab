@@ -624,8 +624,9 @@ public class ScriptRunner {
         switch (vehType) {
             case "sp":
                 if (buildings.isEmpty()) {
-                    System.out.println("Missing building.");
-                    return;
+                    vehicles.add(new SnowPlow(player, field, road));
+                    // System.out.println("Missing building.");
+                    break;
                 } 
                 Garage garage = (Garage)buildings.get(0);
                 if (intersectionId.equals("null")) {
@@ -641,8 +642,9 @@ public class ScriptRunner {
                 break;
             case "bu":
                 if (buildings.size() < 2) {
-                    System.out.println("Missing buildings.");
-                    return;
+                    vehicles.add(new Bus(player, field, road));
+                    // System.out.println("Missing buildings.");
+                    break;
                 } 
                 BusStop stopA = (BusStop)buildings.get(0);
                 BusStop stopB = (BusStop)buildings.get(1);
@@ -659,8 +661,9 @@ public class ScriptRunner {
                 break;
             case "ca":
                 if (buildings.size() < 2) {
-                    System.out.println("Missing buildings.");
-                    return;
+                    vehicles.add(new Car(field, road));
+                    // System.out.println("Missing buildings.");
+                    break;
                 } 
                 Home home = (Home)buildings.get(0);
                 WorkPlace work = (WorkPlace)buildings.get(1);

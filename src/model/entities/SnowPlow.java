@@ -42,23 +42,45 @@ public class SnowPlow extends Vehicle implements Purchasable {
 
     public SnowPlow() {}
 
+    
     /**
      * Constructor if the snowplow starts from the garage.
      * @param player the player who owns the snowplow
      * @param garage the starting building
+    */
+   public SnowPlow(Player player, Garage garage) {
+       vehicleId = idCounter++;
+       this.player = player;
+       canMove = true;
+       buildings = new ArrayList<>();
+       buildings.add(garage);
+       currentBuilding = garage;
+       this.garage = garage;
+       currentField = null;
+       currentRoad = null;
+       heads = new ArrayList<>();
+       garage.enterVehicle(this);
+    } 
+    
+    /**
+     * Constructor if the snowplow.
+     * @param player the player who owns the snowplow
      */
-    public SnowPlow(Player player, Garage garage) {
+    public SnowPlow(Player player, Field field, Road road) {
         vehicleId = idCounter++;
         this.player = player;
         canMove = true;
+        this.garage = null;
         buildings = new ArrayList<>();
         buildings.add(garage);
-        currentBuilding = garage;
-        this.garage = garage;
-        currentField = null;
-        currentRoad = null;
+        currentBuilding = null;
+        currentField = field;
+        currentRoad = road;
         heads = new ArrayList<>();
-        garage.enterVehicle(this);
+        // field.acceptVehicle(this);
+        List<Vehicle> vehicles = new ArrayList<>();
+        vehicles.add(this);
+        field.setVehicles(vehicles);
     } 
 
     /**

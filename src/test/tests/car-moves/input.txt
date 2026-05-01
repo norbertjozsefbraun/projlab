@@ -1,9 +1,5 @@
-roadconfig road1 standard 1 2 road2 standard 1 2 road3 standard 1 2
-connect road1 B road2 A
-connect road2 B road3 A
-setb 1 ho
-setb 2 wo
-setVeh road1 1 null 0 ca 1 2
+roadconfig road1 standard 1 2
+setVeh road1 1 null 0 ca
 derandomize
 move ah
 save src/test/tests/car-moves
