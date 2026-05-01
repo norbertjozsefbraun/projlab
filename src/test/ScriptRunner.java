@@ -41,12 +41,19 @@ import static test.ScriptRunnerHelper.stripQuotes;
  * Each line in the file corresponds to one of the supported game commands.
  */
 public class ScriptRunner {
+    private static final Path[] TEST_CASE_ROOT_CANDIDATES = {
+        Paths.get("src", "test", "tests"),
+        Paths.get("test", "tests")
+    };
+
     private final StringBuilder capturedOutput = new StringBuilder();
 
     private int currentVehicleIndex = 0;
     private int movesLeft = 0;
     private boolean isNewRound = true;
 
+    private boolean accumulatingScriptOutput = false;
+    private boolean stopReadingStdIn = false;
 
     /**
      * Reads the file at the given path line by line and dispatches each line
@@ -55,17 +62,15 @@ public class ScriptRunner {
      * @param path the path to the script file
      */
     public void runFromFile(String path) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                executeCommandLine(line);
-            }
-        } catch (IOException e) {
-            System.out.println("Failed to read script: " + e.getMessage());
+        try {
+            runCommandsFromFile(Paths.get(path), false);
+        } catch (InvalidPathException e) {
+            System.out.println("Invalid script path: " + path);
         }
     }
 
     public void runFromStdIn() {
+        stopReadingStdIn = false;
         try (BufferedReader reader = new BufferedReader(new java.io.InputStreamReader(System.in, StandardCharsets.UTF_8))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -73,6 +78,9 @@ public class ScriptRunner {
                     break;
                 }
                 executeCommandLine(line);
+                if (stopReadingStdIn && !reader.ready()) {
+                    break;
+                }
             }
         } catch (IOException e) {
             System.out.println("Failed to read stdin: " + e.getMessage());
@@ -91,7 +99,7 @@ public class ScriptRunner {
 
         StringTokenizer st = new StringTokenizer(line);
         String command = st.nextToken().toLowerCase();
-        if (!"save".equals(command)) {
+        if (!"save".equals(command) && !accumulatingScriptOutput) {
             capturedOutput.setLength(0);
         }
 
@@ -99,6 +107,7 @@ public class ScriptRunner {
             case "randomize"   -> executeAndCapture(this::randomize, capturedOutput);
             case "derandomize" -> executeAndCapture(this::derandomize, capturedOutput);
             case "start"       -> executeAndCapture(() -> start(st), capturedOutput);
+            case "test"        -> executeAndCapture(() -> test(st), capturedOutput);
             case "roadconfig"  -> executeAndCapture(() -> roadconfig(st), capturedOutput);
             case "connect"     -> executeAndCapture(() -> connect(st), capturedOutput);
             case "setb"        -> executeAndCapture(() -> setb(st), capturedOutput);
@@ -128,14 +137,18 @@ public class ScriptRunner {
     }
 
     private void start(StringTokenizer st) {
-
-        String vmipath = "test\\tests\\base-mechanic\\world.txt";
-        World defaultWorld = loadThisWorld(vmipath);
+        Path baseWorldPath = resolveTestAssetPath("base-mechanic", "world.txt");
+        if (baseWorldPath == null) {
+            System.out.println("Base world file not found.");
+            return;
+        }
+        World defaultWorld = loadThisWorld(baseWorldPath.toString());
 
         List<Vehicle> vehicles = new ArrayList<>();
 
         Session session = Session.getInstance();
         session.newGame(vehicles, defaultWorld);
+        currentVehicleIndex = 0;
 
         int playerCount = -1;
         int carCount = 0;
@@ -279,6 +292,129 @@ public class ScriptRunner {
 
         System.out.println("Game started with " + players.size() + " players, "
                 + (vehicles.size() - carCount) + " driven vehicles and " + carCount + " cars.");
+    }
+
+    private void test(StringTokenizer st) {
+        String testCaseName = readRemainingArgument(st);
+        if (testCaseName == null || testCaseName.isBlank()) {
+            System.out.println("Missing test case name.");
+            return;
+        }
+
+        Path scriptPath = resolveTestAssetPath(testCaseName, "input.txt");
+        if (scriptPath == null) {
+            System.out.println("Unknown test case: " + testCaseName);
+            return;
+        }
+
+        Session session = Session.getInstance();
+        World emptyWorld = new World();
+        emptyWorld.setRoads(new ArrayList<>());
+        emptyWorld.setIntersections(new ArrayList<>());
+        session.newGame(new ArrayList<>(), emptyWorld);
+        session.getGame().setPlayers(new ArrayList<>());
+        currentVehicleIndex = 0;
+
+        boolean previousAccumulationState = accumulatingScriptOutput;
+        capturedOutput.setLength(0);
+        accumulatingScriptOutput = true;
+
+        try (BufferedReader reader = Files.newBufferedReader(scriptPath, StandardCharsets.UTF_8)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String strippedLine = line.strip();
+                if (strippedLine.isEmpty()) {
+                    continue;
+                }
+
+                StringTokenizer lineTokenizer = new StringTokenizer(strippedLine);
+                if (!lineTokenizer.hasMoreTokens()) {
+                    continue;
+                }
+
+                String lineCommand = lineTokenizer.nextToken().toLowerCase();
+                if ("setveh".equals(lineCommand) && session.getGame() != null) {
+                    List<String> args = new ArrayList<>();
+                    while (lineTokenizer.hasMoreTokens()) {
+                        args.add(stripQuotes(lineTokenizer.nextToken()));
+                    }
+
+                    Game game = session.getGame();
+                    if (game.getPlayers() == null) {
+                        game.setPlayers(new ArrayList<>());
+                    }
+
+                    if (args.size() >= 5) {
+                        String playerName = args.get(3);
+                        String vehicleType = args.get(4).toLowerCase();
+
+                        boolean playerExists = false;
+                        for (Player player : game.getPlayers()) {
+                            if (playerName.equals(player.getName())) {
+                                playerExists = true;
+                                break;
+                            }
+                        }
+
+                        if (!playerExists && !"null".equalsIgnoreCase(playerName)) {
+                            Player player = new Player();
+                            player.setName(playerName);
+                            player.setType("bu".equals(vehicleType) ? "bus" : "plow");
+                            game.getPlayers().add(player);
+                        }
+
+                        for (int i = 5; i < args.size(); i++) {
+                            String intersectionToken = args.get(i);
+                            if ("null".equalsIgnoreCase(intersectionToken)) {
+                                continue;
+                            }
+
+                            int intersectionId;
+                            try {
+                                intersectionId = Integer.parseInt(intersectionToken);
+                            } catch (NumberFormatException ignored) {
+                                continue;
+                            }
+
+                            for (Intersection intersection : game.getWorld().getIntersections()) {
+                                if (intersection.getId() != intersectionId || intersection.getBuilding() != null) {
+                                    continue;
+                                }
+
+                                switch (vehicleType) {
+                                    case "sp" -> {
+                                        Garage garage = new Garage();
+                                        intersection.setBuilding(garage);
+                                        garage.setLocation(intersection);
+                                    }
+                                    case "bu" -> {
+                                        BusStop busStop = new BusStop();
+                                        intersection.setBuilding(busStop);
+                                        busStop.setLocation(intersection);
+                                    }
+                                    case "ca" -> {
+                                        Building building = i == 5 ? new Home() : new WorkPlace();
+                                        intersection.setBuilding(building);
+                                        building.setLocation(intersection);
+                                    }
+                                    default -> {
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                executeCommandLine(strippedLine);
+            }
+
+            stopReadingStdIn = true;
+        } catch (IOException e) {
+            System.out.println("Failed to read script: " + e.getMessage());
+        } finally {
+            accumulatingScriptOutput = previousAccumulationState;
+        }
     }
 
     /**
@@ -741,21 +877,63 @@ public class ScriptRunner {
             if (game.getRounds() != null) {
                 game.setRounds(game.getRounds() + 1);
             }
+
         }
     }
 
-    private void save(StringTokenizer st) {
+    private boolean runCommandsFromFile(Path scriptPath, boolean aggregateOutput) {
+        boolean previousAccumulationState = accumulatingScriptOutput;
+        if (aggregateOutput) {
+            capturedOutput.setLength(0);
+        }
+        accumulatingScriptOutput = aggregateOutput || previousAccumulationState;
+
+        try (BufferedReader reader = Files.newBufferedReader(scriptPath, StandardCharsets.UTF_8)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                executeCommandLine(line);
+            }
+            return true;
+        } catch (IOException e) {
+            System.out.println("Failed to read script: " + e.getMessage());
+            return false;
+        } finally {
+            accumulatingScriptOutput = previousAccumulationState;
+        }
+    }
+
+    private Path resolveTestAssetPath(String testCaseName, String fileName) {
+        for (Path rootCandidate : TEST_CASE_ROOT_CANDIDATES) {
+            Path absoluteRoot = rootCandidate.toAbsolutePath().normalize();
+            Path candidate = absoluteRoot.resolve(testCaseName).resolve(fileName).normalize();
+            if (!candidate.startsWith(absoluteRoot)) {
+                continue;
+            }
+            if (Files.isRegularFile(candidate)) {
+                return candidate;
+            }
+        }
+        return null;
+    }
+
+    private String readRemainingArgument(StringTokenizer st) {
         if (!st.hasMoreTokens()) {
+            return null;
+        }
+
+        StringBuilder argBuilder = new StringBuilder(st.nextToken());
+        while (st.hasMoreTokens()) {
+            argBuilder.append(" ").append(st.nextToken());
+        }
+        return stripQuotes(argBuilder.toString());
+    }
+
+    private void save(StringTokenizer st) {
+        String folderArg = readRemainingArgument(st);
+        if (folderArg == null || folderArg.isBlank()) {
             System.out.println("Missing save target folder path.");
             return;
         }
-
-        StringBuilder folderArgBuilder = new StringBuilder(st.nextToken());
-        while (st.hasMoreTokens()) {
-            folderArgBuilder.append(" ").append(st.nextToken());
-        }
-
-        String folderArg = stripQuotes(folderArgBuilder.toString());
         Path targetFolder;
         try {
             targetFolder = Paths.get(folderArg);
