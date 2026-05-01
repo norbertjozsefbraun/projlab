@@ -9,7 +9,7 @@ import test.Prototype;
 
 public abstract class Vehicle {
     Prototype proto = Prototype.getInstance();
-    static int idCounter = 0;
+    static int idCounter = 1;
 
     /**
      * Unique identifier of the vehicles.
@@ -211,10 +211,9 @@ public abstract class Vehicle {
     }
 
     /**
-     * Moves the vehicle the given number of fields.
-     * @param n The number of fileds the vehicle has to move
+     * Moves the vehicle.
      */
-    public abstract void move(int n);
+    public abstract void move();
 
     /**
      * Slips the vehicle the given number of fileds.
