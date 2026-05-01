@@ -30,7 +30,7 @@ public class Test {
         prev.setNextField(f);
         car1.setCurrentField(prev);
 
-        car1.move(1);
+        car1.move();
 
     }
 
@@ -57,7 +57,7 @@ public class Test {
         f1.setNextField(f2);
         f2.setNextField(f3);
 
-        c.move(1);
+        c.move();
     }
 
     public static void testCarIsBlocked() {
@@ -81,7 +81,7 @@ public class Test {
         c.setCanMove(true);
         c.setCurrentField(current);
 
-        c.move(1);
+        c.move();
 
     }
 
@@ -128,7 +128,7 @@ public class Test {
         cf.setNextField(nf);
         nf.setSurface(s);
 
-        sp.move(1);
+        sp.move();
 
 
     }
@@ -178,7 +178,7 @@ public class Test {
 
     // 4. Futtatás
     // A move(1) hatására: c1 -> field -> sweeper:clean(field) -> neighbor:addSnow(10)
-    sp.move(1);
+    sp.move();
 
 }
 
@@ -219,7 +219,7 @@ public class Test {
         sp.setActiveHead(dragon);
         dragon.setKerosene(biokerosene);
 
-        sp.move(1);
+        sp.move();
 
     }
 
@@ -305,7 +305,7 @@ public class Test {
         nf.setVehicles(vehicles);
 
         //func call
-        snowplow.move(1);
+        snowplow.move();
 
     }
 
@@ -395,7 +395,7 @@ public class Test {
         b.setBuildings(buildings);
 
         //func call
-        b.move(1);
+        b.move();
 
     }
 
@@ -425,7 +425,7 @@ public class Test {
         snowPlow.setActiveHead(tempSw);
         snowPlow.setGarage(garage);
         car.setHome(home);
-        snowPlow.move(1);
+        snowPlow.move();
 
 
     }
@@ -834,7 +834,7 @@ public class Test {
         world.setRoads(new ArrayList<>(List.of(road)));
 
         //Begin
-        bus.move(1);
+        bus.move();
         game.makeTurn();
 
     }
