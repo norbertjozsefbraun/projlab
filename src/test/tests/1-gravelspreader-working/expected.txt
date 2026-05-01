@@ -1,0 +1,3 @@
+targetField surface hasGravel false ::: true
+
+gravelSpreader1 gravelAmount 100 ::: 90

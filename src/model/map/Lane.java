@@ -48,6 +48,9 @@ public class Lane {
         }
         return fields.get(index);
     }
+    public List<Field> getFields() {
+        return fields;
+    }
 
     /// Setters:
     public void setFields(List<Field> fields) {
