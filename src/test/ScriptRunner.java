@@ -44,6 +44,9 @@ public class ScriptRunner {
     private final StringBuilder capturedOutput = new StringBuilder();
 
     private int currentVehicleIndex = 0;
+    private int movesLeft = 0;
+    private boolean isNewRound = true;
+
 
     /**
      * Reads the file at the given path line by line and dispatches each line
@@ -103,7 +106,7 @@ public class ScriptRunner {
             case "setfieldcontents" -> executeAndCapture(() -> setFieldContents(st), capturedOutput);
             case "lsh"         -> executeAndCapture(() -> lsh(st), capturedOutput);
             case "ch"          -> executeAndCapture(() -> ch(st), capturedOutput);
-            case "roll"        -> executeAndCapture(this::roll, capturedOutput);
+            case "roll"        -> executeAndCapture(() -> roll(st), capturedOutput);
             case "move"        -> executeAndCapture(() -> move(st), capturedOutput);
             case "save"        -> save(st);
             case "ls"          -> executeAndCapture(this::ls, capturedOutput);
@@ -660,14 +663,17 @@ public class ScriptRunner {
 
     }
 
-    private void roll() {
-        // TODO: implement roll command - KEVE
+    private void roll(StringTokenizer st) {
         Session session = Session.getInstance();
         Game game = session.getGame();
 
+        // ha van parameter, akkor annyit dob, kulonben: rollDice (1 vagy random)
         if (game != null) {
-            /// rollDice metodust at kell allitani public-ra (?)
-            //game.rollDice();
+            if(st.hasMoreTokens()) {
+                movesLeft = Integer.parseInt(st.nextToken());
+            } else {
+                movesLeft = game.rollDice();
+            }
         }
     }
 
@@ -681,39 +687,60 @@ public class ScriptRunner {
             return;
         }
 
-        // ha uj kor, havazas
-        if (currentVehicleIndex == 0) {
+        // ha nem dobott, 1-et léphet
+        if (movesLeft <= 0) {
+            movesLeft = 1;
+        }
+
+        // ha új kör, havazik
+        if (currentVehicleIndex == 0 && isNewRound) {
             if (game.getWorld() != null) {
                 game.getWorld().snowfall();
             }
+            isNewRound = false;
         }
 
         Vehicle currentVehicle = game.getVehicles().get(currentVehicleIndex);
 
-        // irany beallitasa
+        // irány beállítása
         if (st.hasMoreTokens()) {
             String direction = st.nextToken();
             switch (direction) {
-                case "ri": currentVehicle.setDirection(DirectionType.RI); break;
-                case "le": currentVehicle.setDirection(DirectionType.LE); break;
-                default: currentVehicle.setDirection(DirectionType.AH); break;
+                case "ri":
+                    currentVehicle.setDirection(DirectionType.RI);
+                    break;
+                case "le":
+                    currentVehicle.setDirection(DirectionType.LE);
+                    break;
+                default:
+                    currentVehicle.setDirection(DirectionType.AH);
+                    break;
             }
         }
+
         // move
-        currentVehicle.move(game.getDice().nextInt());
+        currentVehicle.move();
 
-        // tick timers
-        game.getWorld().tickTimers();
+        movesLeft--;
 
-        // következő hívás a következő járművet mozgatja
-        currentVehicleIndex++;
+        // ha nincs több lépése egy járműnek
+        if (movesLeft <= 0) {
+            currentVehicleIndex++;
+            movesLeft = 0;
+        }
+
+        // kör vége
         if (currentVehicleIndex >= game.getVehicles().size()) {
             currentVehicleIndex = 0;
+            isNewRound = true;
+
+            if (game.getWorld() != null) {
+                game.getWorld().tickTimers();
+            }
 
             if (game.getRounds() != null) {
                 game.setRounds(game.getRounds() + 1);
             }
-
         }
     }
 
@@ -889,9 +916,6 @@ public class ScriptRunner {
         }
     }
 
-
-       
-       
 
 
 

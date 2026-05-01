@@ -117,7 +117,7 @@ public class Game {
     rolldice() - this method will take a random number from 1-6 inclusively from both ends
     @no params
      */
-    private Integer rollDice(){
+    public Integer rollDice(){
         if (derandomized) return 1;
         int min = 1;
         int max = 6;
