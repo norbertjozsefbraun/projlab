@@ -1,5 +1,6 @@
 package model.buildings;
 
+import java.util.HashMap;
 import java.util.Map;
 import model.entities.Car;
 import model.entities.Vehicle;
@@ -9,6 +10,10 @@ public class WorkPlace extends Building{
      * The list of cars that are currently waiting at their workplace and how much time they have to wait at the workplace
      */
     private Map<Car, Integer> waitingCars;
+
+    public WorkPlace() {
+        waitingCars = new HashMap<>();
+    }
 
     /**
      * Getter for the map is waitincars

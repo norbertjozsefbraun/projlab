@@ -1,5 +1,6 @@
 package model.buildings;
 
+import java.util.ArrayList;
 import java.util.List;
 import model.core.Game;
 import model.core.Shop;
@@ -13,8 +14,17 @@ public class BusStop extends Building{
     private List<Bus> buses;
 
     //Fields
-    private Shop shop;
+    private Shop shop; ///unused???
     private Game game;
+
+    public BusStop() {
+        buses = new ArrayList<>();
+    }
+
+    public BusStop(Game game) {
+        buses = new ArrayList<>();
+        this.game = game;
+    }
 
     //Getters
     public List<Bus> getBuses(){

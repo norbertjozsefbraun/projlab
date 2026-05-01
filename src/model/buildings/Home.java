@@ -1,5 +1,6 @@
 package model.buildings;
 
+import java.util.ArrayList;
 import java.util.List;
 import model.entities.Car;
 import model.entities.Vehicle;
@@ -9,6 +10,10 @@ public class Home extends Building{
      * The list of cars that belong to the home
      */
     private List<Car> cars;
+
+    public Home() {
+        cars = new ArrayList<>();
+    }
 
     /**
      * Getter for the list of cars 
