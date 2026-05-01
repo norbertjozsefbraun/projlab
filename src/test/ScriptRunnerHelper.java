@@ -255,7 +255,8 @@ public final class ScriptRunnerHelper {
             case "bio": return new Biokerosene();
             case "sw": return new Sweeper();
             case "ic": return new IceCracker();
-            case "bw": return new Blower();
+            case "bw":
+            case "bl": return new Blower();
             case "dr": return new Dragon();
             case "st": return new Salter();
             case "gr": return new GravelSpreader();

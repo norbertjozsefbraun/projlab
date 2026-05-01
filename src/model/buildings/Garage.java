@@ -1,5 +1,6 @@
 package model.buildings;
 
+import java.util.ArrayList;
 import java.util.List;
 import model.core.Game;
 import model.entities.SnowPlow;
@@ -9,12 +10,12 @@ public class Garage extends Building{
     /**
      * The list of snowplows that belong to the garage
      */
-    private List<SnowPlow> snowPlows;
+    private List<SnowPlow> snowPlows = new ArrayList<>();
 
     /**
      * The number of times a snowplow has run over a car
      */
-    private Integer destroyedNum;
+    private Integer destroyedNum = 0;
 
     /**
      * Getter for the list of snowplows
