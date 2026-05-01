@@ -110,7 +110,7 @@ public class Car extends Vehicle {
 
         if (currentField.getNextField() != null) {
             currentField.moveToNextField(this);
-                return;
+            return;
         }
 
         if(!canMove) {
