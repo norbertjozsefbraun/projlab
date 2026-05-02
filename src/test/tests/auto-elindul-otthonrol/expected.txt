@@ -1,7 +1,4 @@
-car1 currentBuilding null ::: home1
-
-car1 currentField null ::: null
-
 car1 currentBuilding home1 ::: null
 
 car1 currentField null ::: field1
+

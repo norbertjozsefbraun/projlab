@@ -681,12 +681,14 @@ public class ScriptRunner {
                 Building b2 = buildings.get(1);
                 if (intersectionId.equals("null")) {
                     Car car = new Car((Home)b1, (WorkPlace)b2, field, road);
+                    Prototype.getInstance().setLogging(false);
                     if (previousIntersection != null) {
                         car.setPreviousIntersection(previousIntersection);
                     }
                     vehicles.add(car);
                 }
                 else {
+                    Prototype.getInstance().setLogging(false);
                     if(b1 instanceof Home && b2 instanceof WorkPlace){
                         vehicles.add(new Car((Home)b1, (WorkPlace)b2));
                     }
