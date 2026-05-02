@@ -11,22 +11,22 @@ public class Blower extends Head {
      */
     @Override
     public void clean(Field f) {
-        int snowToMove = f.getSurface().getSnowThickness();
+        int snowToMove = f.getSurface().getSnowThickness(); // Get the amount of snow to move (the thickness of the snow on the current field)
 
         Field neighbor = f.getRightNeighbour();
 
         if (neighbor != null) {
-            Field farNeighbor = neighbor.getRightNeighbour();
+        Field farNeighbor = neighbor.getRightNeighbour(); // Get the right neighbor of the right neighbor (the field where the snow will be moved to)
             if (farNeighbor != null) {
                 farNeighbor.addSnow(snowToMove);
-                System.out.println("Hó áthelyezve távolra");
+                //System.out.println("Hó áthelyezve távolra");
             } else {
-                System.out.println("Hó eltűnt a rendszerből");
+               // System.out.println("Hó eltűnt a rendszerből");
             }
         } else {
-            System.out.println("Hó eltűnt a rendszerből");
+            //System.out.println("Hó eltűnt a rendszerből");
         }
 
-        f.getSurface().sweepSnow();
+        f.getSurface().sweepSnow(); // Remove all the snow from the current field after blowing it away
     }
 }

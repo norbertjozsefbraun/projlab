@@ -60,10 +60,10 @@ public abstract class Resource implements Purchasable {
     public boolean pay(Shop shop) {
         if (shop.getBalance() >= this.unitPrice) {
             shop.deduct(this.unitPrice);
-            System.out.println("A tranzakció sikeres végrehajtása és rögzítése");
+            //System.out.println("A tranzakció sikeres végrehajtása és rögzítése");
             return true;
         } else {
-            System.out.println("A tranzakció elutasítása fedezethiány miatt");
+            //System.out.println("A tranzakció elutasítása fedezethiány miatt");
             return false;
         }
     }
@@ -74,7 +74,7 @@ public abstract class Resource implements Purchasable {
      */
     public void consume(int quantity) {
         if (this.amount >= quantity) {
-            this.amount -= quantity;
+            this.amount -= quantity; // Deduct the consumed quantity from the current amount
         } else {
             System.out.println("Üzemanyag kifogyott!");
         }
@@ -87,7 +87,7 @@ public abstract class Resource implements Purchasable {
     public void add(int quantity) {
         this.amount += quantity;
         if (this.amount > this.maxAmount) {
-            this.amount = this.maxAmount;
+            this.amount = this.maxAmount; // Ensure the amount does not exceed the maximum limit
         }
 
     }
@@ -125,12 +125,12 @@ public abstract class Resource implements Purchasable {
     @Override
 public void onPurchased(Player player, SnowPlow snowPlow, int amount) {
     if (snowPlow != null) {
-        List<Head> allHeads = snowPlow.getHeads();
+        List<Head> allHeads = snowPlow.getHeads(); // Get all heads from the snow plow
 
         for (Head h : allHeads) {
             if (h instanceof ResourceConsumingHead) {
                 ResourceConsumingHead resHead = (ResourceConsumingHead) h;
-                
+                // Create a new resource instance based on the type of the current resource
                 Resource resourceToFill = null;
                     
                 if (this instanceof Biokerosene) {
@@ -140,14 +140,15 @@ public void onPurchased(Player player, SnowPlow snowPlow, int amount) {
                 } else if (this instanceof Gravel) {
                     resourceToFill = new Gravel(amount, this.unitPrice);
                 }
-
+                // If the resource type is not compatible with the head's resource type, skip to the next head
                 int oldAmount = resHead.getResource().getAmount();
                 resHead.refill(resourceToFill);
 
+                // If the refill was successful and the resource amount has increased, log the change using the Prototype class
                 if (resHead.getResource().getAmount() > oldAmount) {
                     Prototype.getInstance().changed(
                         "snowplow" + snowPlow.getVehicleId(),
-                        this.getClass().getSimpleName() + "Amount",
+                        this.getClass().getSimpleName() + "Amount", // e.g., "SaltAmount"
                         String.valueOf(oldAmount),
                         String.valueOf(resHead.getResource().getAmount())
                     );

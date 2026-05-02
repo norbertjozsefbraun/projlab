@@ -1,1 +1,1 @@
-gravelSpreader1 gravelAmount 0 ::: 50
+GravelSpreader gravelAmount 0 ::: 50

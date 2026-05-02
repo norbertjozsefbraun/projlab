@@ -8,6 +8,6 @@ import model.entities.SnowPlow;
  */
 public interface Purchasable {
     int getPrice();
-    boolean pay(Shop s);
+    boolean pay(Shop s); 
     void onPurchased(Player player, SnowPlow snowplow, int amount);
 }

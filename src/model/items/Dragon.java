@@ -28,7 +28,7 @@ public class Dragon extends ResourceConsumingHead {
             f.getSurface().meltAll();
         } else {
             isIgnited = false;
-            System.out.println("\tDragon üres, a takarítás elmarad.");
+            //System.out.println("\tDragon üres, a takarítás elmarad.");
         }
         isIgnited = false;
 
@@ -41,9 +41,9 @@ public class Dragon extends ResourceConsumingHead {
     public void refill(Resource r) {
         if (r instanceof Biokerosene) {
             this.addAmount(r.getAmount());
-            System.out.println("Sikeres újratöltés nyugtázása"); //
+            //System.out.println("Sikeres újratöltés nyugtázása");
         } else {
-            System.out.println("\tHibás erőforrás típus, a Dragon csak Biokerosene-t fogad el.");
+            //System.out.println("\tHibás erőforrás típus, a Dragon csak Biokerosene-t fogad el.");
         }
     }
     /**
@@ -51,12 +51,12 @@ public class Dragon extends ResourceConsumingHead {
      * @param amount the amount of kerosene to add
      */
     public void addAmount(int amount) {
-        int oldAmount = this.kerosene.amount;
+        int oldAmount = this.kerosene.amount;  // Store the old amount for change tracking
         if (this.kerosene.amount + amount > this.kerosene.maxAmount) {
             this.kerosene.amount = this.kerosene.maxAmount;
             Prototype.getInstance().changed("Dragon", "kerosene", String.valueOf(oldAmount), String.valueOf(this.kerosene.maxAmount));
         } else {
-            this.kerosene.add(amount);
+            this.kerosene.add(amount); // Add the specified amount to the current kerosene amount
             Prototype.getInstance().changed("Dragon", "kerosene", String.valueOf(oldAmount), String.valueOf(this.kerosene.amount));
         }
     }

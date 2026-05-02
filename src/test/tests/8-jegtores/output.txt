@@ -1,0 +1,24 @@
+surface1 isIce false ::: true
+
+surface2 isIce false ::: true
+
+surface3 isIce false ::: true
+
+surface4 isIce false ::: true
+
+Salter salt 0 ::: 100
+
+Sikeres újratöltés nyugtázása
+GravelSpreader gravel 0 ::: 100
+
+Sikeres újratöltés nyugtázása
+Dragon kerosene 0 ::: 100
+
+Sikeres újratöltés nyugtázása
+snowplow1 activeHead Sweeper ::: IceCracker
+
+surface2 isIce true ::: false
+
+field2 snowThickness 20 ::: 30
+
+Jégtörés sikeres: a jég hóvá alakult.

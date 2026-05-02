@@ -22,10 +22,10 @@ public class GravelSpreader extends ResourceConsumingHead {
     @Override
     public void clean(Field f) {
         if (this.hasResource()) {
-            gravel.consume(5); 
+            gravel.consume(5); // Consume gravel for spreading
             f.getSurface().addGravel();
         } else {
-            System.out.println("\tGravelSpreader üres, a szórás elmarad.");
+            //System.out.println("\tGravelSpreader üres, a szórás elmarad.");
         }
     }
     /**
@@ -36,9 +36,9 @@ public class GravelSpreader extends ResourceConsumingHead {
     public void refill(Resource r) {
         if (r instanceof Gravel) {
             this.addAmount(r.getAmount());
-            System.out.println("Sikeres újratöltés nyugtázása"); // [cite: 138]
+            //System.out.println("Sikeres újratöltés nyugtázása"); // [cite: 138]
         } else {
-            System.out.println("\tHibás erőforrás típus, a GravelSpreader csak Gravel-t fogad el.");
+            //System.out.println("\tHibás erőforrás típus, a GravelSpreader csak Gravel-t fogad el.");
         }
     }
 
@@ -58,7 +58,7 @@ public class GravelSpreader extends ResourceConsumingHead {
      */
     @Override
     public boolean hasResource() {
-        return this.gravel.getAmount() >= 5;
+        return this.gravel.getAmount() >= 5; // Assuming 5 units of gravel are needed for one cleaning action
     }
 
     /**

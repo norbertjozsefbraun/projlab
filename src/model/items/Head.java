@@ -5,8 +5,12 @@ import model.core.Shop;
 import model.entities.SnowPlow;
 import model.map.Field;
 
+/**
+ * The Head class represents a cleaning head that can be equipped to a snowplow. It implements the CleanerEquipment and Purchasable interfaces.
+ * It provides methods for cleaning fields, handling purchases, and managing the equipped status of the head.
+ */
 public abstract class Head implements CleanerEquipment, Purchasable {
-    protected int price;
+    protected int price; // Price of the head
     protected boolean equipped = false;
 
     /**
@@ -32,8 +36,8 @@ public abstract class Head implements CleanerEquipment, Purchasable {
     @Override
     public boolean pay(Shop s) {
        if (s.getBalance() >= this.price) {
-            s.deduct(this.price);
-            System.out.println("A tranzakció sikeres végrehajtása és rögzítése"); // [cite: 121]
+            s.deduct(this.price); // Deduct the price from the shop's balance
+            //System.out.println("A tranzakció sikeres végrehajtása és rögzítése"); // [cite: 121]
             return true;
         } else {
             System.out.println("A tranzakció elutasítása fedezethiány miatt"); // [cite: 123]
@@ -71,7 +75,7 @@ public abstract class Head implements CleanerEquipment, Purchasable {
      */
     public void onPurchased(Player player, SnowPlow snowplow, int amount) {
         if (snowplow != null) {
-            snowplow.addHead(this); 
+            snowplow.addHead(this);  // Equip the head to the snowplow
             this.setEquipped(true);
         }
     }

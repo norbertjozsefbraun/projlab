@@ -12,5 +12,4 @@ fill 1 grav 100
 fill 1 bio 100
 derandomize
 ch 1 bl
-roll
 move ah
