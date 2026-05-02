@@ -168,15 +168,8 @@ public class Field extends Node {
     }
 
     public void addSnow(int amount){
-        int oldSnow = surface.getSnowThickness();
-
         surface.addSnow(amount);
 
-        int newSnow = surface.getSnowThickness();
-
-        if (oldSnow != newSnow) {
-            Prototype.getInstance().changed(getClass().getSimpleName().toLowerCase() + fieldId, "snowThickness", String.valueOf(oldSnow), String.valueOf(newSnow));
-        }
     }
 
 

@@ -1,4 +1,4 @@
-roadconfig ut1 standard 1 1 ut2 standard 1 1
+roadconfig ut1 standard 8 8 ut2 standard 1 1
 connect ut1 A ut2 B
 setb 1 ga
 setFieldContents 1 20 1 0

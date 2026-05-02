@@ -13,7 +13,6 @@ public class IceCracker extends Head {
         Surface s = f.getSurface();
         if (s.getIsIce()) {
             s.breakIce(); // Break the ice on the surface
-            f.addSnow(10);
             s.setIsIce(false); // Set the surface to not be ice anymore
             //System.out.println("Jégtörés sikeres: a jég hóvá alakult.");
         }

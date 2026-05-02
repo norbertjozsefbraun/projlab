@@ -1,3 +1,1 @@
 targetField surface isIcy true ::: false
-
-targetField snowAmount 20 ::: 25

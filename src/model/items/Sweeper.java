@@ -10,15 +10,17 @@ public class Sweeper extends Head {
      */
     @Override
     public void clean(Field f) {
-        int amount = f.getSurface().sweepSnow(); // Get the amount of snow swept from the surface of the field
+        int amount = f.getSurface().getSnowThickness(); // Get the amount of snow swept from the surface of the field
         
         Field neighbor = f.getRightNeighbour(); // Get the right neighbor field of the current field
 
         if (neighbor != null) { // If there is a right neighbor, add the swept snow to it
             neighbor.addSnow(amount);
         } else { // If there is no right neighbor, the swept snow is removed from the game
-            System.out.println("\t Nincs szomszéd, a hó kikerül a pályáról");
+            // System.out.println("\t Nincs szomszéd, a hó kikerül a pályáról");
         }
+
+        f.getSurface().sweepSnow(); // Remove all the snow from the current field after sweeping it away
 
     }
 }

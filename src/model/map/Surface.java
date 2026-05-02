@@ -77,11 +77,9 @@ public class Surface {
     }
 
     public int sweepSnow() {
-
+        addSnow(-snowThickness);
         int snowAmount = snowThickness;
-        snowThickness = 0;
         hasGravel = false;
-
         return snowAmount;
     }
 
@@ -129,9 +127,17 @@ public void meltAll() {
     }
 
     public void addSnow(int amount) {
+        int oldSnow = getSnowThickness();
         if (saltTimer == 0) {
             snowThickness += amount;
         }
+
+        int newSnow = getSnowThickness();
+
+        if (oldSnow != newSnow) {
+            Prototype.getInstance().changed(getClass().getSimpleName().toLowerCase() + surfaceId, "snowThickness", String.valueOf(oldSnow), String.valueOf(newSnow));
+        }
+
     }
 
     public void tickTimers() {
