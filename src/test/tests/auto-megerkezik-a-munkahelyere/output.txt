@@ -1,0 +1,4 @@
+car1 currentBuilding null ::: workplace1
+
+car1 currentField null ::: null
+

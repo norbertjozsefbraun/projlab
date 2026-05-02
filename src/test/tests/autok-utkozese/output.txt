@@ -1,0 +1,10 @@
+surface2 isIce false ::: true
+
+car1 currentField field1 ::: field2
+
+car1 currentField field2 ::: field3
+
+car2 canMove true ::: false
+
+car1 canMove true ::: false
+

@@ -1,7 +1,9 @@
 roadconfig road1 standard 2 2 road2 standard 2 2
 setFieldContents 1 0 0 0
 connect road1 A road2 B
+connect road1 B road2 A
 setb 1 wo
-setVeh null null 1 0 ca null 1
+setb 2 ho
+setVeh null null 1 0 ca 2 1
 derandomize
 move ah

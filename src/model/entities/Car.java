@@ -31,13 +31,13 @@ public class Car extends Vehicle {
         canMove = true;
         this.home = home;
         this.work = work;
-        currentBuilding = home;
+        //currentBuilding = home;
         buildings = new ArrayList<>();
         buildings.add(home);
         buildings.add(work);
         currentRoad = null;
         currentField = null;
-        destinationIntersection = work.getLocation();
+        //destinationIntersection = work.getLocation();
         home.enterVehicle(this);
     }
 
