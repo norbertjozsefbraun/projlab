@@ -198,11 +198,17 @@ public class SnowPlow extends Vehicle implements Purchasable {
             return;
         }
         if (currentField.getNextField() != null) {
-            System.out.println(currentField.getId());
+
+            Field targetField = currentField.getNextField();
+            if (direction == DirectionType.LE && targetField.getLeftNeighbour() != null) {
+                targetField = targetField.getLeftNeighbour();
+            } else if (direction == DirectionType.RI && targetField.getRightNeighbour() != null) {
+                targetField = targetField.getRightNeighbour();
+            }
+
             currentField.moveToNextField(this, direction);
-            // System.out.println(currentField.getId());
-            if (this.getGarage().getDestroyedNum() < 4 && activeHead != null && currentField != null) {
-                activeHead.clean(currentField);
+            if (this.getGarage().getDestroyedNum() <= 4 && activeHead != null && targetField != null) {
+                activeHead.clean(targetField);
             }
         } else if (currentField.getNextField() == null) {
             Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB() : currentRoad.getDestinationA();

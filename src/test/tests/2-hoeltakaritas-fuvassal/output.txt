@@ -15,6 +15,7 @@ Sikeres újratöltés nyugtázása
 Dragon kerosene 0 ::: 100
 
 Sikeres újratöltés nyugtázása
+<<<<<<< HEAD
 snowplow1 activeHead Sweeper ::: Blower
 
 field2 snowThickness 20 ::: 25
@@ -26,3 +27,6 @@ field4 snowThickness 20 ::: 25
 field3 snowThickness 20 ::: 25
 
 Hó eltűnt a rendszerből
+=======
+	 Nincs szomszéd, a hó kikerül a pályáról
+>>>>>>> 1f7d343c7ae6a3fbb1d7212620b4f807acc3e9c7
