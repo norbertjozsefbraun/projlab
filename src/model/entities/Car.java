@@ -22,6 +22,26 @@ public class Car extends Vehicle {
     public Car() {}
 
     /**
+     * The constructor for the car if it starts from work.
+     * @param home The starting building
+     * @param work The destiantion
+     */
+    public Car(WorkPlace work, Home home) {
+        vehicleId = idCounter++;
+        canMove = true;
+        this.work = work;
+        this.home = home;
+        //currentBuilding = home;
+        buildings = new ArrayList<>();
+        buildings.add(home);
+        buildings.add(work);
+        currentRoad = null;
+        currentField = null;
+        //destinationIntersection = work.getLocation();
+        work.enterVehicle(this);
+    }
+
+    /**
      * The constructor for the car if it starts from home.
      * @param home The starting building
      * @param work The destiantion
@@ -81,6 +101,8 @@ public class Car extends Vehicle {
         buildings.add(work);
         currentRoad = road;
         currentField = field;
+        home.getLocation().setBuilding(home);
+        work.getLocation().setBuilding(work);
         destinationIntersection = work.getLocation();
         // field.acceptVehicle(this);
         List<Vehicle> vehicles = new ArrayList<>();

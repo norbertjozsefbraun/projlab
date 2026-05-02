@@ -4,6 +4,8 @@ connect road1 A road2 B
 connect road1 B road2 A
 setb 1 wo
 setb 2 ho
-setVeh null null 1 0 ca 2 1
+setVeh null null 1 0 ca 1 2
 derandomize
+move ah
+move ah
 move ah

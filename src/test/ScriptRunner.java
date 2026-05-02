@@ -665,17 +665,22 @@ public class ScriptRunner {
                     // System.out.println("Missing buildings.");
                     break;
                 } 
-                Home home = (Home)buildings.get(0);
-                WorkPlace work = (WorkPlace)buildings.get(1);
+                Building b1 = buildings.get(0);
+                Building b2 = buildings.get(1);
                 if (intersectionId.equals("null")) {
-                    Car car = new Car(home, work, field, road);
+                    Car car = new Car((Home)b1, (WorkPlace)b2, field, road);
                     if (previousIntersection != null) {
                         car.setPreviousIntersection(previousIntersection);
                     }
                     vehicles.add(car);
                 }
                 else {
-                    vehicles.add(new Car(home, work));
+                    if(b1 instanceof Home && b2 instanceof WorkPlace){
+                        vehicles.add(new Car((Home)b1, (WorkPlace)b2));
+                    }
+                    else if(b1 instanceof WorkPlace && b2 instanceof Home){
+                        vehicles.add(new Car((WorkPlace)b1, (Home)b2));
+                    }
                 }
                 break;
         }
