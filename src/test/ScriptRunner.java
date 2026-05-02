@@ -32,6 +32,7 @@ import static test.ScriptRunnerHelper.createItem;
 import static test.ScriptRunnerHelper.executeAndCapture;
 import static test.ScriptRunnerHelper.loadThisWorld;
 import static test.ScriptRunnerHelper.normalizePlayerType;
+import static test.ScriptRunnerHelper.resolvePreviousIntersection;
 import static test.ScriptRunnerHelper.stripQuotes;
 
 /**
@@ -617,16 +618,23 @@ public class ScriptRunner {
         Field field = null;
         if (!fieldId.equals("null")) field = world.getFieldById(roadName, Integer.parseInt(fieldId));     
         List<Vehicle> vehicles = new ArrayList<>();
+        
+        Intersection previousIntersection = resolvePreviousIntersection(road, field);
 
         switch (vehType) {
             case "sp":
                 if (buildings.isEmpty()) {
-                    System.out.println("Missing building.");
-                    return;
+                    vehicles.add(new SnowPlow(player, field, road));
+                    // System.out.println("Missing building.");
+                    break;
                 } 
                 Garage garage = (Garage)buildings.get(0);
                 if (intersectionId.equals("null")) {
-                    vehicles.add(new SnowPlow(player, garage, field, road));
+                    SnowPlow snowplow = new SnowPlow(player, garage, field, road);
+                    if (previousIntersection != null) {
+                        snowplow.setPreviousIntersection(previousIntersection);
+                    }
+                    vehicles.add(snowplow);
                 }
                 else {
                     vehicles.add(new SnowPlow(player, garage));
@@ -634,13 +642,18 @@ public class ScriptRunner {
                 break;
             case "bu":
                 if (buildings.size() < 2) {
-                    System.out.println("Missing buildings.");
-                    return;
+                    vehicles.add(new Bus(player, field, road));
+                    // System.out.println("Missing buildings.");
+                    break;
                 } 
                 BusStop stopA = (BusStop)buildings.get(0);
                 BusStop stopB = (BusStop)buildings.get(1);
                 if (intersectionId.equals("null")) {
-                    vehicles.add(new Bus(player, stopA, stopB, field, road));
+                    Bus bus = new Bus(player, stopA, stopB, field, road);
+                    if (previousIntersection != null) {
+                        bus.setPreviousIntersection(previousIntersection);
+                    }
+                    vehicles.add(bus);
                 }
                 else {
                     vehicles.add(new Bus(player, stopA, stopB));
@@ -648,13 +661,18 @@ public class ScriptRunner {
                 break;
             case "ca":
                 if (buildings.size() < 2) {
-                    System.out.println("Missing buildings.");
-                    return;
+                    vehicles.add(new Car(field, road));
+                    // System.out.println("Missing buildings.");
+                    break;
                 } 
                 Home home = (Home)buildings.get(0);
                 WorkPlace work = (WorkPlace)buildings.get(1);
                 if (intersectionId.equals("null")) {
-                    vehicles.add(new Car(home, work, field, road));
+                    Car car = new Car(home, work, field, road);
+                    if (previousIntersection != null) {
+                        car.setPreviousIntersection(previousIntersection);
+                    }
+                    vehicles.add(car);
                 }
                 else {
                     vehicles.add(new Car(home, work));
@@ -856,13 +874,6 @@ public class ScriptRunner {
             movesLeft = 1;
         }
 
-        // ha új kör, havazik
-        if (currentVehicleIndex == 0 && isNewRound) {
-            if (game.getWorld() != null) {
-                game.getWorld().snowfall();
-            }
-            isNewRound = false;
-        }
 
         Vehicle currentVehicle = game.getVehicles().get(currentVehicleIndex);
 
@@ -879,6 +890,16 @@ public class ScriptRunner {
                 default:
                     currentVehicle.setDirection(DirectionType.AH);
                     break;
+            }
+        }
+
+        if(st.hasMoreTokens()) {
+            // ha új kör, havazik
+            if (currentVehicleIndex == 0 && isNewRound) {
+                if (game.getWorld() != null) {
+                    game.getWorld().snowfall();
+                }
+                isNewRound = false;
             }
         }
 

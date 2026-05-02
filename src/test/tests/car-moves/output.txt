@@ -6,21 +6,5 @@ field1 snowThickness 0 ::: 5
 
 field2 snowThickness 0 ::: 5
 
-field7 snowThickness 0 ::: 5
-
-field8 snowThickness 0 ::: 5
-
-field5 snowThickness 0 ::: 5
-
-field6 snowThickness 0 ::: 5
-
-field11 snowThickness 0 ::: 5
-
-field12 snowThickness 0 ::: 5
-
-field9 snowThickness 0 ::: 5
-
-field10 snowThickness 0 ::: 5
-
 car1 currentField field1 ::: field2
 

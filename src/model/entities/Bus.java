@@ -61,18 +61,44 @@ public class Bus extends Vehicle {
      * @param field the starting field
      * @param road the starting road
      */
+    public Bus(Player player, Field field, Road road) {
+        vehicleId = idCounter++;
+        this.player = player;
+        canMove = true;
+        this.stopA = null;
+        this.stopB = null;
+        buildings = new ArrayList<>();
+        buildings.add(stopA);
+        buildings.add(stopB);
+        currentBuilding = null;
+        previousStop = null;
+        currentRoad = road;
+        currentField = field;
+        // field.acceptVehicle(this);
+        List<Vehicle> vehicles = new ArrayList<>();
+        vehicles.add(this);
+        field.setVehicles(vehicles);
+    }
+
+    /**
+     * The constructor if the bus starts on the map.
+     * @param player the player who owns the bus
+     * @param stopA the starting stop
+     * @param stopB the destination stop
+     * @param field the starting field
+     * @param road the starting road
+     */
     public Bus(Player player, BusStop stopA, BusStop stopB, Field field, Road road) {
         vehicleId = idCounter++;
         this.player = player;
         canMove = true;
         this.stopA = stopA;
         this.stopB = stopB;
-        previousStop = null;
         buildings = new ArrayList<>();
         buildings.add(stopA);
         buildings.add(stopB);
         currentBuilding = null;
-        previousStop = stopA;
+        previousStop = stopB;
         currentRoad = road;
         currentField = field;
         // field.acceptVehicle(this);

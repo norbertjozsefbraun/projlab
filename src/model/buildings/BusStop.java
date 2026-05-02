@@ -81,11 +81,11 @@ public class BusStop extends Building{
     public void deployVehicle(Vehicle v){
         Bus b = (Bus)v;
 
-        //if(b.getCurrentBuilding().equals(b.getStopA())){
-        //    b.setDestinationIntersection(b.getStopB());
-        //}else if(b.getCurrentBuilding().equals(b.getStopB())){
-        //     b.setDestinationIntersection(b.getStopA());
-        //}
+        if(b.getCurrentBuilding().equals(b.getStopA())){
+            v.setDestinationIntersection(b.getStopB().getLocation());
+        }else if(b.getCurrentBuilding().equals(b.getStopB())){
+            v.setDestinationIntersection(b.getStopA().getLocation());
+        }
 
         b.setCurrentBuilding(null);
         b.setPreviousStop(this);

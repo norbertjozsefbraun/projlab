@@ -1,0 +1,42 @@
+field3 snowThickness 0 ::: 5
+
+field4 snowThickness 0 ::: 5
+
+field1 snowThickness 0 ::: 5
+
+field2 snowThickness 0 ::: 5
+
+field7 snowThickness 0 ::: 5
+
+field8 snowThickness 0 ::: 5
+
+field5 snowThickness 0 ::: 5
+
+field6 snowThickness 0 ::: 5
+
+field11 snowThickness 0 ::: 5
+
+field12 snowThickness 0 ::: 5
+
+field9 snowThickness 0 ::: 5
+
+field10 snowThickness 0 ::: 5
+
+field15 snowThickness 0 ::: 5
+
+field16 snowThickness 0 ::: 5
+
+field13 snowThickness 0 ::: 5
+
+field14 snowThickness 0 ::: 5
+
+bus1 currentBuilding null ::: busstop1
+
+bus1 currentField field2 ::: null
+
+shop balance 0 ::: 18
+
+bus1 currentBuilding busstop1 ::: null
+
+bus1 currentField null ::: field3
+
