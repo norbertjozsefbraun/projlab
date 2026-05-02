@@ -22,27 +22,3 @@ field5 snowThickness 0 ::: 5
 
 field6 snowThickness 35 ::: 40
 
-field19 snowThickness 0 ::: 5
-
-field20 snowThickness 0 ::: 5
-
-field21 snowThickness 0 ::: 5
-
-field22 snowThickness 0 ::: 5
-
-field23 snowThickness 0 ::: 5
-
-field24 snowThickness 0 ::: 5
-
-field13 snowThickness 0 ::: 5
-
-field14 snowThickness 0 ::: 5
-
-field15 snowThickness 0 ::: 5
-
-field16 snowThickness 0 ::: 5
-
-field17 snowThickness 0 ::: 5
-
-field18 snowThickness 0 ::: 5
-

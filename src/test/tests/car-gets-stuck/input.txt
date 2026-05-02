@@ -1,12 +1,7 @@
 roadconfig road1 standard 3 2
-roadconfig road2 standard 3 2
-connect 1 A 2 A
-connect 1 B 2 B
-setb 1 ho
-setb 2 wo
 setFieldContents 2 35 0 0
 setFieldContents 4 45 0 0
 setFieldContents 6 35 0 0
-setVeh road1 3 null 1 ca 1 2
+setVeh road1 3 null 1 ca
 derandomize
 move
