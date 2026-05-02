@@ -23,8 +23,8 @@ public class Car extends Vehicle {
 
     /**
      * The constructor for the car if it starts from work.
-     * @param home The starting building
-     * @param work The destiantion
+     * @param home The destiantion
+     * @param work The starting building
      */
     public Car(WorkPlace work, Home home) {
         vehicleId = idCounter++;

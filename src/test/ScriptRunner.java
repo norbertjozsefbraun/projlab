@@ -499,9 +499,8 @@ public class ScriptRunner {
     }
 
     /**
-     * PARAMS: <intersection ID> <bs/ho/wo/ga>
      * Adott ID-ju intersection buildengjet beallitja tipus szerint
-     * @param st
+     * @param st <intersection ID> <bs/ho/wo/ga>
      */
     private void setb(StringTokenizer st) {
         // TODO: implement setb command - Zeki
@@ -1036,8 +1035,10 @@ public class ScriptRunner {
         Files.writeString(outputFile, capturedOutput.toString(), StandardCharsets.UTF_8);
     }
 
+    /**
+     * Lists all of the available test cases
+     */
     private void ls() {
-        // TODO: implement ls command - ZEKI
         ArrayList<String> testCases = new ArrayList<>();
         testCases.add("auto-sikeres-lep");
         testCases.add("fejcsere");
