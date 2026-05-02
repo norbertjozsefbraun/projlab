@@ -298,5 +298,7 @@ public final class ScriptRunnerHelper {
 
         String commandOutput = commandBuffer.toString(StandardCharsets.UTF_8);
         capturedOutput.append(commandOutput);
+        previousStdout.print(commandOutput);
+        previousStdout.flush();
     }
 }

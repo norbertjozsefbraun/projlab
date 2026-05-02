@@ -8,22 +8,11 @@ surface4 isIce false ::: true
 
 Salter salt 0 ::: 100
 
-Sikeres újratöltés nyugtázása
 GravelSpreader gravel 0 ::: 100
 
-Sikeres újratöltés nyugtázása
 Dragon kerosene 0 ::: 100
 
-Sikeres újratöltés nyugtázása
 snowplow1 activeHead Sweeper ::: GravelSpreader
-
-field2 snowThickness 20 ::: 25
-
-field1 snowThickness 20 ::: 25
-
-field4 snowThickness 20 ::: 25
-
-field3 snowThickness 20 ::: 25
 
 Gravel amount 100 ::: 95
 

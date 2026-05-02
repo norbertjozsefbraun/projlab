@@ -18,6 +18,10 @@ public class Surface {
     private int surfaceId;
     private static int idCounter = 1;
 
+    public static void resetIdCounter() {
+        idCounter = 1;
+    }
+
     /// Getters:
     public int getSnowThickness() {
         return snowThickness;

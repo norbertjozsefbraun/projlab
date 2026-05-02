@@ -17,6 +17,10 @@ public class Intersection extends Node {
 
     static int idCounter = 1;
 
+    public static void resetIdCounter() {
+        idCounter = 1;
+    }
+
     /// Constructors:
     public Intersection() {
         building = null;

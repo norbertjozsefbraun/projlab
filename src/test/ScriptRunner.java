@@ -137,6 +137,8 @@ public class ScriptRunner {
     }
 
     private void start(StringTokenizer st) {
+        resetScenarioState();
+
         Path baseWorldPath = resolveTestAssetPath("base-mechanic", "world.txt");
         if (baseWorldPath == null) {
             System.out.println("Base world file not found.");
@@ -311,13 +313,14 @@ public class ScriptRunner {
         }
         Path outputPath = scriptPath.getParent().resolve("output.txt");
 
+        resetScenarioState();
+
         Session session = Session.getInstance();
         World emptyWorld = new World();
         emptyWorld.setRoads(new ArrayList<>());
         emptyWorld.setIntersections(new ArrayList<>());
         session.newGame(new ArrayList<>(), emptyWorld);
         session.getGame().setPlayers(new ArrayList<>());
-        currentVehicleIndex = 0;
 
         boolean previousAccumulationState = accumulatingScriptOutput;
         capturedOutput.setLength(0);
@@ -1003,6 +1006,18 @@ public class ScriptRunner {
             argBuilder.append(" ").append(st.nextToken());
         }
         return stripQuotes(argBuilder.toString());
+    }
+
+    private void resetScenarioState() {
+        currentVehicleIndex = 0;
+        movesLeft = 0;
+        isNewRound = true;
+
+        Vehicle.resetIdCounter();
+        Road.resetIdCounter();
+        Intersection.resetIdCounter();
+        Field.resetIdCounter();
+        Surface.resetIdCounter();
     }
 
     private void save(StringTokenizer st) {

@@ -8,21 +8,15 @@ surface4 isIce false ::: true
 
 Salter salt 0 ::: 100
 
-Sikeres újratöltés nyugtázása
 GravelSpreader gravel 0 ::: 100
 
-Sikeres újratöltés nyugtázása
 Dragon kerosene 0 ::: 100
 
-Sikeres újratöltés nyugtázása
 snowplow1 activeHead Sweeper ::: Blower
 
-field2 snowThickness 20 ::: 25
+snowplow1 currentField field2 ::: field3
 
-field1 snowThickness 20 ::: 25
+surface19 snowThickness 0 ::: 20
 
-field4 snowThickness 20 ::: 25
+surface3 snowThickness 20 ::: 0
 
-field3 snowThickness 20 ::: 25
-
-Hó eltűnt a rendszerből

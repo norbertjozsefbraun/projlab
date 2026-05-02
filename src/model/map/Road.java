@@ -16,6 +16,10 @@ public class Road {
 
     static int idCounter = 1;
 
+    public static void resetIdCounter() {
+        idCounter = 1;
+    }
+
     /// Constructors:
     public Road(){
         lanesToA = new ArrayList<>();

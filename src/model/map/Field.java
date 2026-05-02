@@ -19,6 +19,10 @@ public class Field extends Node {
 
     static int idCounter = 1;
 
+    public static void resetIdCounter() {
+        idCounter = 1;
+    }
+
     /// Constructor:
     public Field() {
         surface = new Surface();

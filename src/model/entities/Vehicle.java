@@ -11,6 +11,10 @@ public abstract class Vehicle {
     Prototype proto = Prototype.getInstance();
     static int idCounter = 1;
 
+    public static void resetIdCounter() {
+        idCounter = 1;
+    }
+
     /**
      * Unique identifier of the vehicles.
      */
