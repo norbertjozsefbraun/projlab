@@ -12,4 +12,3 @@ setVeh road1 2 null 0 ca 2 4
 setHeads 1 ic
 derandomize
 move ah
-save src/test/tests/hokotro-es-auto-utkozese

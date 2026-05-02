@@ -1,10 +1,10 @@
-surface2 isIce false ::: true
-
 snowplow1 currentField field1 ::: field2
 
 car2 currentBuilding null ::: home2
 
 car2 currentField field2 ::: null
+
+garage destroyedNum 0 ::: 1
 
 snowplow1 currentBuilding null ::: garage1
 
