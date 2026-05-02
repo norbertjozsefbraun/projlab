@@ -5,6 +5,7 @@ import java.util.Random;
 import model.entities.Vehicle;
 import model.map.Field;
 import model.map.World;
+import test.Prototype;
 
 public class Game {
     /// Fields:
@@ -152,6 +153,8 @@ public class Game {
         Session.addResult(rounds);
     }
     public void increaseRounds(){
+        Prototype proto = Prototype.getInstance();
+        proto.changed(getClass().getSimpleName().toLowerCase(), "rounds", String.valueOf(rounds), String.valueOf(rounds + 1));
         this.rounds++;
     }
     public List<Field> getPos(){

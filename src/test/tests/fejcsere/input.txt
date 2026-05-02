@@ -4,4 +4,4 @@ setb 1 ga
 setVeh road1 1 null 1 sp 1
 setHeads 1 bw sw dr
 ch 1 sw
-save src/test/tests/swapping-heads
+save src/test/tests/fejcsere

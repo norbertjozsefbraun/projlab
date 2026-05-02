@@ -392,7 +392,7 @@ public class ScriptRunner {
                                         garage.setLocation(intersection);
                                     }
                                     case "bu" -> {
-                                        BusStop busStop = new BusStop();
+                                        BusStop busStop = new BusStop(game);
                                         intersection.setBuilding(busStop);
                                         busStop.setLocation(intersection);
                                     }
@@ -534,7 +534,7 @@ public class ScriptRunner {
 
         switch (veh) {
             case "bs" -> {
-                BusStop stop = new BusStop();
+                BusStop stop = new BusStop(game);
                 intersection.setBuilding(stop);
                 stop.setLocation(intersection);
             }

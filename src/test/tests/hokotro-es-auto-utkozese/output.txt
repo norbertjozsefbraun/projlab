@@ -12,6 +12,3 @@ snowplow1 currentField field2 ::: null
 
 surface2 isIce true ::: false
 
-field2 snowThickness 0 ::: 10
-
-Jégtörés sikeres: a jég hóvá alakult.
