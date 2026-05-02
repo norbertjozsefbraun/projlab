@@ -10,6 +10,7 @@ import java.util.Scanner;
  */
 public class Prototype {
     private static Prototype instance = null;
+    private boolean isLogging = false; //%@
 
     private final Scanner scanner;
 
@@ -17,6 +18,11 @@ public class Prototype {
         this.scanner = new Scanner(System.in);
     }
 
+
+    public void setLogging(boolean value) {
+        this.isLogging = value;
+    }
+    
     /**
      * Returns the only instance of the singleton class
      * * @return The singleton instance of the Prototype class
@@ -35,8 +41,9 @@ public class Prototype {
      * @param methodName The name of the method being called.
      */
     public void changed(String objectName, String attribute , String oldValue, String newValue) {
-        System.out.println(objectName + " " + attribute + " " + oldValue + " ::: " + newValue + "\n");
-
+        if (isLogging) {
+            System.out.println(objectName + " " + attribute + " " + oldValue + " ::: " + newValue + "\n");
+        }
     }
 
 

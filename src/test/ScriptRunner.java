@@ -134,6 +134,7 @@ public class ScriptRunner {
     private void derandomize() {
         Session session = Session.getInstance();
         session.getGame().setDerandomized(true);
+        Prototype.getInstance().setLogging(true); //%@
     }
 
     private void start(StringTokenizer st) {
@@ -420,6 +421,7 @@ public class ScriptRunner {
             System.out.println("Failed to read script: " + e.getMessage());
         } finally {
             accumulatingScriptOutput = previousAccumulationState;
+            Prototype.getInstance().setLogging(false); //%@
         }
     }
 

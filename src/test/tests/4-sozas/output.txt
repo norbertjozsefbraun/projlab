@@ -1,17 +1,3 @@
-surface1 isIce false ::: true
-
-surface2 isIce false ::: true
-
-surface3 isIce false ::: true
-
-surface4 isIce false ::: true
-
-Salter salt 0 ::: 100
-
-GravelSpreader gravel 0 ::: 100
-
-Dragon kerosene 0 ::: 100
-
 snowplow1 activeHead Sweeper ::: Salter
 
 Salt amount 100 ::: 95
