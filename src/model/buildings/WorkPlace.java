@@ -37,6 +37,7 @@ public class WorkPlace extends Building{
         waitingCars.put((Car)v,  2);
         v.setCurrentBuilding(this);
         v.setCurrentField(null);
+        v.setDestinationIntersection(v.getBuildings().get(0).getLocation());
     }
 
     /**

@@ -36,6 +36,7 @@ public class Home extends Building{
     public void enterVehicle(Vehicle v){
         v.setCurrentBuilding(this);
         v.setCurrentField(null);
+        v.setDestinationIntersection(v.getBuildings().get(1).getLocation());
     }
 
     /**
