@@ -387,7 +387,7 @@ public class ScriptRunner {
                                         garage.setLocation(intersection);
                                     }
                                     case "bu" -> {
-                                        BusStop busStop = new BusStop(game);
+                                        BusStop busStop = new BusStop();
                                         intersection.setBuilding(busStop);
                                         busStop.setLocation(intersection);
                                     }
@@ -527,7 +527,7 @@ public class ScriptRunner {
         
         switch(veh){
             case "bs" -> {
-                BusStop stop = new BusStop(game);
+                BusStop stop = new BusStop();
                 intersection.setBuilding(stop);       
                 stop.setLocation(intersection);
             }   
@@ -797,17 +797,33 @@ public class ScriptRunner {
             }
         }
 
-        Head oldHead = snowPlow.getActiveHead();
-        Head activHead = switch (newHeadType) {
-            case "dr" -> new Dragon();
-            case "st" -> new Salter();
-            case "sw" -> new Sweeper();
-            case "gr" -> new GravelSpreader();
-            case "bl" -> new Blower();
-            default -> null;
-        };
+        if (snowPlow == null) {
+            System.out.println("Snowplow not found.");
+            return;
+        }
 
-        snowPlow.changeHead(activHead);
+        Head newActiveHead = null;
+        for (Head head : snowPlow.getHeads()) {
+            boolean matches = false;
+            if ("dr".equals(newHeadType) && head instanceof Dragon) matches = true;
+            if ("st".equals(newHeadType) && head instanceof Salter) matches = true;
+            if ("sw".equals(newHeadType) && head instanceof Sweeper) matches = true;
+            if ("gr".equals(newHeadType) && head instanceof GravelSpreader) matches = true;
+            if ("bl".equals(newHeadType) && head instanceof Blower) matches = true;
+            if ("ic".equals(newHeadType) && head instanceof IceCracker) matches = true;
+            
+            if (matches) {
+                newActiveHead = head;
+                break;
+            }
+        }
+
+        if (newActiveHead == null) {
+            System.out.println("Head type not found: " + newHeadType);
+            return;
+        }
+
+        snowPlow.changeHead(newActiveHead);
 
     }
 
