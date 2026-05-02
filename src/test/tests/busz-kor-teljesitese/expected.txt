@@ -1,6 +1,12 @@
-bus1 currentField field1 ::: null
-bus currentBuilding null ::: busStop1
-game rounds 0 ::: 1
+bus1 currentBuilding null ::: busstop1
+
+bus1 currentField field2 ::: null
+
 shop balance 0 ::: 18
-bus1 currentField null ::: field2
-bus1 currentBuilding busStop1 ::: null
+
+game rounds 0 ::: 1
+
+bus1 currentBuilding busstop1 ::: null
+
+bus1 currentField null ::: field3
+

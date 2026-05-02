@@ -2,4 +2,3 @@ roadconfig road1 standard 1 2
 setVeh road1 1 null 0 ca
 derandomize
 move ah
-save src/test/tests/auto-sikeres-lep
