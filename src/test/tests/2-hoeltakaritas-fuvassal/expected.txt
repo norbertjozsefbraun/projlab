@@ -1,3 +1,5 @@
-targetField snowAmount 20 ::: 0
+snowplow1 currentField field2 ::: field3
 
-farNeighbor snowAmount 20 ::: 40
+surface19 snowThickness 20 ::: 40
+
+surface3 snowThickness 20 ::: 0

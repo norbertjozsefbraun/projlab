@@ -1,1 +1,1 @@
-targetField surface isIcy true ::: false
+surface2 isIce true ::: false

@@ -10,6 +10,6 @@ setHeads 1 sw ic dr st gr bl
 fill 1 salt 100
 fill 1 grav 100
 fill 1 bio 100
-derandomize
 ch 1 gr
+derandomize
 move ah

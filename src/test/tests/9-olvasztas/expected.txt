@@ -1,3 +1,5 @@
-targetField snowAmount 20 ::: 0
-targetField surface isIcy true ::: false
-dragon1 keroseneAmount 100 ::: 90
+Biokerosene amount 100 ::: 90
+
+surface2 snowThickness 20 ::: 0
+
+surface2 isIce true ::: false

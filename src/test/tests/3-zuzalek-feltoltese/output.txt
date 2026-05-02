@@ -1,13 +1,2 @@
-surface1 isIce false ::: true
-
-surface2 isIce false ::: true
-
-surface3 isIce false ::: true
-
-surface4 isIce false ::: true
-
-snowplow1 activeHead Sweeper ::: GravelSpreader
-
 GravelSpreader gravel 0 ::: 50
 
-Sikeres újratöltés nyugtázása

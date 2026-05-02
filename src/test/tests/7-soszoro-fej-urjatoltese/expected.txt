@@ -1,1 +1,1 @@
-salter1 saltAmount 0 ::: 50
+Salter salt 0 ::: 50

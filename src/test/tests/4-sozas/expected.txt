@@ -1,3 +1,3 @@
-targetField surface hasSalt false ::: true
+surface2 hasSalt false ::: true
 
-salter1 saltAmount 100 ::: 95
+Salt amount 100 ::: 95
