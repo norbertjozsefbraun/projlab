@@ -10,4 +10,3 @@ snowplow1 activeHead Sweeper ::: Dragon
 
 Dragon kerosene 0 ::: 50
 
-Sikeres újratöltés nyugtázása

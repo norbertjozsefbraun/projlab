@@ -92,13 +92,20 @@ public class Surface {
         }
     }
 
-    public void meltAll() {
-        snowThickness = 0;
-        if (this.isIce) {
-            Prototype.getInstance().changed("surface" + this.surfaceId, "isIce", "true", "false");
-            this.isIce = false;
-        }
+public void meltAll() {
+    int oldSnow = snowThickness;
+    addSnow(-snowThickness);
+    int newSnow = snowThickness;
+    
+    if (oldSnow != newSnow) {
+        Prototype.getInstance().changed("surface" + this.surfaceId, "snowThickness", String.valueOf(oldSnow), String.valueOf(newSnow));
     }
+    
+    if (this.isIce) {
+        Prototype.getInstance().changed("surface" + this.surfaceId, "isIce", "true", "false");
+        this.isIce = false;
+    }
+}
 
     public void applySalt() {
         boolean hadSalt = (this.saltTimer > 0);

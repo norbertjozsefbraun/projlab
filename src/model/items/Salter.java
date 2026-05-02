@@ -19,13 +19,12 @@ public class Salter extends ResourceConsumingHead {
     @Override
     public void clean(Field f) {
         if (this.hasResource()) {
-            salt.consume(5);
-
-            f.getSurface().applySalt();
+            salt.consume(5); 
+            f.getSurface().applySalt(); // Apply salt to the surface of the field
             
-            System.out.println("\t[Note: A mező mostantól sózott.]");
+            //System.out.println("\t[Note: A mező mostantól sózott.]");
         } else {
-            System.out.println("\t[Note: Nincs elég só, a sózás elmarad.]");
+            //System.out.println("\t[Note: Nincs elég só, a sózás elmarad.]");
         }
 
     }
@@ -37,9 +36,9 @@ public class Salter extends ResourceConsumingHead {
     public void refill(Resource r) {
         if (r instanceof Salt) {
             this.addAmount(r.getAmount());
-            System.out.println("Sikeres újratöltés nyugtázása");
+            //System.out.println("Sikeres újratöltés nyugtázása");
         } else {
-            System.out.println("Nem kompatibilis típus!");
+            //System.out.println("Nem kompatibilis típus!");
         }
         
     }
@@ -49,7 +48,7 @@ public class Salter extends ResourceConsumingHead {
      */
     public void addAmount(int amount) {
         int oldAmount = this.salt.amount;
-        this.salt.add(amount);
+        this.salt.add(amount); // Add the specified amount of salt to the current amount
         Prototype.getInstance().changed("Salter", "salt", String.valueOf(oldAmount), String.valueOf(this.salt.amount));
     }
 
@@ -67,6 +66,6 @@ public class Salter extends ResourceConsumingHead {
      */
     @Override
     public Resource getResource() {
-        return this.salt;
+        return this.salt; // Return the current salt resource used by this Salter head
     }
 }

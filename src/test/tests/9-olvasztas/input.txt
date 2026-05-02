@@ -1,7 +1,6 @@
-start -pc 1 -p1 P1 !plow
-roadconfig ut1 standard 1 1
-roadconfig ut2 standard 1 1
-connect 1 A 2 B
+roadconfig ut1 standard 1 1 ut2 standard 1 1
+connect ut1 A ut2 B
+setb 1 ga
 setFieldContents 1 20 1 0
 setFieldContents 2 20 1 0
 setFieldContents 3 20 1 0

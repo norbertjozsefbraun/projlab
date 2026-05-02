@@ -17,16 +17,8 @@ Dragon kerosene 0 ::: 100
 Sikeres újratöltés nyugtázása
 snowplow1 activeHead Sweeper ::: IceCracker
 
-field2 snowThickness 20 ::: 25
-
-field1 snowThickness 20 ::: 25
-
-field4 snowThickness 20 ::: 25
-
-field3 snowThickness 20 ::: 25
-
 surface2 isIce true ::: false
 
-field2 snowThickness 25 ::: 35
+field2 snowThickness 20 ::: 30
 
 Jégtörés sikeres: a jég hóvá alakult.

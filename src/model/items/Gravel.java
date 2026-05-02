@@ -25,7 +25,7 @@ public class Gravel extends Resource {
     @Override
     public void consume(int quantity) {
         int oldAmount = this.amount;
-        super.consume(quantity);
+        super.consume(quantity); // Call the consume method from the Resource class to handle the actual consumption logic
         Prototype.getInstance().changed("Gravel", "amount", String.valueOf(oldAmount), String.valueOf(this.amount));
     }
 }

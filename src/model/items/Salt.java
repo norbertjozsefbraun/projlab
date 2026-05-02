@@ -23,11 +23,11 @@ public class Salt extends Resource {
     @Override
     public void consume(int amount) {
         int oldAmount = this.amount;
-        if (this.amount >= amount) {
-            this.amount -= amount;
+        if (this.amount >= amount) { // Check if there is enough salt to consume
+            this.amount -= amount; // Deduct the consumed quantity from the current amount
             Prototype.getInstance().changed("Salt", "amount", String.valueOf(oldAmount), String.valueOf(this.amount));
         } else {
-            System.out.println("\tNincs elég só a fogyasztáshoz.");
+            //System.out.println("\tNincs elég só a fogyasztáshoz.");
         }
     }
 

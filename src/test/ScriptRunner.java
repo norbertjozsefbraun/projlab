@@ -41,8 +41,8 @@ import static test.ScriptRunnerHelper.stripQuotes;
  */
 public class ScriptRunner {
     private static final Path[] TEST_CASE_ROOT_CANDIDATES = {
-        Paths.get("src", "test", "tests"),
-        Paths.get("test", "tests")
+            Paths.get("src", "test", "tests"),
+            Paths.get("test", "tests")
     };
 
     private final StringBuilder capturedOutput = new StringBuilder();
@@ -70,7 +70,8 @@ public class ScriptRunner {
 
     public void runFromStdIn() {
         stopReadingStdIn = false;
-        try (BufferedReader reader = new BufferedReader(new java.io.InputStreamReader(System.in, StandardCharsets.UTF_8))) {
+        try (BufferedReader reader = new BufferedReader(
+                new java.io.InputStreamReader(System.in, StandardCharsets.UTF_8))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 if ("exit".equalsIgnoreCase(line.strip())) {
@@ -103,25 +104,25 @@ public class ScriptRunner {
         }
 
         switch (command) {
-            case "randomize"   -> executeAndCapture(this::randomize, capturedOutput);
+            case "randomize" -> executeAndCapture(this::randomize, capturedOutput);
             case "derandomize" -> executeAndCapture(this::derandomize, capturedOutput);
-            case "start"       -> executeAndCapture(() -> start(st), capturedOutput);
-            case "test"        -> executeAndCapture(() -> test(st), capturedOutput);
-            case "roadconfig"  -> executeAndCapture(() -> roadconfig(st), capturedOutput);
-            case "connect"     -> executeAndCapture(() -> connect(st), capturedOutput);
-            case "setb"        -> executeAndCapture(() -> setb(st), capturedOutput);
-            case "setveh"      -> executeAndCapture(() -> setVeh(st), capturedOutput);
+            case "start" -> executeAndCapture(() -> start(st), capturedOutput);
+            case "test" -> executeAndCapture(() -> test(st), capturedOutput);
+            case "roadconfig" -> executeAndCapture(() -> roadconfig(st), capturedOutput);
+            case "connect" -> executeAndCapture(() -> connect(st), capturedOutput);
+            case "setb" -> executeAndCapture(() -> setb(st), capturedOutput);
+            case "setveh" -> executeAndCapture(() -> setVeh(st), capturedOutput);
             case "setfieldcontents" -> executeAndCapture(() -> setFieldContents(st), capturedOutput);
-            case "lsh"         -> executeAndCapture(() -> lsh(st), capturedOutput);
-            case "ch"          -> executeAndCapture(() -> ch(st), capturedOutput);
-            case "roll"        -> executeAndCapture(() -> roll(st), capturedOutput);
-            case "move"        -> executeAndCapture(() -> move(st), capturedOutput);
-            case "save"        -> save(st);
-            case "ls"          -> executeAndCapture(this::ls, capturedOutput);
+            case "lsh" -> executeAndCapture(() -> lsh(st), capturedOutput);
+            case "ch" -> executeAndCapture(() -> ch(st), capturedOutput);
+            case "roll" -> executeAndCapture(() -> roll(st), capturedOutput);
+            case "move" -> executeAndCapture(() -> move(st), capturedOutput);
+            case "save" -> save(st);
+            case "ls" -> executeAndCapture(this::ls, capturedOutput);
             case "transaction" -> executeAndCapture(() -> transaction(st), capturedOutput);
-            case "fill"        -> executeAndCapture(() -> fill(st), capturedOutput);
-            case "setheads"    -> executeAndCapture(() -> setHeads(st), capturedOutput);
-            default             -> executeAndCapture(() -> System.out.println("Unknown command: " + command), capturedOutput);
+            case "fill" -> executeAndCapture(() -> fill(st), capturedOutput);
+            case "setheads" -> executeAndCapture(() -> setHeads(st), capturedOutput);
+            default -> executeAndCapture(() -> System.out.println("Unknown command: " + command), capturedOutput);
         }
     }
 
@@ -243,21 +244,23 @@ public class ScriptRunner {
             players.add(player);
 
             if ("bus".equals(player.getType())) {
-                BusStop stopA = (BusStop) Session.getInstance().getGame().getWorld().getIntersections().get(4).getBuilding();
-                BusStop stopB = (BusStop) Session.getInstance().getGame().getWorld().getIntersections().get(5).getBuilding();
+                BusStop stopA = (BusStop) Session.getInstance().getGame().getWorld().getIntersections().get(4)
+                        .getBuilding();
+                BusStop stopB = (BusStop) Session.getInstance().getGame().getWorld().getIntersections().get(5)
+                        .getBuilding();
                 Bus bus = new Bus(player, stopA, stopB);
                 bus.setDirection(DirectionType.AH);
                 player.addVehicle(bus);
                 vehicles.add(bus);
             } else {
-                Garage garage = (Garage) Session.getInstance().getGame().getWorld().getIntersections().get(1).getBuilding();
+                Garage garage = (Garage) Session.getInstance().getGame().getWorld().getIntersections().get(1)
+                        .getBuilding();
                 SnowPlow snowPlow = new SnowPlow(player, garage);
                 snowPlow.setDirection(DirectionType.AH);
 
                 Head sweeper = new Sweeper();
                 Head iceCracker = new IceCracker();
                 List<Head> heads = new ArrayList<>();
-                
 
                 String defaultHeadCode = snowPlowHeads.getOrDefault(currentSnowPlowIndex, "sw");
                 if ("ic".equals(defaultHeadCode)) {
@@ -281,7 +284,8 @@ public class ScriptRunner {
 
         for (int i = 0; i < carCount; i++) {
             Home home = (Home) Session.getInstance().getGame().getWorld().getIntersections().get(3).getBuilding();
-            WorkPlace workPlace = (WorkPlace) Session.getInstance().getGame().getWorld().getIntersections().get(2).getBuilding();
+            WorkPlace workPlace = (WorkPlace) Session.getInstance().getGame().getWorld().getIntersections().get(2)
+                    .getBuilding();
             Car car = new Car(home, workPlace);
             vehicles.add(car);
         }
@@ -461,7 +465,8 @@ public class ScriptRunner {
 
         while (st.hasMoreTokens()) {
             String roadName = st.nextToken();
-            if (!st.hasMoreTokens()) break;
+            if (!st.hasMoreTokens())
+                break;
             String end = st.nextToken().toUpperCase();
 
             // find road by name
@@ -482,7 +487,8 @@ public class ScriptRunner {
                 currentRoad.setDestinationA(intersection);
             } else if (end.equals("B")) {
                 currentRoad.setDestinationB(intersection);
-            } else return;
+            } else
+                return;
 
             // add road ref to intersection
             intersection.getConnectedRoads().add(currentRoad);
@@ -499,18 +505,18 @@ public class ScriptRunner {
      */
     private void setb(StringTokenizer st) {
         // TODO: implement setb command - Zeki
-        if(!st.hasMoreTokens()){
+        if (!st.hasMoreTokens()) {
             System.out.println("Missing intersection ID!");
             return;
         }
         int intersectionID = Integer.parseInt(st.nextToken());
-        if(!st.hasMoreTokens()){
+        if (!st.hasMoreTokens()) {
             System.out.println("Missing building type! You can choose from: <bs, ho, wo, ga>");
             return;
         }
 
         String veh = st.nextToken();
-        if(st.hasMoreTokens()){
+        if (st.hasMoreTokens()) {
             System.out.println("Too many arguments!");
             return;
         }
@@ -518,43 +524,44 @@ public class ScriptRunner {
         Game game = session.getGame();
 
         //Megkeressük azt az intersectiont aminek az id-ja egyezik az inputkent kapott
-        var intersection = game.getWorld().getIntersections().stream().filter(i -> i.getId() == intersectionID).findFirst().orElse(null);
+        var intersection = game.getWorld().getIntersections().stream().filter(i -> i.getId() == intersectionID)
+                .findFirst().orElse(null);
 
         // Ha nincs ilyen ID
-        if (intersection == null){
+        if (intersection == null) {
             System.out.println("No Intersection with the provided ID exists!");
             return;
         }
-        
-        switch(veh){
+
+        switch (veh) {
             case "bs" -> {
                 BusStop stop = new BusStop();
-                intersection.setBuilding(stop);       
+                intersection.setBuilding(stop);
                 stop.setLocation(intersection);
-            }   
+            }
 
-            case "ho" ->{
+            case "ho" -> {
                 Home home = new Home();
                 intersection.setBuilding(home);
                 home.setLocation(intersection);
             }
-            
-            case "wo" ->{
+
+            case "wo" -> {
                 WorkPlace wp = new WorkPlace();
                 intersection.setBuilding(wp);
                 wp.setLocation(intersection);
             }
 
-            case "ga" ->{
+            case "ga" -> {
                 Garage garage = new Garage();
                 intersection.setBuilding(garage);
                 garage.setLocation(intersection);
             }
-            default ->{
+            default -> {
                 System.out.println("Unknown type of building! Available options: <bs, ho, wo, ga>");
                 return;
-            }   
-        } 
+            }
+        }
     }
 
     private void setVeh(StringTokenizer st) {
@@ -587,7 +594,7 @@ public class ScriptRunner {
             return;
         }
         String vehType = st.nextToken();
-        
+
         Session session = Session.getInstance();
         Game game = session.getGame();
         World world = game.getWorld();
@@ -607,18 +614,21 @@ public class ScriptRunner {
 
         Player player = null;
         for (Player p : game.getPlayers()) {
-            if (p.getName().equals(playerName)) player = p;
+            if (p.getName().equals(playerName))
+                player = p;
         }
 
         Road road = null;
         for (Road r : world.getRoads()) {
-            if (r.getName().equals(roadName)) road = r;
+            if (r.getName().equals(roadName))
+                road = r;
         }
 
         Field field = null;
-        if (!fieldId.equals("null")) field = world.getFieldById(roadName, Integer.parseInt(fieldId));     
+        if (!fieldId.equals("null"))
+            field = world.getFieldById(roadName, Integer.parseInt(fieldId));
         List<Vehicle> vehicles = new ArrayList<>();
-        
+
         Intersection previousIntersection = resolvePreviousIntersection(road, field);
 
         switch (vehType) {
@@ -627,16 +637,15 @@ public class ScriptRunner {
                     vehicles.add(new SnowPlow(player, field, road));
                     // System.out.println("Missing building.");
                     break;
-                } 
-                Garage garage = (Garage)buildings.get(0);
+                }
+                Garage garage = (Garage) buildings.get(0);
                 if (intersectionId.equals("null")) {
                     SnowPlow snowplow = new SnowPlow(player, garage, field, road);
                     if (previousIntersection != null) {
                         snowplow.setPreviousIntersection(previousIntersection);
                     }
                     vehicles.add(snowplow);
-                }
-                else {
+                } else {
                     vehicles.add(new SnowPlow(player, garage));
                 }
                 break;
@@ -645,17 +654,16 @@ public class ScriptRunner {
                     vehicles.add(new Bus(player, field, road));
                     // System.out.println("Missing buildings.");
                     break;
-                } 
-                BusStop stopA = (BusStop)buildings.get(0);
-                BusStop stopB = (BusStop)buildings.get(1);
+                }
+                BusStop stopA = (BusStop) buildings.get(0);
+                BusStop stopB = (BusStop) buildings.get(1);
                 if (intersectionId.equals("null")) {
                     Bus bus = new Bus(player, stopA, stopB, field, road);
                     if (previousIntersection != null) {
                         bus.setPreviousIntersection(previousIntersection);
                     }
                     vehicles.add(bus);
-                }
-                else {
+                } else {
                     vehicles.add(new Bus(player, stopA, stopB));
                 }
                 break;
@@ -664,17 +672,16 @@ public class ScriptRunner {
                     vehicles.add(new Car(field, road));
                     // System.out.println("Missing buildings.");
                     break;
-                } 
-                Home home = (Home)buildings.get(0);
-                WorkPlace work = (WorkPlace)buildings.get(1);
+                }
+                Home home = (Home) buildings.get(0);
+                WorkPlace work = (WorkPlace) buildings.get(1);
                 if (intersectionId.equals("null")) {
                     Car car = new Car(home, work, field, road);
                     if (previousIntersection != null) {
                         car.setPreviousIntersection(previousIntersection);
                     }
                     vehicles.add(car);
-                }
-                else {
+                } else {
                     vehicles.add(new Car(home, work));
                 }
                 break;
@@ -721,18 +728,20 @@ public class ScriptRunner {
 
     /**
      * Sets the heads of the specified snowplow.
+     * This command replaces the current head list and equips the first head in the provided list.
      * @param st the string tokenizer containing the command arguments
      */
     private void setHeads(StringTokenizer st) {
+        // Read the snowplow id from the command arguments.
         if (!st.hasMoreTokens()) {
             System.out.println("Missing snowplow id.");
             return;
         }
         String idStr = st.nextToken();
-        
-        Session session = Session.getInstance();
+        // Find the snowplow with the specified ID.
+        Session session = Session.getInstance(); // Assuming session and game are already initialized
         List<Vehicle> vehicles = session.getGame().getVehicles();
-        
+
         SnowPlow snowPlow = null;
         for (Vehicle v : vehicles) {
             if (v.getVehicleId() == Integer.parseInt(idStr)) {
@@ -740,15 +749,16 @@ public class ScriptRunner {
                 break;
             }
         }
-        
+        // If no matching snowplow is found, print an error message and return.
         if (snowPlow == null) {
             System.out.println("Snowplow not found.");
             return;
         }
-        
+
+        // Build the new head list from the remaining tokens.
         List<Head> heads = new ArrayList<>();
         while (st.hasMoreTokens()) {
-            String headCode = st.nextToken().toLowerCase();
+            String headCode = st.nextToken().toLowerCase(); // dr, st, sw, gr, bl, ic
             Purchasable item = createItem(headCode);
             if (item instanceof Head) {
                 heads.add((Head) item);
@@ -757,79 +767,95 @@ public class ScriptRunner {
                 return;
             }
         }
-        
+        // If no heads were specified, print an error message and return.
         if (heads.isEmpty()) {
             System.out.println("No heads specified.");
             return;
         }
-        
+
+        // Apply the head list and mark the first head as active and equipped.
         snowPlow.setHeads(heads);
-        snowPlow.setActiveHead(heads.get(0));
+        snowPlow.setActiveHead(heads.get(0)); // Set the first head as active
         heads.get(0).setEquipped(true);
     }
- 
+
     /**
      * Lists the heads of the specified snowplow.
      * @param st the string tokenizer containing the command arguments
      */
     private void lsh(StringTokenizer st) {
+        // Read the snowplow id and find the corresponding vehicle.
         String idStr = st.nextToken();
         Session session = Session.getInstance();
         List<Vehicle> vehicles = session.getGame().getVehicles();
-
+        // Find the snowplow with the specified ID.
         SnowPlow snowPlow = null;
         for (Vehicle v : vehicles) {
             if (v.getVehicleId() == Integer.parseInt(idStr)) {
                 snowPlow = (SnowPlow) v;
+                break;
             }
         }
-
+        // If no matching snowplow is found, print an error message and return.
         if (snowPlow == null) {
             System.out.println("Snowplow not found.");
             return;
         }
-        else {
-            for (Head h : snowPlow.getHeads()) {
-                System.out.println(h);
-            }
+
+        // Print each head currently installed on the snowplow.
+        for (Head h : snowPlow.getHeads()) {
+            System.out.println(h);
         }
     }
 
     /**
-     * Changes the current head to the specified type. 
+     * Changes the current head to the specified type.
+     * This command picks a matching head from the snowplow's installed list.
      * @param st the string tokenizer containing the command arguments
      */
     private void ch(StringTokenizer st) {
-        if (!st.hasMoreTokens()) return;
-            String spId = st.nextToken();
+        // Read the snowplow id from the command arguments.
+        if (!st.hasMoreTokens())
+            return;
+        String spId = st.nextToken();
 
-        if (!st.hasMoreTokens()) return;
-            String newHeadType = st.nextToken();
-
+        // Read the requested head type code.
+        if (!st.hasMoreTokens())
+            return;
+        String newHeadType = st.nextToken();
+        // Find the snowplow with the specified ID.
         Session session = Session.getInstance();
         List<Vehicle> vehicles = session.getGame().getVehicles();
         SnowPlow snowPlow = null;
         for (Vehicle v : vehicles) {
             if (v.getVehicleId() == Integer.parseInt(spId)) {
                 snowPlow = (SnowPlow) v;
+                break;
             }
         }
-
+        // If no matching snowplow is found, print an error message and return.
         if (snowPlow == null) {
             System.out.println("Snowplow not found.");
             return;
         }
 
+        // Find a head in the snowplow's installed list that matches the requested type code.
         Head newActiveHead = null;
         for (Head head : snowPlow.getHeads()) {
             boolean matches = false;
-            if ("dr".equals(newHeadType) && head instanceof Dragon) matches = true;
-            if ("st".equals(newHeadType) && head instanceof Salter) matches = true;
-            if ("sw".equals(newHeadType) && head instanceof Sweeper) matches = true;
-            if ("gr".equals(newHeadType) && head instanceof GravelSpreader) matches = true;
-            if ("bl".equals(newHeadType) && head instanceof Blower) matches = true;
-            if ("ic".equals(newHeadType) && head instanceof IceCracker) matches = true;
-            
+            if ("dr".equals(newHeadType) && head instanceof Dragon)
+                matches = true;
+            if ("st".equals(newHeadType) && head instanceof Salter)
+                matches = true;
+            if ("sw".equals(newHeadType) && head instanceof Sweeper)
+                matches = true;
+            if ("gr".equals(newHeadType) && head instanceof GravelSpreader)
+                matches = true;
+            if ("bl".equals(newHeadType) && head instanceof Blower)
+                matches = true;
+            if ("ic".equals(newHeadType) && head instanceof IceCracker)
+                matches = true;
+
             if (matches) {
                 newActiveHead = head;
                 break;
@@ -841,8 +867,8 @@ public class ScriptRunner {
             return;
         }
 
+        // Switch the snowplow to the selected head.
         snowPlow.changeHead(newActiveHead);
-
     }
 
     private void roll(StringTokenizer st) {
@@ -851,7 +877,7 @@ public class ScriptRunner {
 
         // ha van parameter, akkor annyit dob, kulonben: rollDice (1 vagy random)
         if (game != null) {
-            if(st.hasMoreTokens()) {
+            if (st.hasMoreTokens()) {
                 movesLeft = Integer.parseInt(st.nextToken());
             } else {
                 movesLeft = game.rollDice();
@@ -859,9 +885,7 @@ public class ScriptRunner {
         }
     }
 
-
     private void move(StringTokenizer st) {
-        // TODO: implement move command - KEVE BAZSI (ZEKI)
         Session session = Session.getInstance();
         Game game = session.getGame();
 
@@ -873,7 +897,6 @@ public class ScriptRunner {
         if (movesLeft <= 0) {
             movesLeft = 1;
         }
-
 
         Vehicle currentVehicle = game.getVehicles().get(currentVehicleIndex);
 
@@ -893,7 +916,7 @@ public class ScriptRunner {
             }
         }
 
-        if(st.hasMoreTokens()) {
+        if (st.hasMoreTokens()) {
             // ha új kör, havazik
             if (currentVehicleIndex == 0 && isNewRound) {
                 if (game.getWorld() != null) {
@@ -1043,16 +1066,20 @@ public class ScriptRunner {
     }
 
     private void transaction(StringTokenizer st) {
-        if (!st.hasMoreTokens()) return;
+        if (!st.hasMoreTokens())
+            return;
         String itemName = st.nextToken();
 
-        if (!st.hasMoreTokens()) return;
+        if (!st.hasMoreTokens())
+            return;
         int amount = Integer.parseInt(st.nextToken());
 
-        if (!st.hasMoreTokens()) return;
+        if (!st.hasMoreTokens())
+            return;
         String playerName = st.nextToken();
 
-        if (!st.hasMoreTokens()) return;
+        if (!st.hasMoreTokens())
+            return;
         int spId = Integer.parseInt(st.nextToken());
 
         Session session = Session.getInstance();
@@ -1078,28 +1105,33 @@ public class ScriptRunner {
         Purchasable item = createItem(itemName);
         if (item == null) {
             System.out.println("Unkown item " + itemName);
-            return; 
-        } 
+            return;
+        }
         shop.transaction(item, amount, player, snowPlow);
     }
 
     /**
-     * Fills the specified area with the given type.
+     * Refills the compatible head on the given snowplow with the requested resource.
+     * The command searches the installed heads and fills only the first matching head.
      * @param st the string tokenizer containing the command arguments
      */
     private void fill(StringTokenizer st) {
-        if (!st.hasMoreTokens()) return;
-        int snowPlowId = Integer.parseInt(st.nextToken());
-        if (!st.hasMoreTokens()) return;
-        String resourceType = st.nextToken().toLowerCase();
-        if (!st.hasMoreTokens()) return;
-        int amountToAdd = Integer.parseInt(st.nextToken());
+        if (!st.hasMoreTokens()) // Read the snowplow id from the command arguments.
+            return;
+        int snowPlowId = Integer.parseInt(st.nextToken());// Find the snowplow with the specified ID.
+        if (!st.hasMoreTokens())// Read the requested resource type code.
+            return;
+        String resourceType = st.nextToken().toLowerCase(); // dr, st, sw, gr, bl, ic
+        if (!st.hasMoreTokens())
+            return;
+        int amountToAdd = Integer.parseInt(st.nextToken()); // Find a head in the snowplow's installed list that matches the requested type code.
 
-        Session session = Session.getInstance();
+        Session session = Session.getInstance(); // Assuming session and game are already initialized
         if (session.getGame() == null || session.getGame().getVehicles() == null) {
             return;
         }
 
+        // Find the snowplow that should receive the resource.
         SnowPlow snowPlow = null;
         for (Vehicle v : session.getGame().getVehicles()) {
             if (v.getVehicleId() == snowPlowId && v instanceof SnowPlow) {
@@ -1107,11 +1139,12 @@ public class ScriptRunner {
                 break;
             }
         }
-
+        // If no matching snowplow is found, print an error message and return.
         if (snowPlow == null) {
             return;
         }
 
+        // Create the corresponding resource object from the provided resource type.
         Resource resource = switch (resourceType) {
             case "salt" -> new Salt(amountToAdd, 0);
             case "grav" -> new Gravel(amountToAdd, 0);
@@ -1119,31 +1152,33 @@ public class ScriptRunner {
             default -> null;
         };
 
+        // If the resource type is invalid, print an error message and return.
         if (resource == null) {
             return;
         }
 
+        // Try to refill the first matching resource-consuming head.
         boolean filled = false;
         for (Head head : snowPlow.getHeads()) {
             if (!(head instanceof ResourceConsumingHead)) {
                 continue;
             }
-            ResourceConsumingHead resourceHead = (ResourceConsumingHead) head;
+            ResourceConsumingHead resourceHead = (ResourceConsumingHead) head; // Downcast to access the refill method
             Resource headResource = resourceHead.getResource();
 
             if ((resource instanceof Salt && headResource instanceof Salt)
                     || (resource instanceof Gravel && headResource instanceof Gravel)
                     || (resource instanceof Biokerosene && headResource instanceof Biokerosene)) {
-                resourceHead.refill(resource);
+                resourceHead.refill(resource); // Refill the head with the specified resource
                 filled = true;
                 break;
             }
         }
-
+        // If no compatible head was found, print a message indicating the failure to refill.
         if (!filled) {
             System.out.println("No compatible head found for resource " + resourceType + " on snowplow " + snowPlowId);
         }
     }
+}
 
-    }
-
+    
