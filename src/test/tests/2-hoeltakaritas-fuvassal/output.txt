@@ -1,3 +1,5 @@
+snowplow1 activeHead sweeper ::: blower
+
 snowplow1 currentField field2 ::: field3
 
 surface19 snowThickness 20 ::: 40

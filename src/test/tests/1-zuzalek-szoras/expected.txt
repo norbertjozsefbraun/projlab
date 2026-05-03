@@ -1,3 +1,5 @@
+snowplow1 activeHead sweeper ::: gravelspreader
+
 Gravel amount 100 ::: 95
 
 surface2 hasGravel false ::: true

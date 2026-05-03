@@ -1,3 +1,5 @@
+snowplow1 activeHead sweeper ::: dragon
+
 Biokerosene amount 100 ::: 90
 
 surface2 snowThickness 20 ::: 0
