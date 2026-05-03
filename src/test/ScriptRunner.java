@@ -1060,35 +1060,36 @@ public class ScriptRunner {
      */
     private void ls() {
         ArrayList<String> testCases = new ArrayList<>();
-        testCases.add("auto-sikeres-lep");
-        testCases.add("fejcsere");
-        testCases.add("busz-kor-teljesitese");
-        testCases.add("hokotro-es-auto-utkozese");
-        testCases.add("havazas");
-        testCases.add("jegpancel-kialakulasa");
-        testCases.add("auto-megcsuszik-a-jegen");
-        testCases.add("auto-megakad-a-hoban");
-        testCases.add("autok-utkozese");
+        testCases.add("1-zuzalek-szoras");
+        testCases.add("15-jatek-vege");
+        testCases.add("2-hoeltakaritas-fuvassal");
+        testCases.add("3-zuzalek-feltoltese");
+        testCases.add("4-sozas");
+        testCases.add("5-langszoro-ujratoltese");
+        testCases.add("6-utszakasz-soprese");
+        testCases.add("7-soszoro-fej-urjatoltese");
+        testCases.add("8-jegtores");
+        testCases.add("9-olvasztas");
         testCases.add("auto-buszba-csuszik");
         testCases.add("auto-elindul-a-munkahelyerol");
-        testCases.add("auto-megerkezik-a-munkahelyere");
         testCases.add("auto-elindul-otthonrol");
         testCases.add("auto-hazaer");
-        testCases.add("jatek-vege");
-        testCases.add("gravelspreader-working");
-        testCases.add("hoeltakaritas-fuvassal");
-        testCases.add("zuzalek-feltoltese");
-        testCases.add("sozas");
-        testCases.add("langszoro-ujratoltese");
-        testCases.add("utszakasz-soprese");
-        testCases.add("soszoro-fej-urjatoltese");
-        testCases.add("jegtores");
-        testCases.add("olvasztas");
+        testCases.add("auto-megakad-a-hoban");
+        testCases.add("auto-megcsuszik-a-jegen");
+        testCases.add("auto-megerkezik-a-munkahelyere");
+        testCases.add("auto-sikeres-lep");
+        testCases.add("autok-utkozese");
+        testCases.add("base-mechanic");
+        testCases.add("busz-kor-teljesitese");
+        testCases.add("fejcsere");
+        testCases.add("havazas");
+        testCases.add("hokotro-es-auto-utkozese");
+        testCases.add("jegpancel-kialakulasa");
 
         System.out.println("Elerheto tesztesetek:");
         int i = 1;
         for (String testCase : testCases) {
-            System.out.println("\t" + i++ + ". " + testCase);
+            System.out.println("\t" + i++ + ".teszt neve: " + testCase);
         }
     }
 
