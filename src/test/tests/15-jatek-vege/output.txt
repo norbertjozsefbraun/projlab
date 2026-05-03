@@ -4,6 +4,8 @@ car2 currentBuilding null ::: home1
 
 car2 currentField field2 ::: null
 
+garage destroyedNum 3 ::: 4
+
 snowplow1 currentBuilding null ::: garage3
 
 snowplow1 currentField field2 ::: null
