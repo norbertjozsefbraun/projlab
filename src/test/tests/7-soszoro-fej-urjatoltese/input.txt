@@ -7,6 +7,6 @@ setFieldContents 3 20 1 0
 setFieldContents 4 20 1 0
 setVeh ut1 2 null P1 sp 1
 setHeads 1 sw ic dr st gr bl
-derandomize
 ch 1 st
+derandomize
 fill 1 salt 50

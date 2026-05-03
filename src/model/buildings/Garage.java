@@ -5,6 +5,7 @@ import java.util.List;
 import model.core.Game;
 import model.entities.SnowPlow;
 import model.entities.Vehicle;
+import test.Prototype;
 
 public class Garage extends Building{
     /**
@@ -93,6 +94,8 @@ public class Garage extends Building{
      * Increases the destoryedNum attribute, When a snowplow runs over a car
      */
     public void increaseDestroyedNum(){
+        Prototype proto = Prototype.getInstance();
+        proto.changed(getClass().getSimpleName().toLowerCase(), "destroyedNum", String.valueOf(destroyedNum), String.valueOf(destroyedNum + 1));
         this.destroyedNum++;
     }
 

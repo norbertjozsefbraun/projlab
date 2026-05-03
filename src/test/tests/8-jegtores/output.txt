@@ -1,4 +1,2 @@
-snowplow1 activeHead Sweeper ::: IceCracker
-
 surface2 isIce true ::: false
 

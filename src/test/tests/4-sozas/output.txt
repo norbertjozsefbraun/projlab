@@ -1,5 +1,3 @@
-snowplow1 activeHead Sweeper ::: Salter
-
 Salt amount 100 ::: 95
 
 surface2 hasSalt false ::: true

@@ -5,11 +5,22 @@ setFieldContents 1 20 1 0
 setFieldContents 2 20 1 0
 setFieldContents 3 20 1 0
 setFieldContents 4 20 1 0
+setFieldContents 5 20 1 0
+setFieldContents 6 20 1 0
+setFieldContents 7 20 1 0
+setFieldContents 8 20 1 0
+setFieldContents 9 20 1 0
+setFieldContents 10 20 1 0
+setFieldContents 11 20 1 0
+setFieldContents 12 20 1 0
+setFieldContents 13 20 1 0
+setFieldContents 14 20 1 0
+setFieldContents 15 20 1 0
 setVeh ut1 2 null P1 sp 1
 setHeads 1 sw ic dr st gr bl
 fill 1 salt 100
 fill 1 grav 100
 fill 1 bio 100
-derandomize
 ch 1 sw
+derandomize
 move ah

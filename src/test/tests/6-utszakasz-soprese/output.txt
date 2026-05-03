@@ -1,22 +1,6 @@
-surface1 isIce false ::: true
-
-surface2 isIce false ::: true
-
-surface3 isIce false ::: true
-
-surface4 isIce false ::: true
-
-Salter salt 0 ::: 100
-
-GravelSpreader gravel 0 ::: 100
-
-Dragon kerosene 0 ::: 100
-
-snowplow1 activeHead Sweeper ::: Sweeper
-
 snowplow1 currentField field2 ::: field3
 
-surface11 snowThickness 0 ::: 20
+surface11 snowThickness 20 ::: 40
 
 surface3 snowThickness 20 ::: 0
 

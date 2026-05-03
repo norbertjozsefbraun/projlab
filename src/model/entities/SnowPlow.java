@@ -232,7 +232,7 @@ public class SnowPlow extends Vehicle implements Purchasable {
     */
    public void changeHead(Head h) {
         if (heads.contains(h)) {
-            proto.changed(toString(), "activeHead", activeHead.getClass().getSimpleName(), h.getClass().getSimpleName());
+            proto.changed(toString(), "activeHead", activeHead.getClass().getSimpleName().toLowerCase(), h.getClass().getSimpleName().toLowerCase());
             activeHead.setEquipped(false);
             h.setEquipped(true);
             activeHead = h;

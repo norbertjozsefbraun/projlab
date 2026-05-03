@@ -880,6 +880,7 @@ public class ScriptRunner {
         }
 
         // Switch the snowplow to the selected head.
+        Prototype.getInstance().setLogging(true);
         snowPlow.changeHead(newActiveHead);
     }
 
