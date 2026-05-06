@@ -62,6 +62,9 @@ public class BusStop extends Building{
     public void enterVehicle(Vehicle v){
         buses.add((Bus)v);
 
+        if (v.getCurrentField() != null) {
+            v.getCurrentField().removeVehicle(v);
+        }
         v.setCurrentBuilding(this);
         v.setCurrentField(null);
 
@@ -87,12 +90,13 @@ public class BusStop extends Building{
             v.setDestinationIntersection(b.getStopA().getLocation());
         }
 
-        b.setCurrentBuilding(null);
-        b.setPreviousStop(this);
-        b.setPreviousIntersection(getLocation());
-
-        buses.remove((Bus)v);
         this.getLocation().acceptVehicle(v);
+        if (v.getCurrentField() != null) {
+            b.setCurrentBuilding(null);
+            b.setPreviousStop(this);
+            b.setPreviousIntersection(getLocation());
+            buses.remove((Bus)v);
+        }
     }
 
 }

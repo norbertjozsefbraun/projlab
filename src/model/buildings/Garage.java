@@ -59,6 +59,9 @@ public class Garage extends Building{
     public void enterVehicle(Vehicle v){
         increaseDestroyedNum();
 
+        if (v.getCurrentField() != null) {
+            v.getCurrentField().removeVehicle(v);
+        }
         v.setCurrentBuilding(this);
         v.setCurrentField(null);
 
@@ -73,11 +76,11 @@ public class Garage extends Building{
      * @param v The vehicle currently parking in the garage
      */
     public void deployVehicle(Vehicle v){
-
-        v.setCurrentBuilding(null);
-        v.setPreviousIntersection(getLocation());
-
         getLocation().acceptVehicle(v);
+        if (v.getCurrentField() != null) {
+            v.setCurrentBuilding(null);
+            v.setPreviousIntersection(getLocation());
+        }
     }
 
     /**

@@ -1,4 +1,6 @@
 import test.ScriptRunner;
+import controller.GameController;
+import view.GameFrame;
 
 public class Main {
     public static void main(String[] args){
@@ -16,8 +18,27 @@ public class Main {
                                        ------
                 """);
 
-        System.out.println("Type ScriptRunner commands on stdin. Use 'exit' to quit.");
-        ScriptRunner runner = new ScriptRunner();
-        runner.runFromStdIn();
+        // Check for --cli flag to use the old ScriptRunner mode
+        boolean cliMode = false;
+        for (String arg : args) {
+            if ("--cli".equals(arg)) {
+                cliMode = true;
+                break;
+            }
+        }
+
+        if (cliMode) {
+            System.out.println("Type ScriptRunner commands on stdin. Use 'exit' to quit.");
+            ScriptRunner runner = new ScriptRunner();
+            runner.runFromStdIn();
+        } else {
+            // Launch Swing GUI
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                GameController controller = new GameController();
+                GameFrame frame = new GameFrame(controller);
+                controller.setFrame(frame);
+                frame.setVisible(true);
+            });
+        }
     }
 }

@@ -34,6 +34,9 @@ public class Home extends Building{
      * @param v The vehicle entering the home
      */
     public void enterVehicle(Vehicle v){
+        if (v.getCurrentField() != null) {
+            v.getCurrentField().removeVehicle(v);
+        }
         v.setCurrentBuilding(this);
         v.setCurrentField(null);
         v.setDestinationIntersection(v.getBuildings().get(1).getLocation());
@@ -45,11 +48,11 @@ public class Home extends Building{
      * @param v The vehcile that's currently parked in the home
      */
     public void deployVehicle(Vehicle v){
-        
-        v.setCurrentBuilding(null);
-        v.setPreviousIntersection(getLocation());
-
         getLocation().acceptVehicle(v);
+        if (v.getCurrentField() != null) {
+            v.setCurrentBuilding(null);
+            v.setPreviousIntersection(getLocation());
+        }
     }
 
 }

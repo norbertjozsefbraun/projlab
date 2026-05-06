@@ -103,6 +103,8 @@ public class Intersection extends Node {
             lane.getFirstField().acceptVehicle(v);
 
             if (prevField != v.getCurrentField()) {
+                v.setCurrentRoad(targetRoad);
+                v.setPreviousIntersection(this);
                 break;
             }
         }

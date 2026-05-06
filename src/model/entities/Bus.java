@@ -29,13 +29,15 @@ public class Bus extends Vehicle {
      */
     private BusStop previousStop;
 
-    public Bus() {}
+    public Bus() {
+    }
 
     /**
      * The constructor if the bus starts from bus stop.
+     * 
      * @param player the player who owns the bus
-     * @param stopA the starting stop
-     * @param stopB the destination stop
+     * @param stopA  the starting stop
+     * @param stopB  the destination stop
      */
     public Bus(Player player, BusStop stopA, BusStop stopB) {
         vehicleId = idCounter++;
@@ -55,11 +57,12 @@ public class Bus extends Vehicle {
 
     /**
      * The constructor if the bus starts on the map.
+     * 
      * @param player the player who owns the bus
-     * @param stopA the starting stop
-     * @param stopB the destination stop
-     * @param field the starting field
-     * @param road the starting road
+     * @param stopA  the starting stop
+     * @param stopB  the destination stop
+     * @param field  the starting field
+     * @param road   the starting road
      */
     public Bus(Player player, Field field, Road road) {
         vehicleId = idCounter++;
@@ -82,11 +85,12 @@ public class Bus extends Vehicle {
 
     /**
      * The constructor if the bus starts on the map.
+     * 
      * @param player the player who owns the bus
-     * @param stopA the starting stop
-     * @param stopB the destination stop
-     * @param field the starting field
-     * @param road the starting road
+     * @param stopA  the starting stop
+     * @param stopB  the destination stop
+     * @param field  the starting field
+     * @param road   the starting road
      */
     public Bus(Player player, BusStop stopA, BusStop stopB, Field field, Road road) {
         vehicleId = idCounter++;
@@ -109,6 +113,7 @@ public class Bus extends Vehicle {
 
     /**
      * Returns the player object.
+     * 
      * @return the player
      */
     public Player getPlayerId() {
@@ -117,6 +122,7 @@ public class Bus extends Vehicle {
 
     /**
      * Returns the starting stop.
+     * 
      * @return the starting busstop
      */
     public BusStop getStopA() {
@@ -125,6 +131,7 @@ public class Bus extends Vehicle {
 
     /**
      * Returns the other stop.
+     * 
      * @return the other busstop
      */
     public BusStop getStopB() {
@@ -133,6 +140,7 @@ public class Bus extends Vehicle {
 
     /**
      * Returns the previous stop.
+     * 
      * @return the previous busstop
      */
     public BusStop getPreviousStop() {
@@ -141,6 +149,7 @@ public class Bus extends Vehicle {
 
     /**
      * Set the player to the given value.
+     * 
      * @param p the given player referrence
      */
     public void setPlayer(Player p) {
@@ -149,6 +158,7 @@ public class Bus extends Vehicle {
 
     /**
      * Sets the given stop to stopA
+     * 
      * @param bs the given busstop
      */
     public void setStopA(BusStop bs) {
@@ -157,6 +167,7 @@ public class Bus extends Vehicle {
 
     /**
      * Sets the given stop to stopB
+     * 
      * @param bs the given busstop
      */
     public void setStopB(BusStop bs) {
@@ -165,6 +176,7 @@ public class Bus extends Vehicle {
 
     /**
      * Sets the previous stop to the given stop
+     * 
      * @param prev the given stop
      */
     public void setPreviousStop(BusStop prev) {
@@ -176,23 +188,24 @@ public class Bus extends Vehicle {
      */
     @Override
     public void move() {
-        if (!canMove) return;
-        
+        if (!canMove)
+            return;
+
         if (currentField == null && currentBuilding != null) {
             currentBuilding.deployVehicle(this);
             return;
         }
 
-        Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB() : currentRoad.getDestinationA();
+        Intersection inter = (previousIntersection == currentRoad.getDestinationA()) ? currentRoad.getDestinationB()
+                : currentRoad.getDestinationA();
         if (currentField.getNextField() != null) {
             currentField.moveToNextField(this, direction);
-        }
-        else if(currentField.getNextField() == null){
+        } else if (currentField.getNextField() == null) {
             if (buildings.contains(inter.getBuilding())) {
                 inter.goToBuilding(this);
                 currentBuilding.deployVehicle(this);
-            }
-            else inter.acceptVehicle(this);
+            } else
+                inter.acceptVehicle(this);
         }
     }
 

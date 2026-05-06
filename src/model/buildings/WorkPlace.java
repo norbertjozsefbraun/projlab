@@ -34,6 +34,9 @@ public class WorkPlace extends Building{
      * @param v The car entering the workplace
      */
     public void enterVehicle(Vehicle v){
+        if (v.getCurrentField() != null) {
+            v.getCurrentField().removeVehicle(v);
+        }
         waitingCars.put((Car)v,  2);
         v.setCurrentBuilding(this);
         v.setCurrentField(null);
@@ -48,9 +51,11 @@ public class WorkPlace extends Building{
      */
     public void deployVehicle(Vehicle v){
         if(waitingCars.getOrDefault(v, -1) == 0){
-            v.setCurrentBuilding(null);
-            v.setPreviousIntersection(getLocation());
             getLocation().acceptVehicle(v);
+            if (v.getCurrentField() != null) {
+                v.setCurrentBuilding(null);
+                v.setPreviousIntersection(getLocation());
+            }
         }else{
             processWaiting();
         }
