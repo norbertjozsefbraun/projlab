@@ -9,7 +9,7 @@ import model.core.Session;
 import model.entities.Vehicle;
 
 /**
- * Compact status bar at the bottom showing game stats.
+ * Compact status bar at the bottom showing game stats — clean style.
  */
 public class StatusPanel extends JPanel {
 
@@ -21,9 +21,11 @@ public class StatusPanel extends JPanel {
 
     public StatusPanel(GameController controller) {
         this.controller = controller;
-        setBackground(new Color(35, 65, 30));
+        setBackground(new Color(248, 248, 248));
         setLayout(new FlowLayout(FlowLayout.LEFT, 16, 5));
-        setBorder(BorderFactory.createEmptyBorder(3, 10, 3, 10));
+        setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(220, 220, 220)),
+                BorderFactory.createEmptyBorder(3, 10, 3, 10)));
 
         roundLabel   = lbl("Round: N/A");
         balanceLabel = lbl("Balance: N/A");
@@ -60,7 +62,7 @@ public class StatusPanel extends JPanel {
 
     private JLabel lbl(String text) {
         JLabel l = new JLabel(text);
-        l.setForeground(new Color(190, 210, 180));
+        l.setForeground(new Color(100, 100, 100));
         l.setFont(new Font("SansSerif", Font.PLAIN, 11));
         return l;
     }

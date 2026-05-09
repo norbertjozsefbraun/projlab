@@ -13,13 +13,13 @@ import model.buildings.WorkPlace;
 import model.core.Game;
 import model.core.Player;
 import model.core.Session;
+import model.core.Shop;
 import model.entities.Bus;
 import model.entities.Car;
 import model.entities.DirectionType;
 import model.entities.SnowPlow;
 import model.entities.Vehicle;
-import model.items.Head;
-import model.items.Sweeper;
+import model.items.*;
 import model.map.Field;
 import model.map.Intersection;
 import model.map.Road;
@@ -37,10 +37,9 @@ public class GameController {
 
     public enum TurnPhase {
         CHOOSE_DESTINATION, // Snowplow: click an intersection on the map
-        ROLL_DICE, // Roll for current vehicle
-        MOVING, // Step the current vehicle
-        NPC_MOVING, // NPCs are animating
-        ROUND_COMPLETE // All vehicles done
+        ROLL_DICE,          // Roll for current vehicle
+        MOVING,             // Step the current vehicle
+        ROUND_COMPLETE      // All vehicles done
     }
 
     private GameFrame frame;
@@ -252,44 +251,36 @@ public class GameController {
         refreshView();
     }
 
-    /** New Round: snowfall, NPC auto-move, timers, then first vehicle's turn. */
+    /** New Round: snowfall, NPC auto-move (synchronous), timers, then first vehicle's turn. */
     public void newRound() {
         Game game = getGame();
         if (game == null || phase != TurnPhase.ROUND_COMPLETE)
             return;
 
+        // Snowfall
         game.getWorld().snowfall();
-        phase = TurnPhase.NPC_MOVING;
-        refreshView();
 
-        new Thread(() -> {
-            for (Vehicle v : game.getVehicles()) {
-                if (v instanceof Car) {
-                    int roll = game.rollDice();
-                    for (int i = 0; i < roll; i++) {
-                        try {
-                            v.move();
-                            javax.swing.SwingUtilities.invokeLater(this::refreshView);
-                            Thread.sleep(300);
-                        } catch (Exception e) {
-                            break;
-                        }
-                    }
+        // Move NPC cars synchronously (no animation)
+        for (Vehicle v : game.getVehicles()) {
+            if (v instanceof Car) {
+                int roll = game.rollDice();
+                for (int i = 0; i < roll; i++) {
+                    try { v.move(); } catch (Exception e) { break; }
                 }
             }
+        }
 
-            javax.swing.SwingUtilities.invokeLater(() -> {
-                Game.ticker.tick();
-                game.getWorld().tickTimers();
-                game.increaseRounds();
+        // Tick timers and advance round
+        Game.ticker.tick();
+        game.getWorld().tickTimers();
+        game.increaseRounds();
 
-                drivenVehicleIndex = 0;
-                lastDiceRoll = 0;
-                startVehicleTurn();
+        // Start first driven vehicle's turn
+        drivenVehicleIndex = 0;
+        lastDiceRoll = 0;
+        startVehicleTurn();
 
-                refreshView();
-            });
-        }).start();
+        refreshView();
     }
 
     /** Roll dice for current vehicle. */
@@ -372,9 +363,86 @@ public class GameController {
             case ROLL_DICE -> "Roll the dice for " + vName;
             case MOVING -> "Step " + vName + " (" + stepsRemaining + " step" + (stepsRemaining != 1 ? "s" : "")
                     + " remaining)";
-            case NPC_MOVING -> "Other cars are moving...";
             case ROUND_COMPLETE -> "Click New Round to advance";
         };
+    }
+
+    // ── Shop & Head Management ──────────────────────────────
+
+    /** Add funds to the shop balance. */
+    public void addFunds(int amount) {
+        Game game = getGame();
+        if (game == null) return;
+        game.getShop().addFunds(amount);
+        refreshView();
+    }
+
+    /** Buy a head by name and add it to the snowplow. */
+    public void buyHead(String headName, int price) {
+        Game game = getGame();
+        if (game == null) return;
+
+        SnowPlow plow = getSnowPlow();
+        if (plow == null) return;
+
+        Shop shop = game.getShop();
+        if (shop.getBalance() < price) return;
+
+        Head newHead;
+        switch (headName) {
+            case "Sweeper" -> newHead = new Sweeper();
+            case "Blower" -> newHead = new Blower();
+            case "IceCracker" -> newHead = new IceCracker();
+            case "Salter" -> newHead = new Salter();
+            case "GravelSpreader" -> newHead = new GravelSpreader();
+            case "Dragon" -> newHead = new Dragon();
+            default -> { return; }
+        }
+        newHead.setPrice(price);
+
+        shop.transaction(newHead, 1, plow.getPlayer(), plow);
+        refreshView();
+    }
+
+    /** Buy a resource and fill the matching head on the snowplow. */
+    public void buyResource(String type, int unitPrice, int amount) {
+        Game game = getGame();
+        if (game == null) return;
+
+        SnowPlow plow = getSnowPlow();
+        if (plow == null) return;
+
+        Shop shop = game.getShop();
+        if (shop.getBalance() < unitPrice) return;
+
+        Resource res;
+        switch (type) {
+            case "Salt" -> res = new Salt(amount, unitPrice);
+            case "Gravel" -> res = new Gravel(amount, unitPrice);
+            case "Biokerosene" -> res = new Biokerosene(amount, unitPrice);
+            default -> { return; }
+        }
+
+        shop.transaction(res, amount, plow.getPlayer(), plow);
+        refreshView();
+    }
+
+    /** Change the active head on the snowplow (fejcsere). */
+    public void changeHead(Head head) {
+        SnowPlow plow = getSnowPlow();
+        if (plow == null) return;
+        plow.changeHead(head);
+        refreshView();
+    }
+
+    /** Helper: find the first SnowPlow in the game. */
+    private SnowPlow getSnowPlow() {
+        Game game = getGame();
+        if (game == null) return null;
+        for (Vehicle v : game.getVehicles()) {
+            if (v instanceof SnowPlow) return (SnowPlow) v;
+        }
+        return null;
     }
 
     // ── Internal ────────────────────────────────────────────
