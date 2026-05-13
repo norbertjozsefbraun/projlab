@@ -143,4 +143,5 @@ Workflow:
 >
 >      Kész, yippee (Ha elakadtál volna/nem működik vmi nyugodtan kérdezz meg)
 5., Aktuális fázis és a fázisban még el nem készült feladatok és a hozzá tartózó prioritások ("feladat kód - prio" páros)
->      Az_egész_projekt_lol_6769 - Super High
+>      Menü kezelése a new game-nél: Playerek felállítása, jármű csatolás
+>      Fájlból map betöltése
