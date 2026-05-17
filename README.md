@@ -143,5 +143,8 @@ Workflow:
 >
 >      Kész, yippee (Ha elakadtál volna/nem működik vmi nyugodtan kérdezz meg)
 5., Aktuális fázis és a fázisban még el nem készült feladatok és a hozzá tartózó prioritások ("feladat kód - prio" páros)
->      Menü kezelése a new game-nél: Playerek felállítása, jármű csatolás
->      Fájlból map betöltése
+>      Menü kezelése a new game-nél: Playerek felállítása, jármű csatolás - Norbi
+>      Fájlból map betöltése - Zeki
+>      Hókotró elakadása - Balázs
+>      Ha 1-1 metódus a view részben csak 1 helyen van használva akkor legyen csak oda beimplementálva mert akkor legalább annyival kevesbé fog eltérni a dokutól a kód - Norbi
+>      Hókotró vétele - Balázs
