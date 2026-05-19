@@ -69,9 +69,12 @@ public class BusStop extends Building{
         v.setCurrentField(null);
 
         Bus b = (Bus)v;
-        if(b.getPreviousStop().equals(b.getStopB()) && this.equals(b.getStopA())){
-            game.getShop().addFunds(18);
-            game.increaseRounds();
+        // previousStop can be null for newly created buses — guard against NPE
+        if (b.getPreviousStop() != null && b.getPreviousStop().equals(b.getStopB()) && this.equals(b.getStopA())) {
+            if (game != null) {
+                game.getShop().addFunds(18);
+                game.increaseRounds();
+            }
         }
     }
 

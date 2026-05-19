@@ -241,6 +241,7 @@ public class ScriptRunner {
         int nextVehicleId = 1;
         int currentSnowPlowIndex = 1;
 
+        World world = Session.getInstance().getGame().getWorld();
         for (int i = 1; i <= playerCount; i++) {
             Player player = new Player();
             player.setName(playerNames.get(i));
@@ -248,17 +249,71 @@ public class ScriptRunner {
             players.add(player);
 
             if ("bus".equals(player.getType())) {
-                BusStop stopA = (BusStop) Session.getInstance().getGame().getWorld().getIntersections().get(4)
-                        .getBuilding();
-                BusStop stopB = (BusStop) Session.getInstance().getGame().getWorld().getIntersections().get(5)
-                        .getBuilding();
-                Bus bus = new Bus(player, stopA, stopB);
-                bus.setDirection(DirectionType.AH);
-                player.addVehicle(bus);
-                vehicles.add(bus);
+                // find two existing BusStops
+                BusStop stopA = null, stopB = null;
+                for (Intersection inter : world.getIntersections()) {
+                    if (inter.getBuilding() instanceof BusStop) {
+                        if (stopA == null) stopA = (BusStop) inter.getBuilding();
+                        else if (stopB == null) { stopB = (BusStop) inter.getBuilding(); break; }
+                    }
+                }
+                // create BusStops on empty intersections if needed
+                if (stopA == null || stopB == null) {
+                    for (Intersection inter : world.getIntersections()) {
+                        if (inter.getBuilding() == null) {
+                            BusStop bs = new BusStop(Session.getInstance().getGame());
+                            inter.setBuilding(bs);
+                            bs.setLocation(inter);
+                            if (stopA == null) stopA = bs;
+                            else if (stopB == null) { stopB = bs; break; }
+                        }
+                    }
+                }
+                if (stopA == null || stopB == null) {
+                    // fallback: try indices 4 and 5 if present and of correct type
+                    if (world.getIntersections().size() > 5) {
+                        Building b4 = world.getIntersections().get(4).getBuilding();
+                        Building b5 = world.getIntersections().get(5).getBuilding();
+                        if (b4 instanceof BusStop) stopA = (BusStop) b4;
+                        if (b5 instanceof BusStop) stopB = (BusStop) b5;
+                    }
+                }
+                if (stopA == null || stopB == null) {
+                    System.out.println("Not enough bus stops to create a bus; skipping bus player: " + player.getName());
+                } else {
+                    Bus bus = new Bus(player, stopA, stopB);
+                    bus.setDirection(DirectionType.AH);
+                    player.addVehicle(bus);
+                    vehicles.add(bus);
+                }
             } else {
-                Garage garage = (Garage) Session.getInstance().getGame().getWorld().getIntersections().get(1)
-                        .getBuilding();
+                // find a Garage in the world
+                Garage garage = null;
+                for (Intersection inter : world.getIntersections()) {
+                    if (inter.getBuilding() instanceof Garage) {
+                        garage = (Garage) inter.getBuilding();
+                        break;
+                    }
+                }
+                // create a Garage on the first empty intersection if none found
+                if (garage == null) {
+                    for (Intersection inter : world.getIntersections()) {
+                        if (inter.getBuilding() == null) {
+                            garage = new Garage();
+                            inter.setBuilding(garage);
+                            garage.setLocation(inter);
+                            break;
+                        }
+                    }
+                }
+                // fallback: place a Garage on intersection 0 if still none
+                if (garage == null && !world.getIntersections().isEmpty()) {
+                    Intersection inter = world.getIntersections().get(0);
+                    garage = new Garage();
+                    inter.setBuilding(garage);
+                    garage.setLocation(inter);
+                }
+
                 SnowPlow snowPlow = new SnowPlow(player, garage);
                 snowPlow.setDirection(DirectionType.AH);
 
@@ -287,9 +342,63 @@ public class ScriptRunner {
         }
 
         for (int i = 0; i < carCount; i++) {
-            Home home = (Home) Session.getInstance().getGame().getWorld().getIntersections().get(3).getBuilding();
-            WorkPlace workPlace = (WorkPlace) Session.getInstance().getGame().getWorld().getIntersections().get(2)
-                    .getBuilding();
+            Home home = null;
+            WorkPlace workPlace = null;
+            // try to find existing Home and WorkPlace in the world
+            for (Intersection inter : world.getIntersections()) {
+                if (inter.getBuilding() instanceof Home && home == null) {
+                    home = (Home) inter.getBuilding();
+                }
+                if (inter.getBuilding() instanceof WorkPlace && workPlace == null) {
+                    workPlace = (WorkPlace) inter.getBuilding();
+                }
+                if (home != null && workPlace != null) break;
+            }
+            // create missing buildings on empty intersections
+            if (home == null || workPlace == null) {
+                for (Intersection inter : world.getIntersections()) {
+                    if (home == null && inter.getBuilding() == null) {
+                        Home h = new Home();
+                        inter.setBuilding(h);
+                        h.setLocation(inter);
+                        home = h;
+                    }
+                    if (workPlace == null && inter.getBuilding() == null) {
+                        WorkPlace w = new WorkPlace();
+                        inter.setBuilding(w);
+                        w.setLocation(inter);
+                        workPlace = w;
+                    }
+                    if (home != null && workPlace != null) break;
+                }
+            }
+            // fallback to specific indices if still missing
+            if (home == null && world.getIntersections().size() > 3) {
+                Building b = world.getIntersections().get(3).getBuilding();
+                if (b instanceof Home) home = (Home) b;
+            }
+            if (workPlace == null && world.getIntersections().size() > 2) {
+                Building b = world.getIntersections().get(2).getBuilding();
+                if (b instanceof WorkPlace) workPlace = (WorkPlace) b;
+            }
+            // final fallback: create on intersection 0/1
+            if ((home == null || workPlace == null) && !world.getIntersections().isEmpty()) {
+                Intersection i0 = world.getIntersections().get(0);
+                if (home == null) {
+                    Home h = new Home();
+                    i0.setBuilding(h);
+                    h.setLocation(i0);
+                    home = h;
+                }
+                Intersection i1 = world.getIntersections().size() > 1 ? world.getIntersections().get(1) : i0;
+                if (workPlace == null) {
+                    WorkPlace w = new WorkPlace();
+                    i1.setBuilding(w);
+                    w.setLocation(i1);
+                    workPlace = w;
+                }
+            }
+
             Car car = new Car(home, workPlace);
             vehicles.add(car);
         }

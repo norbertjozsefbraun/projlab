@@ -26,6 +26,7 @@ import model.map.Road;
 import model.map.RoadType;
 import model.map.World;
 import view.GameFrame;
+import test.ScriptRunner;
 
 /**
  * Controller in the MVC pattern.
@@ -56,6 +57,67 @@ public class GameController {
     private List<Intersection> allIntersections = new ArrayList<>();
 
     public GameController() {
+    }
+
+    /**
+     * Start a game by delegating to the ScriptRunner's `start` command.
+     * The provided args should be the arguments after `start`, e.g. "-pc 2 -cc 1 -p1 \"A\" !plow -p2 \"B\" !bus"
+     */
+    public void startGameWithScript(String args) {
+        ScriptRunner runner = new ScriptRunner();
+        runner.executeCommandLine("start " + args);
+        // Sync controller state with the Session's newly-created Game
+        loadSessionGame();
+        refreshView();
+    }
+
+    /**
+     * Load the currently active Session game into controller state (positions,
+     * driven vehicles). This allows the GUI to render maps created by ScriptRunner.
+     */
+    private void loadSessionGame() {
+        Game game = getGame();
+        if (game == null || game.getWorld() == null) return;
+
+        World world = game.getWorld();
+        List<Intersection> intersections = world.getIntersections();
+
+        allIntersections.clear();
+        if (intersections != null) allIntersections.addAll(intersections);
+
+        intersectionPositions.clear();
+        if (intersections == null || intersections.isEmpty()) return;
+
+        int n = intersections.size();
+        int cols = Math.min(4, Math.max(1, (int) Math.ceil(Math.sqrt(n))));
+        int rows = (n + cols - 1) / cols;
+
+        int panelW = 720, panelH = 600;
+        int marginX = 80, marginY = 70;
+        int usableW = Math.max(0, panelW - marginX * 2);
+        int usableH = Math.max(0, panelH - marginY * 2);
+        int dx = cols > 1 ? usableW / (cols - 1) : 0;
+        int dy = rows > 1 ? usableH / (rows - 1) : 0;
+
+        for (int i = 0; i < n; i++) {
+            int col = i % cols;
+            int row = i / cols;
+            int x = marginX + dx * col;
+            int y = marginY + dy * row;
+            Intersection inter = intersections.get(i);
+            intersectionPositions.put(inter.getId(), new int[] { x, y });
+        }
+
+        // Update driven vehicles list from game
+        drivenVehicles.clear();
+        for (Vehicle v : game.getVehicles()) {
+            if (v instanceof SnowPlow || v instanceof Bus)
+                drivenVehicles.add(v);
+        }
+        drivenVehicleIndex = 0;
+        stepsRemaining = 0;
+        lastDiceRoll = 0;
+        startVehicleTurn();
     }
 
     public void setFrame(GameFrame frame) {

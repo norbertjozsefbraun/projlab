@@ -21,7 +21,12 @@ public class ControlPanel extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(2, 6, 8, 6));
 
         JButton newGameBtn = btn("New Game");
-        newGameBtn.addActionListener(e -> controller.newGame());
+        newGameBtn.addActionListener(e -> {
+            Window owner = SwingUtilities.getWindowAncestor((Component) e.getSource());
+            NewGameDialog dlg = new NewGameDialog(owner, controller);
+            dlg.setLocationRelativeTo(owner);
+            dlg.setVisible(true);
+        });
         add(newGameBtn);
 
         JButton roundBtn = btn("New Round");
